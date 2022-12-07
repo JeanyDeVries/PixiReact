@@ -1,10 +1,13 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import * as Pixi from "pixi.js";
+
+const LOCAL_STORAGE_KEY = "pixi_react_app";
 
 function MyComponent() {
   const ref = useRef(null);
 
-  console.log("testing");
+  // Declare a new state variable, which we'll call "count"
+  const [count, setCount] = useState(0);
 
   useEffect(() => {
     // On first render create our application
@@ -26,7 +29,25 @@ function MyComponent() {
     };
   }, []);
 
-  return <div ref={ref} />;
+  useEffect(() => {
+    const storedCount = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY));
+    if(storedCount) setCount(storedCount);
+  }, [])
+
+  useEffect(() => {
+    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(count));
+  }, [count])
+  
+
+  return(<>
+    <div ref={ref} />;
+    <div>
+      <p>You clicked {count} times</p>
+      <button onClick={() => setCount(count + 1)}>
+         Click me
+      </button>
+    </div>
+  </>) 
 }
 
 export default MyComponent;
