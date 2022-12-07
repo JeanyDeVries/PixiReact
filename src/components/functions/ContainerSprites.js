@@ -1,7 +1,7 @@
 import React, { useRef, useEffect, useState } from "react";
 import * as Pixi from "pixi.js";
 
-export default function ContainerSprites( {app} ) {
+export default function ContainerSprites( app ) {
     const container = new Pixi.Container();
 
     app.stage.addChild(container);

@@ -1,10 +1,10 @@
 import React, { useRef, useEffect, useState } from "react";
 import * as Pixi from "pixi.js";
-import ContainerSprites from "./ContainerSprites";
+import AnimatedSpriteSheet from "../functions/AnimatedSpriteSheet";
+import ContainerSprites from "../functions/ContainerSprites";
 
 function MyComponent() {
   const ref = useRef(null);
-  const application = useRef(null);
 
   useEffect(() => {
     // On first render create our application
@@ -17,9 +17,11 @@ function MyComponent() {
     app.renderer.resize(window.innerWidth, window.innerHeight);
     app.renderer.view.style.position = 'relative';
 
+    const animatedSprites = AnimatedSpriteSheet(app);
+    const containerSprites = ContainerSprites(app);
+
     // Add app to DOM
     ref.current.appendChild(app.view);
-    application.current.appendChild(app);
 
     // Start the PixiJS app
     app.start();
@@ -32,7 +34,6 @@ function MyComponent() {
 
   return(<>
     <div ref={ref} />
-    <ContainerSprites app={application}/>
   </>) 
 }
 
