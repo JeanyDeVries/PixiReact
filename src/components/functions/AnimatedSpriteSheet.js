@@ -6,11 +6,11 @@ export default function (app) {
     let keys = {};
     let movementSpeed = 5;
 
-    Pixi.Assets.load('./assets/spritesheets/Character_Walking.json').then(() => {        
-        // create an array to store the textures
-        const walkingTextures = [];
-        const jumpTextures = [];
+    // create an array to store the textures
+    const walkingTextures = [];
+    const jumpTextures = [];
 
+    Pixi.Assets.load('./assets/spritesheets/Character_Sprites.json').then(() => {        
         let i;
     
         for (i = 0; i <= 5; i++) {
@@ -21,11 +21,10 @@ export default function (app) {
         for (i = 0; i <= 7; i++) {
           const texture = Pixi.Texture.from(`Pink_Monster_Jump${i}.png`);
           jumpTextures.push(texture);
-      }
+        }
     
         // create an explosion AnimatedSprite
         player = new Pixi.AnimatedSprite(walkingTextures);
-  
         player.x = 0;
         player.y = window.innerHeight;
         player.animationSpeed = 0.1;
@@ -54,26 +53,28 @@ export default function (app) {
     }
 
     function update(){
-        // W
-        if(keys['87']){
-            player.y -= movementSpeed;
-            player.play();
-        }
-        // A
-        if(keys['65']){
-          player.x -= movementSpeed;
-          player.play();
-        }
-        // S
-        if(keys['83']){
-          player.y += movementSpeed;
-          player.play();
-        }        
-        // D
-        if(keys['68']){
-          player.x += movementSpeed;
-          player.play();
-        }
+      if(!player) return;
+
+
+      // Space
+      if(keys['32']){
+          if(player.textures != jumpTextures)
+            player.textures = jumpTextures; 
+      }
+      // A
+      if(keys['65']){
+        if(player.textures != walkingTextures)
+          player.textures = walkingTextures;
+        player.x -= movementSpeed;
+        player.play();
+      }     
+      // D
+      if(keys['68']){
+        if(player.textures != walkingTextures)
+          player.textures = walkingTextures;
+        player.x += movementSpeed;
+        player.play();
+      }
     }
 
   return (

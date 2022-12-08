@@ -133,10 +133,10 @@
 "meta": {
 	"app": "https://www.codeandweb.com/texturepacker",
 	"version": "1.0",
-	"image": "Character.png",
+	"image": "Character_Sprites.png",
 	"format": "RGBA8888",
 	"size": {"w":448,"h":32},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:409401b9e88c042f74d2ec8c646854df:66dcef54ad259337a7ff1bc8bc4405d7:6d6c9d0395d60aea4258586ad04b1f62$"
+	"smartupdate": "$TexturePacker:SmartUpdate:cceac14efae27f90ff4c48b1c398c414:66dcef54ad259337a7ff1bc8bc4405d7:07342a33bde0b7b682994152c62ba145$"
 }
 }
