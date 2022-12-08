@@ -3,20 +3,39 @@ import * as PIXI from "pixi.js";
 import gsap, {Quad} from 'gsap'
 
 function MyComponent() {
-  const ref = useRef(null);
+  let app = useRef(null);
+
+  // On first render create our application
+  let rotationSpeed = {rotationX:5,rotationY:0};
+  let width = 640
+  let height = 786;
+
+  // Add all the containers
+  var stage = new PIXI.Container();
+  var image = new PIXI.Container();
+  var container = new PIXI.Container();
+  var foreground = new PIXI.Container();
+  var foreground2 = new PIXI.Container();
+  var background = new PIXI.Container();
+  var shaderLayer = new PIXI.Container();
+
+  var displacementFilter, displacementFilter2, displacementFilter3;
+  var foregroundTexure, maskOverlapTexture , backgroundTexture;
+  var displacement, displacement2, displacement3;
+  var card;
+  var mask;
+  var displacementBlur, displacementBlur2;
+  var mousex = width, mousey = height;
+  var ploader = new PIXI.Loader();
 
   useEffect(() => {
-    // On first render create our application
-    let rotationSpeed = {rotationX:5,rotationY:0};
-    let width = 640
-    let height = 786;
 
 
     gsap.to(rotationSpeed,{rotationX:-rotationSpeed.rotationX,duration:3,repeat: -1,yoyo: true,ease:Quad.easeInOut,onUpdate:function(){
       gsap.set("#wrap",{rotationY:rotationSpeed.rotationX,rotationX:rotationSpeed.rotationY});
     }});
 
-   let app = new PIXI.Application({
+   app = new PIXI.Application({
       width: width,
       height: height,
       antialias: false, // default: false
@@ -31,29 +50,11 @@ function MyComponent() {
     var cOutput = document.getElementById('wrap');
     cOutput.appendChild(app.renderer.view);
 
-    // Add all the containers
-    var stage = new PIXI.Container();
-    var image = new PIXI.Container();
-    var container = new PIXI.Container();
-    var foreground = new PIXI.Container();
-    var foreground2 = new PIXI.Container();
-    var background = new PIXI.Container();
-    var shaderLayer = new PIXI.Container();
-
     stage.addChild(container);
     container.addChild(image);
     image.addChild(background);
     image.addChild(foreground);
     container.addChild(foreground2);
-
-    var displacementFilter, displacementFilter2, displacementFilter3;
-    var foregroundTexure, maskOverlapTexture , backgroundTexture;
-    var displacement, displacement2, displacement3;
-    var card;
-    var mask;
-    var displacementBlur, displacementBlur2;
-    var mousex = width, mousey = height;
-    var ploader = new PIXI.Loader();
 
     function init(){
       ploader.add('fg', '/assets/images/mickey_trans.png');
@@ -136,7 +137,7 @@ function MyComponent() {
     };
   }, []);
 
-  return <div ref={ref} />;
+  return <div ref={app} />;
 }
 
 export default MyComponent;
