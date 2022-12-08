@@ -4,9 +4,8 @@ import gsap, {Quad} from 'gsap'
 
 function MyComponent() {
   let refApp = useRef(null);
-  let app = useRef(null);
 
-  // On first render create our application
+  let app;
   let rotationSpeed = {rotationX:5,rotationY:0};
   let width = 640
   let height = 786;
@@ -33,7 +32,8 @@ function MyComponent() {
   var cOutput;
 
   useEffect(() => {
-    init();
+    // On first render load our application
+    loadPixi();
 
     return () => {
       // On unload completely destroy the application and all of it's children
@@ -41,12 +41,22 @@ function MyComponent() {
     };
   }, []);
 
-  function init(){
+  function loadPixi(){
     gsap.to(rotationSpeed,{rotationX:-rotationSpeed.rotationX,duration:3,repeat: -1,yoyo: true,ease:Quad.easeInOut,onUpdate:function(){
       gsap.set("#wrap",{rotationY:rotationSpeed.rotationX,rotationX:rotationSpeed.rotationY});
     }});
 
-   app = new PIXI.Application({
+    setupApp();
+    addContainers();
+    loadTextures();
+    animate();
+    // Start the PixiJS app
+    app.start();
+    PIXI.Ticker.shared.add((time) =>  animate());
+  }
+
+  function setupApp(){
+    app = new PIXI.Application({
       width: width,
       height: height,
       antialias: false, // default: false
@@ -58,15 +68,22 @@ function MyComponent() {
     app.renderer.resize(window.innerWidth, window.innerHeight);
     app.renderer.view.style.position = 'relative';
   
-    cOutput = document.getElementById('wrap');
+    //Create new html element and place it under the root object
+    let root = document.getElementById('root');
+    cOutput = document.createElement('wrap');
     cOutput.appendChild(app.renderer.view);
+    root.appendChild(cOutput);
+  }
 
+  function addContainers(){
     stage.addChild(container);
     container.addChild(image);
     image.addChild(background);
     image.addChild(foreground);
     container.addChild(foreground2);
+  }
 
+  function loadTextures(){
     ploader.add('fg', '/assets/images/mickey_trans.png');
     ploader.add('fg_top', '/assets/images/mickey_trans_spoon.png');
     ploader.add('depth', '/assets/images/mickey_depth12.png');
@@ -75,11 +92,14 @@ function MyComponent() {
     ploader.add('card', '/assets/images/card.png');
     ploader.add('mask', '/assets/images/mask.png');
     
-    ploader.onComplete.add(() => {start();});
+    ploader.onComplete.add(() => {
+      setTextures();
+      setDisplacement();
+    });
     ploader.load();
   }
 
-  function start() {
+  function setTextures(){
     foregroundTexure = new PIXI.Sprite(ploader.resources.fg.texture);
     maskOverlapTexture = new PIXI.Sprite(ploader.resources.fg_top.texture);
     backgroundTexture = new PIXI.Sprite(ploader.resources.bg.texture);
@@ -91,13 +111,14 @@ function MyComponent() {
     container.addChild(mask);
     container.addChild(foreground2);
     foreground2.addChild(maskOverlapTexture);
-    console.log(card,mask,top)
     
     card.scale.set(0.65)
     mask.scale.set(0.65)
 
     image.mask = mask;
+  }
 
+  function setDisplacement(){
     displacement = new PIXI.Sprite(ploader.resources.depth.texture);
       foreground.addChild(displacement);
       displacementFilter = new PIXI.filters.DisplacementFilter(displacement, 0);
@@ -113,12 +134,6 @@ function MyComponent() {
     foreground2.addChild(displacement3);
     displacementFilter3 = new PIXI.filters.DisplacementFilter(displacement3, 0);
     maskOverlapTexture.filters = [displacementFilter3];
-    
-    animate();
-
-    // Start the PixiJS app
-    app.start();
-    PIXI.Ticker.shared.add((time) =>  animate());
   }
 
   function animate() {
@@ -134,8 +149,6 @@ function MyComponent() {
     foreground2.x = -movementX/2;
 
     count+=0.01
-
-    if(!app) return;
     app.renderer.render(stage);       
   }
 
