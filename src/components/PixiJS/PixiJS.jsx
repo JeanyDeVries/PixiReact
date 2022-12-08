@@ -65,7 +65,6 @@ function MyComponent() {
       ploader.add('mask', '/assets/images/mask.png');
       
       ploader.onComplete.add(() => {start();});
-      //ploader.once('complete', start);
       ploader.load();
     }
 
@@ -104,19 +103,18 @@ function MyComponent() {
       displacementFilter3 = new PIXI.filters.DisplacementFilter(displacement3, 0);
       maskOverlapTexture.filters = [displacementFilter3];
       
-      
       animate();
     }
+
     var count = 0
-
-
-
     function animate() {
       let movementX = rotationSpeed.rotationX*6;
       let movementY = rotationSpeed.rotationY*0.5;
-      displacementFilter.scale.x = -movementX;
-      displacementFilter3.scale.x = -movementX;
-      displacementFilter2.scale.x = -movementX;
+      if(displacementFilter != null){ //Check if null, because it needed to be loaded first
+        displacementFilter.scale.x = -movementX;
+        displacementFilter3.scale.x = -movementX;
+        displacementFilter2.scale.x = -movementX;
+      }
       background.x = -movementX/2 - 50;
       foreground.x = -movementX/2;
       foreground2.x = -movementX/2;
@@ -125,12 +123,12 @@ function MyComponent() {
 
       
       app.renderer.render(stage);       
-      requestAnimationFrame(animate);
     }
 
     // Start the PixiJS app
     app.start();
     init();
+    PIXI.Ticker.shared.add((time) =>  animate());
 
     return () => {
       // On unload completely destroy the application and all of it's children
