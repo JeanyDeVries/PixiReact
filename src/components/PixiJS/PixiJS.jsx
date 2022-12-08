@@ -7,12 +7,13 @@ function MyComponent() {
 
   useEffect(() => {
     // On first render create our application
-    let vars = {rotationX:5,rotationY:0};
-
+    let rotationSpeed = {rotationX:5,rotationY:0};
     let width = 640
     let height = 786;
-    gsap.to(vars,{rotationX:-vars.rotationX,duration:3,repeat: -1,yoyo: true,ease:Quad.easeInOut,onUpdate:function(){
-      gsap.set("#wrap",{rotationY:vars.rotationX,rotationX:vars.rotationY});
+
+
+    gsap.to(rotationSpeed,{rotationX:-rotationSpeed.rotationX,duration:3,repeat: -1,yoyo: true,ease:Quad.easeInOut,onUpdate:function(){
+      gsap.set("#wrap",{rotationY:rotationSpeed.rotationX,rotationX:rotationSpeed.rotationY});
     }});
 
    let app = new PIXI.Application({
@@ -45,14 +46,11 @@ function MyComponent() {
     image.addChild(foreground);
     container.addChild(foreground2);
 
-    var f;
+    var displacementFilter, displacementFilter2, displacementFilter3;
     var fg;
     var topg;
-    var f3;
-    var d3;
-    var f2;
-    var bg;
-    var d, d2, d3;
+    var backgroundTexture;
+    var displacement, displacement2, displacement3;
     var card;
     var mask;
     var displacementBlur;
@@ -77,8 +75,8 @@ function MyComponent() {
     function start() {
       fg = new PIXI.Sprite(ploader.resources.fg.texture);
       topg = new PIXI.Sprite(ploader.resources.fg_top.texture);
-      bg = new PIXI.Sprite(ploader.resources.bg.texture);
-      background.addChild(bg);
+      backgroundTexture = new PIXI.Sprite(ploader.resources.bg.texture);
+      background.addChild(backgroundTexture);
       foreground.addChild(fg);
       card = new PIXI.Sprite(ploader.resources.card.texture);
       mask = new PIXI.Sprite(ploader.resources.mask.texture);
@@ -93,21 +91,21 @@ function MyComponent() {
 
       image.mask = mask;
 
-      d = new PIXI.Sprite(ploader.resources.depth.texture);
-        foreground.addChild(d);
-      f = new PIXI.filters.DisplacementFilter(d, 0);
-      fg.filters = [f];
+      displacement = new PIXI.Sprite(ploader.resources.depth.texture);
+        foreground.addChild(displacement);
+        displacementFilter = new PIXI.filters.DisplacementFilter(displacement, 0);
+      fg.filters = [displacementFilter];
 
-      d2 = new PIXI.Sprite(ploader.resources.bg_depth.texture);
-      f2 = new PIXI.filters.DisplacementFilter(d2, 0);
-      background.addChild(d2);
-      bg.filters = [f2];
+      displacement2 = new PIXI.Sprite(ploader.resources.bg_depth.texture);
+      displacementFilter2 = new PIXI.filters.DisplacementFilter(displacement2, 0);
+      background.addChild(displacement2);
+      backgroundTexture.filters = [displacementFilter2];
       foreground.x = foreground2.x =  -15;
 
-      d3 = new PIXI.Sprite(ploader.resources.depth.texture);
-      foreground2.addChild(d3);
-      f3 = new PIXI.filters.DisplacementFilter(d3, 0);
-      topg.filters = [f3];
+      displacement3 = new PIXI.Sprite(ploader.resources.depth.texture);
+      foreground2.addChild(displacement3);
+      displacementFilter3 = new PIXI.filters.DisplacementFilter(displacement3, 0);
+      topg.filters = [displacementFilter3];
       
       
       animate();
@@ -117,11 +115,11 @@ function MyComponent() {
 
 
     function animate() {
-      let movementX = vars.rotationX*6;
-      let movementY = vars.rotationY*0.5;
-      f.scale.x = -movementX;
-      f3.scale.x = -movementX;
-      f2.scale.x = -movementX;
+      let movementX = rotationSpeed.rotationX*6;
+      let movementY = rotationSpeed.rotationY*0.5;
+      displacementFilter.scale.x = -movementX;
+      displacementFilter3.scale.x = -movementX;
+      displacementFilter2.scale.x = -movementX;
       background.x = -movementX/2 - 50;
       foreground.x = -movementX/2;
       foreground2.x = -movementX/2;

@@ -1,4 +1,4 @@
-body {
+body, canvas {
     background: black;
     color: #ccee99;
     text-align: left;
