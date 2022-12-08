@@ -3,6 +3,7 @@ import * as PIXI from "pixi.js";
 import gsap, {Quad} from 'gsap'
 
 function MyComponent() {
+  let refApp = useRef(null);
   let app = useRef(null);
 
   // On first render create our application
@@ -28,9 +29,19 @@ function MyComponent() {
   var mousex = width, mousey = height;
   var ploader = new PIXI.Loader();
 
+  var count = 0;
+  var cOutput;
+
   useEffect(() => {
+    init();
 
+    return () => {
+      // On unload completely destroy the application and all of it's children
+      app.destroy(true, true);
+    };
+  }, []);
 
+  function init(){
     gsap.to(rotationSpeed,{rotationX:-rotationSpeed.rotationX,duration:3,repeat: -1,yoyo: true,ease:Quad.easeInOut,onUpdate:function(){
       gsap.set("#wrap",{rotationY:rotationSpeed.rotationX,rotationX:rotationSpeed.rotationY});
     }});
@@ -47,7 +58,7 @@ function MyComponent() {
     app.renderer.resize(window.innerWidth, window.innerHeight);
     app.renderer.view.style.position = 'relative';
   
-    var cOutput = document.getElementById('wrap');
+    cOutput = document.getElementById('wrap');
     cOutput.appendChild(app.renderer.view);
 
     stage.addChild(container);
@@ -56,88 +67,79 @@ function MyComponent() {
     image.addChild(foreground);
     container.addChild(foreground2);
 
-    function init(){
-      ploader.add('fg', '/assets/images/mickey_trans.png');
-      ploader.add('fg_top', '/assets/images/mickey_trans_spoon.png');
-      ploader.add('depth', '/assets/images/mickey_depth12.png');
-      ploader.add('bg', '/assets/images/mickey_bg.png');
-      ploader.add('bg_depth', '/assets/images/mickey_bg_depth.png');
-      ploader.add('card', '/assets/images/card.png');
-      ploader.add('mask', '/assets/images/mask.png');
-      
-      ploader.onComplete.add(() => {start();});
-      ploader.load();
-    }
+    ploader.add('fg', '/assets/images/mickey_trans.png');
+    ploader.add('fg_top', '/assets/images/mickey_trans_spoon.png');
+    ploader.add('depth', '/assets/images/mickey_depth12.png');
+    ploader.add('bg', '/assets/images/mickey_bg.png');
+    ploader.add('bg_depth', '/assets/images/mickey_bg_depth.png');
+    ploader.add('card', '/assets/images/card.png');
+    ploader.add('mask', '/assets/images/mask.png');
+    
+    ploader.onComplete.add(() => {start();});
+    ploader.load();
+  }
 
-    function start() {
-      foregroundTexure = new PIXI.Sprite(ploader.resources.fg.texture);
-      maskOverlapTexture = new PIXI.Sprite(ploader.resources.fg_top.texture);
-      backgroundTexture = new PIXI.Sprite(ploader.resources.bg.texture);
-      background.addChild(backgroundTexture);
-      foreground.addChild(foregroundTexure);
-      card = new PIXI.Sprite(ploader.resources.card.texture);
-      mask = new PIXI.Sprite(ploader.resources.mask.texture);
-      container.addChild(card);
-      container.addChild(mask);
-      container.addChild(foreground2);
-      foreground2.addChild(maskOverlapTexture);
-      console.log(card,mask,top)
-      
-      card.scale.set(0.65)
-      mask.scale.set(0.65)
+  function start() {
+    foregroundTexure = new PIXI.Sprite(ploader.resources.fg.texture);
+    maskOverlapTexture = new PIXI.Sprite(ploader.resources.fg_top.texture);
+    backgroundTexture = new PIXI.Sprite(ploader.resources.bg.texture);
+    background.addChild(backgroundTexture);
+    foreground.addChild(foregroundTexure);
+    card = new PIXI.Sprite(ploader.resources.card.texture);
+    mask = new PIXI.Sprite(ploader.resources.mask.texture);
+    container.addChild(card);
+    container.addChild(mask);
+    container.addChild(foreground2);
+    foreground2.addChild(maskOverlapTexture);
+    console.log(card,mask,top)
+    
+    card.scale.set(0.65)
+    mask.scale.set(0.65)
 
-      image.mask = mask;
+    image.mask = mask;
 
-      displacement = new PIXI.Sprite(ploader.resources.depth.texture);
-        foreground.addChild(displacement);
-        displacementFilter = new PIXI.filters.DisplacementFilter(displacement, 0);
-      foregroundTexure.filters = [displacementFilter];
+    displacement = new PIXI.Sprite(ploader.resources.depth.texture);
+      foreground.addChild(displacement);
+      displacementFilter = new PIXI.filters.DisplacementFilter(displacement, 0);
+    foregroundTexure.filters = [displacementFilter];
 
-      displacement2 = new PIXI.Sprite(ploader.resources.bg_depth.texture);
-      displacementFilter2 = new PIXI.filters.DisplacementFilter(displacement2, 0);
-      background.addChild(displacement2);
-      backgroundTexture.filters = [displacementFilter2];
-      foreground.x = foreground2.x =  -15;
+    displacement2 = new PIXI.Sprite(ploader.resources.bg_depth.texture);
+    displacementFilter2 = new PIXI.filters.DisplacementFilter(displacement2, 0);
+    background.addChild(displacement2);
+    backgroundTexture.filters = [displacementFilter2];
+    foreground.x = foreground2.x =  -15;
 
-      displacement3 = new PIXI.Sprite(ploader.resources.depth.texture);
-      foreground2.addChild(displacement3);
-      displacementFilter3 = new PIXI.filters.DisplacementFilter(displacement3, 0);
-      maskOverlapTexture.filters = [displacementFilter3];
-      
-      animate();
-    }
-
-    var count = 0
-    function animate() {
-      let movementX = rotationSpeed.rotationX*6;
-      let movementY = rotationSpeed.rotationY*0.5;
-      if(displacementFilter != null){ //Check if null, because it needed to be loaded first
-        displacementFilter.scale.x = -movementX;
-        displacementFilter3.scale.x = -movementX;
-        displacementFilter2.scale.x = -movementX;
-      }
-      background.x = -movementX/2 - 50;
-      foreground.x = -movementX/2;
-      foreground2.x = -movementX/2;
-
-      count+=0.01
-
-      
-      app.renderer.render(stage);       
-    }
+    displacement3 = new PIXI.Sprite(ploader.resources.depth.texture);
+    foreground2.addChild(displacement3);
+    displacementFilter3 = new PIXI.filters.DisplacementFilter(displacement3, 0);
+    maskOverlapTexture.filters = [displacementFilter3];
+    
+    animate();
 
     // Start the PixiJS app
     app.start();
-    init();
     PIXI.Ticker.shared.add((time) =>  animate());
+  }
 
-    return () => {
-      // On unload completely destroy the application and all of it's children
-      app.destroy(true, true);
-    };
-  }, []);
+  function animate() {
+    let movementX = rotationSpeed.rotationX*6;
+    let movementY = rotationSpeed.rotationY*0.5;
+    if(displacementFilter != null){ //Check if null, because it needed to be loaded first
+      displacementFilter.scale.x = -movementX;
+      displacementFilter3.scale.x = -movementX;
+      displacementFilter2.scale.x = -movementX;
+    }
+    background.x = -movementX/2 - 50;
+    foreground.x = -movementX/2;
+    foreground2.x = -movementX/2;
 
-  return <div ref={app} />;
+    count+=0.01
+
+    if(!app) return;
+    app.renderer.render(stage);       
+  }
+
+  return <div ref={refApp} />;
 }
 
 export default MyComponent;
