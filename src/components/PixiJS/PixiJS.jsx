@@ -47,14 +47,11 @@ function MyComponent() {
     container.addChild(foreground2);
 
     var displacementFilter, displacementFilter2, displacementFilter3;
-    var fg;
-    var topg;
-    var backgroundTexture;
+    var foregroundTexure, maskOverlapTexture , backgroundTexture;
     var displacement, displacement2, displacement3;
     var card;
     var mask;
-    var displacementBlur;
-    var displacementBlur2;
+    var displacementBlur, displacementBlur2;
     var mousex = width, mousey = height;
     var ploader = new PIXI.Loader();
 
@@ -73,17 +70,17 @@ function MyComponent() {
     }
 
     function start() {
-      fg = new PIXI.Sprite(ploader.resources.fg.texture);
-      topg = new PIXI.Sprite(ploader.resources.fg_top.texture);
+      foregroundTexure = new PIXI.Sprite(ploader.resources.fg.texture);
+      maskOverlapTexture = new PIXI.Sprite(ploader.resources.fg_top.texture);
       backgroundTexture = new PIXI.Sprite(ploader.resources.bg.texture);
       background.addChild(backgroundTexture);
-      foreground.addChild(fg);
+      foreground.addChild(foregroundTexure);
       card = new PIXI.Sprite(ploader.resources.card.texture);
       mask = new PIXI.Sprite(ploader.resources.mask.texture);
       container.addChild(card);
       container.addChild(mask);
       container.addChild(foreground2);
-      foreground2.addChild(topg);
+      foreground2.addChild(maskOverlapTexture);
       console.log(card,mask,top)
       
       card.scale.set(0.65)
@@ -94,7 +91,7 @@ function MyComponent() {
       displacement = new PIXI.Sprite(ploader.resources.depth.texture);
         foreground.addChild(displacement);
         displacementFilter = new PIXI.filters.DisplacementFilter(displacement, 0);
-      fg.filters = [displacementFilter];
+      foregroundTexure.filters = [displacementFilter];
 
       displacement2 = new PIXI.Sprite(ploader.resources.bg_depth.texture);
       displacementFilter2 = new PIXI.filters.DisplacementFilter(displacement2, 0);
@@ -105,7 +102,7 @@ function MyComponent() {
       displacement3 = new PIXI.Sprite(ploader.resources.depth.texture);
       foreground2.addChild(displacement3);
       displacementFilter3 = new PIXI.filters.DisplacementFilter(displacement3, 0);
-      topg.filters = [displacementFilter3];
+      maskOverlapTexture.filters = [displacementFilter3];
       
       
       animate();
