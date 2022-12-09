@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import * as PIXI from "pixi.js";
 import gsap, {Quad} from 'gsap'
 
@@ -6,7 +6,10 @@ function MyComponent() {
   let refApp = useRef(null);
   let wrap = useRef(null);
 
-  let app;
+  const [app, setApp] = useState(null);
+  const [rotationX, setRotationX] = useState(5);
+
+
   let rotationSpeed = {rotationX:5,rotationY:0};
   let width = 640
   let height = 786;
@@ -32,6 +35,66 @@ function MyComponent() {
   var count = 0;
 
   useEffect(() => {
+    console.log(" rotationX", rotationX)
+
+    let movementX = rotationX*6;
+    let movementY = rotationSpeed.rotationY*0.5;
+
+    if(displacementFilter != null){ //Check if null, because it needed to be loaded first
+      displacementFilter.scale.x = -movementX;
+      displacementFilter3.scale.x = -movementX;
+      displacementFilter2.scale.x = -movementX;
+    }
+    background.x = -movementX/2 - 50;
+    foreground.x = -movementX/2;
+    foreground2.x = -movementX/2;
+
+    console.log(" background.x", background.x)
+    console.log(" app", app)
+    console.log(" stage", stage)
+
+
+    if(!app) return;
+    app.renderer.render(stage);  
+
+    return () => {
+      
+    };
+  }, [rotationX]);
+
+  useEffect(() => {
+
+    if(refApp.current == null || app == null) return;
+
+    console.log('app', app)
+    console.log('app renderer', app.renderer)
+
+      
+    refApp.current.appendChild(app.renderer.view);
+
+    return () => {
+      
+    };
+  }, [refApp.current, app]);
+
+  useEffect(() => {
+    if(!app) return;
+
+    // Start the PixiJS app
+    app.start();
+
+    addContainers();
+    loadTextures();
+
+    PIXI.Ticker.shared.add((time) =>  animate());
+
+    return () => {
+      
+    };
+  }, [app]);
+
+
+  useEffect(() => {
     // On first render load our application
     loadPixi();
 
@@ -44,32 +107,26 @@ function MyComponent() {
   function loadPixi(){
     gsap.to(rotationSpeed,{rotationX:-rotationSpeed.rotationX,duration:3,repeat: -1,yoyo: true,ease:Quad.easeInOut,onUpdate:function(){
       gsap.set("#wrap",{rotationY:rotationSpeed.rotationX,rotationX:rotationSpeed.rotationY});
+      setRotationX(-rotationSpeed.rotationX);
     }});
 
     setupApp();
-    addContainers();
-    loadTextures();
-    animate();
-    // Start the PixiJS app
-    app.start();
-    PIXI.Ticker.shared.add((time) =>  animate());
   }
 
   function setupApp(){
-    app = new PIXI.Application({
+    let tempApp = new PIXI.Application({
       width: width,
       height: height,
       antialias: false, // default: false
-      backgroundAlpha: true, // default: false
+      backgroundAlpha: false, // default: false
       resolution: 1, // default: 1
       autoStart: false,
     })
 
-    app.renderer.resize(window.innerWidth, window.innerHeight);
-    app.renderer.view.style.position = 'relative';
-  
-    //wrap = document.createElement('wrap');
-    //wrap.appendChild(app.renderer.view);
+    tempApp.renderer.resize(window.innerWidth, window.innerHeight);
+    tempApp.renderer.view.style.position = 'relative';
+
+    setApp(tempApp);
   }
 
   function addContainers(){
@@ -97,8 +154,12 @@ function MyComponent() {
   }
 
   function setTextures(){
+
+    console.log(" set texture");
+    
     foregroundTexure = new PIXI.Sprite(ploader.resources.fg.texture);
     maskOverlapTexture = new PIXI.Sprite(ploader.resources.fg_top.texture);
+
     backgroundTexture = new PIXI.Sprite(ploader.resources.bg.texture);
     background.addChild(backgroundTexture);
     foreground.addChild(foregroundTexure);
@@ -134,22 +195,14 @@ function MyComponent() {
   }
 
   function animate() {
-    let movementX = rotationSpeed.rotationX*6;
-    let movementY = rotationSpeed.rotationY*0.5;
-    if(displacementFilter != null){ //Check if null, because it needed to be loaded first
-      displacementFilter.scale.x = -movementX;
-      displacementFilter3.scale.x = -movementX;
-      displacementFilter2.scale.x = -movementX;
-    }
-    background.x = -movementX/2 - 50;
-    foreground.x = -movementX/2;
-    foreground2.x = -movementX/2;
+    if(!app) return;
 
-    count+=0.01
-    app.renderer.render(stage);       
+    console.log("animate")
+
   }
 
-  return <div ref={wrap}><div id="wrap" ref={refApp}/></div>;
+  return <div id="wrap" ref={wrap}><div ref={refApp}/></div>;
 }
 
 export default MyComponent;
+
