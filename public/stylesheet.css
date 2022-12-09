@@ -6,7 +6,7 @@ body, canvas {
     perspective-origin: 50% 50%;
 }
 
-wrap {
+#wrap {
     border: 0px;
     width:510px;
     height:780px;

@@ -4,6 +4,7 @@ import gsap, {Quad} from 'gsap'
 
 function MyComponent() {
   let refApp = useRef(null);
+  let wrap = useRef(null);
 
   let app;
   let rotationSpeed = {rotationX:5,rotationY:0};
@@ -29,7 +30,6 @@ function MyComponent() {
   var ploader = new PIXI.Loader();
 
   var count = 0;
-  var cOutput;
 
   useEffect(() => {
     // On first render load our application
@@ -68,11 +68,8 @@ function MyComponent() {
     app.renderer.resize(window.innerWidth, window.innerHeight);
     app.renderer.view.style.position = 'relative';
   
-    //Create new html element and place it under the root object
-    let root = document.getElementById('root');
-    cOutput = document.createElement('wrap');
-    cOutput.appendChild(app.renderer.view);
-    root.appendChild(cOutput);
+    //wrap = document.createElement('wrap');
+    //wrap.appendChild(app.renderer.view);
   }
 
   function addContainers(){
@@ -152,7 +149,7 @@ function MyComponent() {
     app.renderer.render(stage);       
   }
 
-  return <div ref={refApp} />;
+  return <div ref={wrap}><div id="wrap" ref={refApp}/></div>;
 }
 
 export default MyComponent;
