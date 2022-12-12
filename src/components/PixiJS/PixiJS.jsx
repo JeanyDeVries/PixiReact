@@ -4,6 +4,7 @@ import gsap, {Quad} from 'gsap'
 
 let rotationSpeed = {rotationX:5,rotationY:0};
 let app = null;
+let spritesheet;
 
 let stage = new PIXI.Container();
 let image = new PIXI.Container();
@@ -22,7 +23,7 @@ let ploader = new PIXI.Loader();
 function MyComponent() {
   let refApp = useRef(null);
   let wrap = useRef(null);
-  
+
   const [rotationX, setRotationX] = useState(5);
   const [innited, setInnited] = useState(false);
   const [width, setWidth] = useState(640);
@@ -103,6 +104,7 @@ function MyComponent() {
   }
 
   function loadTextures(){
+    /*
     ploader.add('fg', '/assets/images/mickey_trans.png');
     ploader.add('fg_top', '/assets/images/mickey_trans_spoon.png');
     ploader.add('depth', '/assets/images/mickey_depth12.png');
@@ -110,6 +112,9 @@ function MyComponent() {
     ploader.add('bg_depth', '/assets/images/mickey_bg_depth.png');
     ploader.add('card', '/assets/images/card.png');
     ploader.add('mask', '/assets/images/mask.png');
+    */
+
+    ploader.add('mickey', '/assets/spritesheets/01-Mickey.json');    
     
     ploader.onComplete.add(() => {
       setTextures();
@@ -120,14 +125,23 @@ function MyComponent() {
   }
 
   function setTextures(){    
+    /*
     foregroundTexure = new PIXI.Sprite(ploader.resources.fg.texture);
     maskOverlapTexture = new PIXI.Sprite(ploader.resources.fg_top.texture);
-
     backgroundTexture = new PIXI.Sprite(ploader.resources.bg.texture);
-    background.addChild(backgroundTexture);
-    foreground.addChild(foregroundTexure);
     card = new PIXI.Sprite(ploader.resources.card.texture);
     mask = new PIXI.Sprite(ploader.resources.mask.texture);
+    */
+    spritesheet = ploader.resources.mickey.spritesheet;
+
+    foregroundTexure = new PIXI.Sprite(spritesheet.textures['05-Back.png']);
+    maskOverlapTexture = new PIXI.Sprite(spritesheet.textures['02-Front.png']);
+    backgroundTexture = new PIXI.Sprite(spritesheet.textures['07-Background.png']);
+    card = new PIXI.Sprite(spritesheet.textures['03-Frame.png']);
+    mask = new PIXI.Sprite(spritesheet.textures['05-Back-depth.png']);
+
+    background.addChild(backgroundTexture);
+    foreground.addChild(foregroundTexure);
     container.addChild(card);
     container.addChild(mask);
     container.addChild(foreground2);
@@ -140,18 +154,18 @@ function MyComponent() {
   }
 
   function setDisplacement(){
-    displacement = new PIXI.Sprite(ploader.resources.depth.texture);
+    displacement = new PIXI.Sprite(spritesheet.textures['05-Back-depth.png']);
       foreground.addChild(displacement);
       displacementFilter = new PIXI.filters.DisplacementFilter(displacement, 0);
     foregroundTexure.filters = [displacementFilter];
 
-    backgroundDisplacement = new PIXI.Sprite(ploader.resources.bg_depth.texture);
+    backgroundDisplacement = new PIXI.Sprite(spritesheet.textures['07-Background-depth.png']);
     backgroundDisplacementFilter = new PIXI.filters.DisplacementFilter(backgroundDisplacement, 0);
     background.addChild(backgroundDisplacement);
     backgroundTexture.filters = [backgroundDisplacementFilter];
     foreground.x = foreground2.x =  -15;
 
-    overlayDisplacement = new PIXI.Sprite(ploader.resources.depth.texture);
+    overlayDisplacement = new PIXI.Sprite(spritesheet.textures['05-Back-depth.png']);
     foreground2.addChild(overlayDisplacement);
     overlayDisplacementFilter = new PIXI.filters.DisplacementFilter(overlayDisplacement, 0);
     maskOverlapTexture.filters = [overlayDisplacementFilter];
