@@ -2,97 +2,56 @@ import React, { useRef, useEffect, useState } from "react";
 import * as PIXI from "pixi.js";
 import gsap, {Quad} from 'gsap'
 
+let rotationSpeed = {rotationX:5,rotationY:0};
+let app = null;
+
+let stage = new PIXI.Container();
+let image = new PIXI.Container();
+let container = new PIXI.Container();
+let foreground = new PIXI.Container();
+let foreground2 = new PIXI.Container();
+let background = new PIXI.Container();
+
+let displacementFilter, backgroundDisplacementFilter, overlayDisplacementFilter;
+let foregroundTexure, maskOverlapTexture , backgroundTexture;
+let displacement, backgroundDisplacement, overlayDisplacement;
+let card;
+let mask;
+let ploader = new PIXI.Loader();
+
 function MyComponent() {
   let refApp = useRef(null);
   let wrap = useRef(null);
-
-  const [app, setApp] = useState(null);
+  
   const [rotationX, setRotationX] = useState(5);
-
-
-  let rotationSpeed = {rotationX:5,rotationY:0};
-  let width = 640
-  let height = 786;
-
-  // Add all the containers
-  var stage = new PIXI.Container();
-  var image = new PIXI.Container();
-  var container = new PIXI.Container();
-  var foreground = new PIXI.Container();
-  var foreground2 = new PIXI.Container();
-  var background = new PIXI.Container();
-  var shaderLayer = new PIXI.Container();
-
-  var displacementFilter, displacementFilter2, displacementFilter3;
-  var foregroundTexure, maskOverlapTexture , backgroundTexture;
-  var displacement, displacement2, displacement3;
-  var card;
-  var mask;
-  var displacementBlur, displacementBlur2;
-  var mousex = width, mousey = height;
-  var ploader = new PIXI.Loader();
-
-  var count = 0;
+  const [innited, setInnited] = useState(false);
+  const [width, setWidth] = useState(640);
+  const [height, setHeight] = useState(786);
 
   useEffect(() => {
-    console.log(" rotationX", rotationX)
-
     let movementX = rotationX*6;
-    let movementY = rotationSpeed.rotationY*0.5;
 
     if(displacementFilter != null){ //Check if null, because it needed to be loaded first
       displacementFilter.scale.x = -movementX;
-      displacementFilter3.scale.x = -movementX;
-      displacementFilter2.scale.x = -movementX;
+      overlayDisplacementFilter.scale.x = -movementX;
+      backgroundDisplacementFilter.scale.x = -movementX;
     }
     background.x = -movementX/2 - 50;
     foreground.x = -movementX/2;
     foreground2.x = -movementX/2;
-
-    console.log(" background.x", background.x)
-    console.log(" app", app)
-    console.log(" stage", stage)
-
-
-    if(!app) return;
-    app.renderer.render(stage);  
-
     return () => {
       
     };
   }, [rotationX]);
 
   useEffect(() => {
-
     if(refApp.current == null || app == null) return;
-
-    console.log('app', app)
-    console.log('app renderer', app.renderer)
-
-      
     refApp.current.appendChild(app.renderer.view);
 
     return () => {
       
     };
-  }, [refApp.current, app]);
-
-  useEffect(() => {
-    if(!app) return;
-
-    // Start the PixiJS app
-    app.start();
-
-    addContainers();
-    loadTextures();
-
-    PIXI.Ticker.shared.add((time) =>  animate());
-
-    return () => {
-      
-    };
-  }, [app]);
-
+  }, [refApp, innited]);
 
   useEffect(() => {
     // On first render load our application
@@ -106,7 +65,7 @@ function MyComponent() {
 
   function loadPixi(){
     gsap.to(rotationSpeed,{rotationX:-rotationSpeed.rotationX,duration:3,repeat: -1,yoyo: true,ease:Quad.easeInOut,onUpdate:function(){
-      gsap.set("#wrap",{rotationY:rotationSpeed.rotationX,rotationX:rotationSpeed.rotationY});
+      gsap.set(refApp.current,{rotationY:rotationSpeed.rotationX,rotationX:rotationSpeed.rotationY});
       setRotationX(-rotationSpeed.rotationX);
     }});
 
@@ -114,19 +73,25 @@ function MyComponent() {
   }
 
   function setupApp(){
-    let tempApp = new PIXI.Application({
+    app = new PIXI.Application({
       width: width,
       height: height,
-      antialias: false, // default: false
+      antialias: true, // default: false
       backgroundAlpha: false, // default: false
       resolution: 1, // default: 1
       autoStart: false,
     })
 
-    tempApp.renderer.resize(window.innerWidth, window.innerHeight);
-    tempApp.renderer.view.style.position = 'relative';
+    app.renderer.resize(width, height);
+    app.renderer.view.style.position = 'relative';
+    app.start();
 
-    setApp(tempApp);
+    setInnited(true);
+
+    addContainers();
+    loadTextures();
+
+    PIXI.Ticker.shared.add((time) =>  animate());
   }
 
   function addContainers(){
@@ -149,14 +114,12 @@ function MyComponent() {
     ploader.onComplete.add(() => {
       setTextures();
       setDisplacement();
+      
     });
     ploader.load();
   }
 
-  function setTextures(){
-
-    console.log(" set texture");
-    
+  function setTextures(){    
     foregroundTexure = new PIXI.Sprite(ploader.resources.fg.texture);
     maskOverlapTexture = new PIXI.Sprite(ploader.resources.fg_top.texture);
 
@@ -182,27 +145,25 @@ function MyComponent() {
       displacementFilter = new PIXI.filters.DisplacementFilter(displacement, 0);
     foregroundTexure.filters = [displacementFilter];
 
-    displacement2 = new PIXI.Sprite(ploader.resources.bg_depth.texture);
-    displacementFilter2 = new PIXI.filters.DisplacementFilter(displacement2, 0);
-    background.addChild(displacement2);
-    backgroundTexture.filters = [displacementFilter2];
+    backgroundDisplacement = new PIXI.Sprite(ploader.resources.bg_depth.texture);
+    backgroundDisplacementFilter = new PIXI.filters.DisplacementFilter(backgroundDisplacement, 0);
+    background.addChild(backgroundDisplacement);
+    backgroundTexture.filters = [backgroundDisplacementFilter];
     foreground.x = foreground2.x =  -15;
 
-    displacement3 = new PIXI.Sprite(ploader.resources.depth.texture);
-    foreground2.addChild(displacement3);
-    displacementFilter3 = new PIXI.filters.DisplacementFilter(displacement3, 0);
-    maskOverlapTexture.filters = [displacementFilter3];
+    overlayDisplacement = new PIXI.Sprite(ploader.resources.depth.texture);
+    foreground2.addChild(overlayDisplacement);
+    overlayDisplacementFilter = new PIXI.filters.DisplacementFilter(overlayDisplacement, 0);
+    maskOverlapTexture.filters = [overlayDisplacementFilter];
   }
 
   function animate() {
-    if(!app) return;
+    if(!app) return;   
 
-    console.log("animate")
-
+    app.renderer.render(stage); 
   }
 
-  return <div id="wrap" ref={wrap}><div ref={refApp}/></div>;
+  return <div ref={wrap} style={{perspective:'1000px',transformOrigin:'50% 50%',width:width,height:height}}><div ref={refApp}/></div>;
 }
 
 export default MyComponent;
-
