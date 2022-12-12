@@ -1,0 +1,84 @@
+{"frames": {
+
+"01-Icons.png":
+{
+	"frame": {"x":317,"y":409,"w":43,"h":307},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":250,"y":21,"w":43,"h":307},
+	"sourceSize": {"w":314,"h":482}
+},
+"02-Front.png":
+{
+	"frame": {"x":479,"y":817,"w":163,"h":274},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":27,"y":132,"w":163,"h":274},
+	"sourceSize": {"w":358,"h":406}
+},
+"03-Frame.png":
+{
+	"frame": {"x":1,"y":1,"w":314,"h":482},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":314,"h":482},
+	"sourceSize": {"w":314,"h":482}
+},
+"04-Bar.png":
+{
+	"frame": {"x":479,"y":454,"w":310,"h":116},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":2,"y":363,"w":310,"h":116},
+	"sourceSize": {"w":314,"h":482}
+},
+"05-Back-depth.png":
+{
+	"frame": {"x":1,"y":485,"w":358,"h":406},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":358,"h":406},
+	"sourceSize": {"w":358,"h":406}
+},
+"05-Back.png":
+{
+	"frame": {"x":677,"y":1,"w":331,"h":383},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":27,"y":23,"w":331,"h":383},
+	"sourceSize": {"w":358,"h":406}
+},
+"06-Shadow.png":
+{
+	"frame": {"x":1,"y":893,"w":105,"h":476},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":206,"y":3,"w":105,"h":476},
+	"sourceSize": {"w":314,"h":482}
+},
+"07-Background-depth.png":
+{
+	"frame": {"x":317,"y":1,"w":358,"h":406},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":358,"h":406},
+	"sourceSize": {"w":358,"h":406}
+},
+"07-Background.png":
+{
+	"frame": {"x":626,"y":409,"w":358,"h":406},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":358,"h":406},
+	"sourceSize": {"w":358,"h":406}
+}},
+"meta": {
+	"app": "https://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "01-Mickey-1024x.png",
+	"format": "RGBA8888",
+	"size": {"w":1024,"h":1024},
+	"scale": "0.4",
+	"smartupdate": "$TexturePacker:SmartUpdate:625a7b9ad622990995af6bad29e2a94c:6262e980173ea05bdf0660744873dd37:20fef7a1450bc9837b1b54b15df1f55c$"
+}
+}

@@ -17,6 +17,8 @@ let displacementFilter, backgroundDisplacementFilter, overlayDisplacementFilter;
 let foregroundTexure, maskOverlapTexture , backgroundTexture;
 let displacement, backgroundDisplacement, overlayDisplacement;
 let card;
+let icons;
+let frontTexture;
 let mask;
 let ploader = new PIXI.Loader();
 
@@ -33,9 +35,9 @@ function MyComponent() {
     let movementX = rotationX*6;
 
     if(displacementFilter != null){ //Check if null, because it needed to be loaded first
-      displacementFilter.scale.x = -movementX;
-      overlayDisplacementFilter.scale.x = -movementX;
-      backgroundDisplacementFilter.scale.x = -movementX;
+      //displacementFilter.scale.x = -movementX;
+      //overlayDisplacementFilter.scale.x = -movementX;
+      //backgroundDisplacementFilter.scale.x = -movementX;
     }
     background.x = -movementX/2 - 50;
     foreground.x = -movementX/2;
@@ -104,22 +106,21 @@ function MyComponent() {
   }
 
   function loadTextures(){
-    /*
+    
     ploader.add('fg', '/assets/images/mickey_trans.png');
     ploader.add('fg_top', '/assets/images/mickey_trans_spoon.png');
     ploader.add('depth', '/assets/images/mickey_depth12.png');
     ploader.add('bg', '/assets/images/mickey_bg.png');
     ploader.add('bg_depth', '/assets/images/mickey_bg_depth.png');
     ploader.add('card', '/assets/images/card.png');
-    ploader.add('mask', '/assets/images/mask.png');
-    */
+    
 
-    ploader.add('mickey', '/assets/spritesheets/01-Mickey.json');    
+    ploader.add('mask', '/assets/images/mask.png');
+    var sheet = ploader.add('mickey', '/assets/spritesheets/01-Mickey-1024x.json');    
     
     ploader.onComplete.add(() => {
       setTextures();
       setDisplacement();
-      
     });
     ploader.load();
   }
@@ -131,50 +132,80 @@ function MyComponent() {
     backgroundTexture = new PIXI.Sprite(ploader.resources.bg.texture);
     card = new PIXI.Sprite(ploader.resources.card.texture);
     mask = new PIXI.Sprite(ploader.resources.mask.texture);
+    displacement = new PIXI.Sprite(ploader.resources.depth.texture);
+    backgroundDisplacement = new PIXI.Sprite(ploader.resources.bg_depth.texture);
+    overlayDisplacement = new PIXI.Sprite(ploader.resources.depth.texture);
     */
+   
     spritesheet = ploader.resources.mickey.spritesheet;
+    console.log(spritesheet._frames['05-Back.png'])
+    var scale = 0.65;
 
+    //Set this in a function and loop through this
     foregroundTexure = new PIXI.Sprite(spritesheet.textures['05-Back.png']);
-    foregroundTexure.width = spritesheet._frames['05-Back.png'].sourceSize.w;
-    foregroundTexure.height = spritesheet._frames['05-Back.png'].sourceSize.h;
+    foregroundTexure.width = spritesheet._frames['05-Back.png'].spriteSourceSize.w;
+    foregroundTexure.height = spritesheet._frames['05-Back.png'].spriteSourceSize.h;
+    foregroundTexure.x = -spritesheet._frames['05-Back.png'].spriteSourceSize.x;
+    foregroundTexure.y = spritesheet._frames['05-Back.png'].spriteSourceSize.y;
+    foregroundTexure.scale.set(scale)
 
     maskOverlapTexture = new PIXI.Sprite(spritesheet.textures['02-Front.png']);
     maskOverlapTexture.width = spritesheet._frames['02-Front.png'].sourceSize.w;
     maskOverlapTexture.height = spritesheet._frames['02-Front.png'].sourceSize.h;
+    maskOverlapTexture.x = -spritesheet._frames['05-Back.png'].spriteSourceSize.x;
+    maskOverlapTexture.y = spritesheet._frames['05-Back.png'].spriteSourceSize.y;
+    maskOverlapTexture.scale.set(scale)
 
     backgroundTexture = new PIXI.Sprite(spritesheet.textures['07-Background.png']);
     backgroundTexture.width = spritesheet._frames['07-Background.png'].sourceSize.w;
     backgroundTexture.height = spritesheet._frames['07-Background.png'].sourceSize.h;
+    backgroundTexture.scale.set(scale)
+
+    icons = new PIXI.Sprite(spritesheet.textures['01-Icons.png']);
+    icons.width = spritesheet._frames['01-Icons.png'].sourceSize.w;
+    icons.height = spritesheet._frames['01-Icons.png'].sourceSize.h;
+    icons.scale.set(scale)
+
+    frontTexture = new PIXI.Sprite(spritesheet.textures['04-Bar.png']);
+    frontTexture.width = spritesheet._frames['04-Bar.png'].sourceSize.w;
+    frontTexture.height = spritesheet._frames['04-Bar.png'].sourceSize.h;
+    frontTexture.scale.set(scale)
 
     card = new PIXI.Sprite(spritesheet.textures['03-Frame.png']);
     card.width = spritesheet._frames['03-Frame.png'].sourceSize.w;
     card.height = spritesheet._frames['03-Frame.png'].sourceSize.h;
 
-    mask = new PIXI.Sprite(spritesheet.textures['05-Back-depth.png']);
-    mask.width = spritesheet._frames['05-Back-depth.png'].sourceSize.w;
-    mask.height = spritesheet._frames['05-Back-depth.png'].sourceSize.h;
+    mask = new PIXI.Sprite(ploader.resources.mask.texture);
+    //mask = new PIXI.Sprite(spritesheet.textures['05-Back-depth.png']);
+    //mask.width = spritesheet._frames['05-Back-depth.png'].sourceSize.w;
+    //mask.height = spritesheet._frames['05-Back-depth.png'].sourceSize.h;
 
     displacement = new PIXI.Sprite(spritesheet.textures['05-Back-depth.png']);
     displacement.width = spritesheet._frames['05-Back-depth.png'].sourceSize.w;
     displacement.height = spritesheet._frames['05-Back-depth.png'].sourceSize.h;
+    displacement.scale.set(scale)
 
     backgroundDisplacement = new PIXI.Sprite(spritesheet.textures['07-Background-depth.png']);
     backgroundDisplacement.width = spritesheet._frames['07-Background-depth.png'].sourceSize.w;
     backgroundDisplacement.height = spritesheet._frames['07-Background-depth.png'].sourceSize.h;
+    backgroundDisplacement.scale.set(scale)
 
     overlayDisplacement = new PIXI.Sprite(spritesheet.textures['05-Back-depth.png']);
     overlayDisplacement.width = spritesheet._frames['05-Back-depth.png'].sourceSize.w;
     overlayDisplacement.height = spritesheet._frames['05-Back-depth.png'].sourceSize.h;
+    overlayDisplacement.scale.set(scale)
 
     background.addChild(backgroundTexture);
     foreground.addChild(foregroundTexure);
+    container.addChild(frontTexture);
+    container.addChild(icons);
     container.addChild(card);
     container.addChild(mask);
     container.addChild(foreground2);
     foreground2.addChild(maskOverlapTexture);
-    
-    //card.scale.set(0.65)
-    //mask.scale.set(0.65)
+
+    card.scale.set(scale)
+    mask.scale.set(scale)
 
     image.mask = mask;
   }
