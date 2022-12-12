@@ -135,10 +135,36 @@ function MyComponent() {
     spritesheet = ploader.resources.mickey.spritesheet;
 
     foregroundTexure = new PIXI.Sprite(spritesheet.textures['05-Back.png']);
+    foregroundTexure.width = spritesheet._frames['05-Back.png'].sourceSize.w;
+    foregroundTexure.height = spritesheet._frames['05-Back.png'].sourceSize.h;
+
     maskOverlapTexture = new PIXI.Sprite(spritesheet.textures['02-Front.png']);
+    maskOverlapTexture.width = spritesheet._frames['02-Front.png'].sourceSize.w;
+    maskOverlapTexture.height = spritesheet._frames['02-Front.png'].sourceSize.h;
+
     backgroundTexture = new PIXI.Sprite(spritesheet.textures['07-Background.png']);
+    backgroundTexture.width = spritesheet._frames['07-Background.png'].sourceSize.w;
+    backgroundTexture.height = spritesheet._frames['07-Background.png'].sourceSize.h;
+
     card = new PIXI.Sprite(spritesheet.textures['03-Frame.png']);
+    card.width = spritesheet._frames['03-Frame.png'].sourceSize.w;
+    card.height = spritesheet._frames['03-Frame.png'].sourceSize.h;
+
     mask = new PIXI.Sprite(spritesheet.textures['05-Back-depth.png']);
+    mask.width = spritesheet._frames['05-Back-depth.png'].sourceSize.w;
+    mask.height = spritesheet._frames['05-Back-depth.png'].sourceSize.h;
+
+    displacement = new PIXI.Sprite(spritesheet.textures['05-Back-depth.png']);
+    displacement.width = spritesheet._frames['05-Back-depth.png'].sourceSize.w;
+    displacement.height = spritesheet._frames['05-Back-depth.png'].sourceSize.h;
+
+    backgroundDisplacement = new PIXI.Sprite(spritesheet.textures['07-Background-depth.png']);
+    backgroundDisplacement.width = spritesheet._frames['07-Background-depth.png'].sourceSize.w;
+    backgroundDisplacement.height = spritesheet._frames['07-Background-depth.png'].sourceSize.h;
+
+    overlayDisplacement = new PIXI.Sprite(spritesheet.textures['05-Back-depth.png']);
+    overlayDisplacement.width = spritesheet._frames['05-Back-depth.png'].sourceSize.w;
+    overlayDisplacement.height = spritesheet._frames['05-Back-depth.png'].sourceSize.h;
 
     background.addChild(backgroundTexture);
     foreground.addChild(foregroundTexure);
@@ -147,25 +173,22 @@ function MyComponent() {
     container.addChild(foreground2);
     foreground2.addChild(maskOverlapTexture);
     
-    card.scale.set(0.65)
-    mask.scale.set(0.65)
+    //card.scale.set(0.65)
+    //mask.scale.set(0.65)
 
     image.mask = mask;
   }
 
   function setDisplacement(){
-    displacement = new PIXI.Sprite(spritesheet.textures['05-Back-depth.png']);
-      foreground.addChild(displacement);
-      displacementFilter = new PIXI.filters.DisplacementFilter(displacement, 0);
+    foreground.addChild(displacement);
+    displacementFilter = new PIXI.filters.DisplacementFilter(displacement, 0);
     foregroundTexure.filters = [displacementFilter];
 
-    backgroundDisplacement = new PIXI.Sprite(spritesheet.textures['07-Background-depth.png']);
     backgroundDisplacementFilter = new PIXI.filters.DisplacementFilter(backgroundDisplacement, 0);
     background.addChild(backgroundDisplacement);
     backgroundTexture.filters = [backgroundDisplacementFilter];
     foreground.x = foreground2.x =  -15;
 
-    overlayDisplacement = new PIXI.Sprite(spritesheet.textures['05-Back-depth.png']);
     foreground2.addChild(overlayDisplacement);
     overlayDisplacementFilter = new PIXI.filters.DisplacementFilter(overlayDisplacement, 0);
     maskOverlapTexture.filters = [overlayDisplacementFilter];
