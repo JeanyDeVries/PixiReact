@@ -5,6 +5,7 @@ import gsap, {Quad} from 'gsap'
 let rotationSpeed = {rotationX:5,rotationY:0};
 let app = null;
 let spritesheet;
+let scale = 0.65;
 
 let stage = new PIXI.Container();
 let image = new PIXI.Container();
@@ -35,9 +36,9 @@ function MyComponent() {
     let movementX = rotationX*6;
 
     if(displacementFilter != null){ //Check if null, because it needed to be loaded first
-      //displacementFilter.scale.x = -movementX;
-      //overlayDisplacementFilter.scale.x = -movementX;
-      //backgroundDisplacementFilter.scale.x = -movementX;
+      displacementFilter.scale.x = -movementX;
+      overlayDisplacementFilter.scale.x = -movementX;
+      backgroundDisplacementFilter.scale.x = -movementX;
     }
     background.x = -movementX/2 - 50;
     foreground.x = -movementX/2;
@@ -106,14 +107,8 @@ function MyComponent() {
   }
 
   function loadTextures(){
-    
-    ploader.add('fg', '/assets/images/mickey_trans.png');
-    ploader.add('fg_top', '/assets/images/mickey_trans_spoon.png');
     ploader.add('depth', '/assets/images/mickey_depth12.png');
-    ploader.add('bg', '/assets/images/mickey_bg.png');
-    ploader.add('bg_depth', '/assets/images/mickey_bg_depth.png');
-    ploader.add('card', '/assets/images/card.png');
-    
+    ploader.add('bg_depth', '/assets/images/mickey_bg_depth.png');    
 
     ploader.add('mask', '/assets/images/mask.png');
     var sheet = ploader.add('mickey', '/assets/spritesheets/01-Mickey-1024x.json');    
@@ -126,21 +121,8 @@ function MyComponent() {
   }
 
   function setTextures(){    
-    /*
-    foregroundTexure = new PIXI.Sprite(ploader.resources.fg.texture);
-    maskOverlapTexture = new PIXI.Sprite(ploader.resources.fg_top.texture);
-    backgroundTexture = new PIXI.Sprite(ploader.resources.bg.texture);
-    card = new PIXI.Sprite(ploader.resources.card.texture);
-    mask = new PIXI.Sprite(ploader.resources.mask.texture);
-    displacement = new PIXI.Sprite(ploader.resources.depth.texture);
-    backgroundDisplacement = new PIXI.Sprite(ploader.resources.bg_depth.texture);
-    overlayDisplacement = new PIXI.Sprite(ploader.resources.depth.texture);
-    */
-   
     spritesheet = ploader.resources.mickey.spritesheet;
-    console.log(spritesheet._frames['05-Back.png'])
-    var scale = 0.65;
-
+    
     //Set this in a function and loop through this
     foregroundTexure = new PIXI.Sprite(spritesheet.textures['05-Back.png']);
     foregroundTexure.width = spritesheet._frames['05-Back.png'].spriteSourceSize.w;
@@ -180,25 +162,40 @@ function MyComponent() {
     //mask.width = spritesheet._frames['05-Back-depth.png'].sourceSize.w;
     //mask.height = spritesheet._frames['05-Back-depth.png'].sourceSize.h;
 
-    displacement = new PIXI.Sprite(spritesheet.textures['05-Back-depth.png']);
-    displacement.width = spritesheet._frames['05-Back-depth.png'].sourceSize.w;
-    displacement.height = spritesheet._frames['05-Back-depth.png'].sourceSize.h;
-    displacement.scale.set(scale)
+    //Make a sprite loose from json file, copy bitmap?
+    let displacementSprite = new PIXI.Sprite(spritesheet.textures['05-Back-depth.png']);
+    displacementSprite.width = spritesheet._frames['05-Back-depth.png'].sourceSize.w;
+    displacementSprite.height = spritesheet._frames['05-Back-depth.png'].sourceSize.h;
+    displacementSprite.scale.set(scale)
+    let displacementTex = displacementSprite.texture;
+    displacement = new PIXI.Sprite(displacementTex);
 
-    backgroundDisplacement = new PIXI.Sprite(spritesheet.textures['07-Background-depth.png']);
-    backgroundDisplacement.width = spritesheet._frames['07-Background-depth.png'].sourceSize.w;
-    backgroundDisplacement.height = spritesheet._frames['07-Background-depth.png'].sourceSize.h;
-    backgroundDisplacement.scale.set(scale)
+    let backgroundDisplacementSprite = new PIXI.Sprite(spritesheet.textures['07-Background-depth.png']);
+    backgroundDisplacementSprite.width = spritesheet._frames['07-Background-depth.png'].sourceSize.w;
+    backgroundDisplacementSprite.height = spritesheet._frames['07-Background-depth.png'].sourceSize.h;
+    backgroundDisplacementSprite.scale.set(scale)
+    let backgroundDisplacementTex = backgroundDisplacementSprite.texture;
+    backgroundDisplacement = new PIXI.Sprite(backgroundDisplacementTex);
 
-    overlayDisplacement = new PIXI.Sprite(spritesheet.textures['05-Back-depth.png']);
-    overlayDisplacement.width = spritesheet._frames['05-Back-depth.png'].sourceSize.w;
-    overlayDisplacement.height = spritesheet._frames['05-Back-depth.png'].sourceSize.h;
-    overlayDisplacement.scale.set(scale)
 
+    let overlayDisplacementSprite = new PIXI.Sprite(spritesheet.textures['05-Back-depth.png']);
+    overlayDisplacementSprite.width = spritesheet._frames['05-Back-depth.png'].sourceSize.w;
+    overlayDisplacementSprite.height = spritesheet._frames['05-Back-depth.png'].sourceSize.h;
+    overlayDisplacementSprite.scale.set(scale)
+    let overlayDisplacementTex = overlayDisplacementSprite.texture;
+    overlayDisplacement = new PIXI.Sprite(overlayDisplacementTex);
+
+    //foreground2.addChild(overlayDisplacement);
+
+    
+    //displacement = new PIXI.Sprite(ploader.resources.depth.texture);
+    //backgroundDisplacement = new PIXI.Sprite(ploader.resources.bg_depth.texture);
+    //overlayDisplacement = new PIXI.Sprite(ploader.resources.depth.texture);
+    
     background.addChild(backgroundTexture);
     foreground.addChild(foregroundTexure);
-    container.addChild(frontTexture);
     container.addChild(icons);
+    container.addChild(frontTexture);
     container.addChild(card);
     container.addChild(mask);
     container.addChild(foreground2);
@@ -211,6 +208,7 @@ function MyComponent() {
   }
 
   function setDisplacement(){
+    console.log(displacement)
     foreground.addChild(displacement);
     displacementFilter = new PIXI.filters.DisplacementFilter(displacement, 0);
     foregroundTexure.filters = [displacementFilter];
