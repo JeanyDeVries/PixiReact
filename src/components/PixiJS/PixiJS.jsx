@@ -117,7 +117,7 @@ function MyComponent() {
     
     ploader.onComplete.add(() => {
       setTextures();
-      setDisplacement();
+      // setDisplacement();
     });
     ploader.load();
   }
@@ -161,62 +161,117 @@ function MyComponent() {
 
     mask = new PIXI.Sprite(ploader.resources.mask.texture);
 
-
-    /*
-    let displacementSprite = new PIXI.Sprite(spritesheet.textures['05-Back-depth.png']);
-    displacementSprite.width = spritesheet._frames['05-Back-depth.png'].sourceSize.w;
-    displacementSprite.height = spritesheet._frames['05-Back-depth.png'].sourceSize.h;
-    displacementSprite.scale.set(scale)
-    */
-
-    let displacementSprite = new PIXI.Sprite(spritesheet.textures['05-Back-depth.png']);
-    const image = app.renderer.plugins.extract.image(displacementSprite);
-    console.log('image', spritesheet)
-
-    /*
-    //let tex1 = new PIXI.Texture(displacementSprite.texture.baseTexture);
-    //tex1.frame = new PIXI.Rectangle(0,0,tex1.width,tex1.height);
-    //tex1.baseTexture.resource.createBitmap = true;
-    // to create an image, use the Image class
-    let image = new Image();
-    // you can give an image a source (url/dataurl)
-    image.src = spritesheet.textures['05-Back-depth.png'];
-    console.log("image src", spritesheet.textures['05-Back-depth.png'])
-    let bitmap = createImageBitmap(image)
-    console.log("bitmap", bitmap)
-    //let resource = new PIXI.Resource(tex1.baseTexture);
-    displacement = displacementSprite
-    displacement.scale.set(scale);
-    */
-
-
-        // Load object into GPU
-    app.renderer.plugins.prepare.upload(tex1.baseTexture);
-
-    let backgroundDisplacementSprite = new PIXI.Sprite(spritesheet.textures['07-Background-depth.png']);
-    backgroundDisplacementSprite.width = spritesheet._frames['07-Background-depth.png'].sourceSize.w;
-    backgroundDisplacementSprite.height = spritesheet._frames['07-Background-depth.png'].sourceSize.h;
-    backgroundDisplacementSprite.scale.set(scale)
-    let tex2 = new PIXI.Sprite(backgroundDisplacementSprite.texture);
-    tex2.frame = new PIXI.Rectangle(0,0,tex2.width,tex2.height);
-    backgroundDisplacement = new PIXI.Sprite(tex2.texture)
-
-
-    let overlayDisplacementSprite = new PIXI.Sprite(spritesheet.textures['05-Back-depth.png']);
-    overlayDisplacementSprite.width = spritesheet._frames['05-Back-depth.png'].sourceSize.w;
-    overlayDisplacementSprite.height = spritesheet._frames['05-Back-depth.png'].sourceSize.h;
-    overlayDisplacementSprite.scale.set(scale)
-    overlayDisplacement = new PIXI.Sprite(overlayDisplacementSprite.texture);
-    overlayDisplacement.frame = (new PIXI.Rectangle(0,0,overlayDisplacement.width,overlayDisplacement.height));
-    overlayDisplacement.scale.set(scale);
-
-
-    //foreground2.addChild(overlayDisplacement);
-
     
-    //displacement = new PIXI.Sprite(ploader.resources.depth.texture);
-    //backgroundDisplacement = new PIXI.Sprite(backgroundDisplacementSprite);
-    //overlayDisplacement = new PIXI.Sprite(ploader.resources.depth.texture);
+    let scaleFactor = (1 / spritesheet.data.meta.scale)
+
+    const baseTexture = spritesheet.baseTexture;
+    const texture = PIXI.Texture.from(baseTexture);
+    const testTexture = spritesheet.textures['05-Back-depth.png'];
+    let textureFromFrame;
+    // console.log('text', texture)
+    // console.log('text', texture)
+    console.log('testTexture', testTexture)
+    console.log('orig', testTexture.orig)
+
+    // displacement = new PIXI.Sprite(texture);
+    try {
+      // get the frame data for the frame with the specified name
+      const frameName = '05-Back-depth.png';
+      const frame = spritesheet.data.frames[frameName];
+
+      console.log(spritesheet)
+
+      if (frame) {
+        // console.log('frame lol :)', frame)
+        // specify the frame of the texture that you want to use
+
+        // let testFrame = new PIXI.Rectangle(frame.frame.x, frame.frame.y, frame.frame.w, frame.frame.h);
+        let testFrame = testTexture.orig;
+
+        texture.frame = testFrame; // store the frame in a seperate texture and use that in the sprite;
+        console.log("frame", testFrame)
+        let baseRenderTexture = new PIXI.BaseRenderTexture({ width: (testFrame.width + testFrame.x), height: (testFrame.height + testFrame.y) });
+        console.log("baseRenderTexture", baseRenderTexture)
+        textureFromFrame = new PIXI.RenderTexture(baseRenderTexture, testFrame)
+        console.log('textureFromFrame', textureFromFrame)
+
+        // texture.baseTexture = testTexture;
+        // texture.frame = frame.frame;
+        // console.log('texture : ', texture.frame);
+
+        // texture.updateUvs();
+        // app.renderer.plugins.prepare.upload(texture);
+
+        // console.log('sf', frame)
+        // console.log('texture', texture)
+      } else {
+        // handle the case where the frame does not exist
+        console.error(`Frame "${frameName}" does not exist in the JSON data.`);
+      }
+
+      // Create a new Sprite using the desired texture
+      displacement = new PIXI.Sprite(textureFromFrame);
+      displacement.scale.set(scale);
+      // displacement.filterArea = texture.frame;
+    } catch (error) {
+      // if the data is not a valid JSON object, handle the error
+      console.error(error);
+    }
+
+    // try to parse the JSON data as a JavaScript object
+    // try {
+    //   // get the frame data for the frame with the specified name
+    //   const frameName = '07-Background-depth.png';
+    //   const frame = spritesheet.data.frames[frameName];
+
+    //   if (frame) {
+    //     // specify the frame of the texture that you want to use
+    //     texture.frame = frame;
+    //     texture.frame.frame.w = frame.frame.w * scaleFactor;
+    //     texture.frame.frame.h = frame.frame.h * scaleFactor;
+    //     texture.frame.sourceSize.w = frame.sourceSize.w * scaleFactor;
+    //     texture.frame.sourceSize.h = frame.sourceSize.h * scaleFactor;
+    //   } else {
+    //     // handle the case where the frame does not exist
+    //     console.error(`Frame "${frameName}" does not exist in the JSON data.`);
+    //   }
+      
+    //   // Create a new Sprite using the desired texture
+    //   backgroundDisplacement = new PIXI.Sprite(texture);
+    //   backgroundDisplacement._width = texture.frame.sourceSize.w;
+    //   backgroundDisplacement._height = texture.frame.sourceSize.h;
+    // } catch (error) {
+    //   // if the data is not a valid JSON object, handle the error
+    //   console.error(error);
+    // }
+
+    // // try to parse the JSON data as a JavaScript object
+    // try {
+    //   // get the frame data for the frame with the specified name
+    //   const frameName = '05-Back-depth.png';
+    //   const frame = spritesheet.data.frames[frameName];
+
+    //   if (frame) {
+    //     // specify the frame of the texture that you want to use
+    //     texture.frame = frame;
+    //     texture.frame.frame.w = frame.frame.w * scaleFactor;
+    //     texture.frame.frame.h = frame.frame.h * scaleFactor;
+    //     texture.frame.sourceSize.w = frame.sourceSize.w * scaleFactor;
+    //     texture.frame.sourceSize.h = frame.sourceSize.h * scaleFactor;
+    //   } else {
+    //     // handle the case where the frame does not exist
+    //     console.error(`Frame "${frameName}" does not exist in the JSON data.`);
+    //   }
+
+    //   // Create a new Sprite using the desired texture
+    //   overlayDisplacement = new PIXI.Sprite(texture);
+    //   overlayDisplacement._width = texture.frame.sourceSize.w;
+    //   overlayDisplacement._height = texture.frame.sourceSize.h;
+    // } catch (error) {
+    //   // if the data is not a valid JSON object, handle the error
+    //   console.error(error);
+    // }
+
     
     background.addChild(backgroundTexture);
     foreground.addChild(foregroundTexure);
@@ -226,6 +281,8 @@ function MyComponent() {
     container.addChild(mask);
     container.addChild(foreground2);
     foreground2.addChild(maskOverlapTexture);
+    foreground2.addChild(displacement);
+    console.log(displacement)
     //displacementContainer.addChild(displacement)
     //foreground2.addChild(displacement);
     //foreground2.addChild(backgroundDisplacement);
@@ -240,15 +297,18 @@ function MyComponent() {
     foreground.addChild(displacement);
     displacementFilter = new PIXI.filters.DisplacementFilter(displacement, 0);
     foregroundTexure.filters = [displacementFilter];
+    displacement.texture.updateUvs();
 
-    backgroundDisplacementFilter = new PIXI.filters.DisplacementFilter(backgroundDisplacement, 0);
-    background.addChild(backgroundDisplacement);
-    backgroundTexture.filters = [backgroundDisplacementFilter];
-    foreground.x = foreground2.x =  -15;
+    console.log('displacement.texture', displacement.texture)
 
-    foreground2.addChild(overlayDisplacement);
-    overlayDisplacementFilter = new PIXI.filters.DisplacementFilter(overlayDisplacement, 0);
-    maskOverlapTexture.filters = [overlayDisplacementFilter];
+    // backgroundDisplacementFilter = new PIXI.filters.DisplacementFilter(backgroundDisplacement, 0);
+    // background.addChild(backgroundDisplacement);
+    // backgroundTexture.filters = [backgroundDisplacementFilter];
+    // foreground.x = foreground2.x =  -15;
+
+    // foreground2.addChild(overlayDisplacement);
+    // overlayDisplacementFilter = new PIXI.filters.DisplacementFilter(overlayDisplacement, 0);
+    // maskOverlapTexture.filters = [overlayDisplacementFilter];
   }
 
   function animate() {
