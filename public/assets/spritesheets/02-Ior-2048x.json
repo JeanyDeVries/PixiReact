@@ -1,0 +1,84 @@
+{"frames": {
+
+"01-Icons.png":
+{
+	"frame": {"x":1579,"y":787,"w":81,"h":595},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":490,"y":42,"w":81,"h":595},
+	"sourceSize": {"w":613,"h":939}
+},
+"02-Front.png":
+{
+	"frame": {"x":1662,"y":787,"w":234,"h":225},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":234,"y":8,"w":234,"h":225},
+	"sourceSize": {"w":697,"h":792}
+},
+"03-Frame.png":
+{
+	"frame": {"x":1,"y":1,"w":613,"h":939},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":613,"h":939},
+	"sourceSize": {"w":613,"h":939}
+},
+"04-Bar.png":
+{
+	"frame": {"x":1,"y":1736,"w":601,"h":204},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":6,"y":729,"w":601,"h":204},
+	"sourceSize": {"w":613,"h":939}
+},
+"05-Back-depth.png":
+{
+	"frame": {"x":616,"y":1,"w":697,"h":792},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":697,"h":792},
+	"sourceSize": {"w":697,"h":792}
+},
+"05-Back.png":
+{
+	"frame": {"x":1315,"y":1,"w":697,"h":784},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":8,"w":697,"h":784},
+	"sourceSize": {"w":697,"h":792}
+},
+"06-Shadow.png":
+{
+	"frame": {"x":1371,"y":787,"w":206,"h":927},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":401,"y":6,"w":206,"h":927},
+	"sourceSize": {"w":613,"h":939}
+},
+"07-Background-depth.png":
+{
+	"frame": {"x":1,"y":942,"w":683,"h":792},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":683,"h":792},
+	"sourceSize": {"w":683,"h":792}
+},
+"07-Background.png":
+{
+	"frame": {"x":686,"y":795,"w":683,"h":792},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":683,"h":792},
+	"sourceSize": {"w":683,"h":792}
+}},
+"meta": {
+	"app": "https://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "02-Ior-2048x.png",
+	"format": "RGBA8888",
+	"size": {"w":2048,"h":2048},
+	"scale": "0.78",
+	"smartupdate": "$TexturePacker:SmartUpdate:7564af41d3bb0d3bb76fe5bd6661b87c:89f0de241e971b636d2c2823930007ea:0feb27dea0a59185444b1915624dce1b$"
+}
+}

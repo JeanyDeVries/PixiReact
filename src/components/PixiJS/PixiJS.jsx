@@ -114,7 +114,7 @@ function MyComponent() {
     ploader.add('bg_depth', '/assets/images/mickey_bg_depth.png');    
 
     ploader.add('mask', '/assets/images/mask.png');
-    var sheet = ploader.add('mickey', '/assets/spritesheets/01-Mickey-1024x.json');    
+    var sheet = ploader.add('mickey', '/assets/spritesheets/01-Mickey-2048x.json');    
     
     ploader.onComplete.add(() => {
       setTextures();
@@ -134,14 +134,14 @@ function MyComponent() {
     foregroundTexure = new PIXI.Sprite(spritesheet.textures['05-Back.png']);
     foregroundTexure.width = spritesheet._frames['05-Back.png'].frame.w;
     foregroundTexure.height = spritesheet._frames['05-Back.png'].frame.h;
-    foregroundTexure.x = -card.width/4;
+    foregroundTexure.x = -50;
     foregroundTexure.y = 0;
     foregroundTexure.scale.set(scale)
 
     maskOverlapTexture = new PIXI.Sprite(spritesheet.textures['02-Front.png']);
     maskOverlapTexture.width = spritesheet._frames['02-Front.png'].frame.w;
     maskOverlapTexture.height = spritesheet._frames['02-Front.png'].frame.h;
-    maskOverlapTexture.x =  -card.width/4;
+    maskOverlapTexture.x = -50;
     maskOverlapTexture.y = 0;
     maskOverlapTexture.scale.set(scale)
 
@@ -188,14 +188,14 @@ function MyComponent() {
     });
 
     displacement = new PIXI.Sprite(renderTexture);
-    displacement.x =  -card.width/4;
+    displacement.x = -50;
     displacement.y = 0;
     displacement.width = baseTex.orig.width;
     displacement.height = baseTex.orig.height;
     displacement.scale.set(scale)
 
     overlayDisplacement = new PIXI.Sprite(renderTexture);
-    overlayDisplacement.x =  -card.width/4;
+    overlayDisplacement.x = -50;
     overlayDisplacement.y = 0;
     overlayDisplacement.width = baseTex.orig.width;
     overlayDisplacement.height = baseTex.orig.height;
