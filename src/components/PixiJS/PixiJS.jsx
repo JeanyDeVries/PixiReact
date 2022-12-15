@@ -5,7 +5,8 @@ import gsap, {Quad} from 'gsap'
 let rotationSpeed = {rotationX:5,rotationY:0};
 let app = null;
 let spritesheet;
-let scale = 0.65;
+let scale = 0.8;
+let outerCardScale = 0.65;
 
 let stage = new PIXI.Container();
 let image = new PIXI.Container();
@@ -124,43 +125,48 @@ function MyComponent() {
 
   function setTextures(){    
     spritesheet = ploader.resources.mickey.spritesheet;
+
+    card = new PIXI.Sprite(spritesheet.textures['03-Frame.png']);
+    card.width = spritesheet._frames['03-Frame.png'].frame.w;
+    card.height = spritesheet._frames['03-Frame.png'].frame.h;
     
     //Set this in a function and loop through this
     foregroundTexure = new PIXI.Sprite(spritesheet.textures['05-Back.png']);
-    foregroundTexure.width = spritesheet._frames['05-Back.png'].spriteSourceSize.w;
-    foregroundTexure.height = spritesheet._frames['05-Back.png'].spriteSourceSize.h;
-    foregroundTexure.x = -spritesheet._frames['05-Back.png'].spriteSourceSize.x;
-    foregroundTexure.y = spritesheet._frames['05-Back.png'].spriteSourceSize.y;
+    foregroundTexure.width = spritesheet._frames['05-Back.png'].frame.w;
+    foregroundTexure.height = spritesheet._frames['05-Back.png'].frame.h;
+    foregroundTexure.x = -card.width/4;
+    foregroundTexure.y = 0;
     foregroundTexure.scale.set(scale)
 
     maskOverlapTexture = new PIXI.Sprite(spritesheet.textures['02-Front.png']);
-    maskOverlapTexture.width = spritesheet._frames['02-Front.png'].sourceSize.w;
-    maskOverlapTexture.height = spritesheet._frames['02-Front.png'].sourceSize.h;
-    maskOverlapTexture.x = -spritesheet._frames['05-Back.png'].spriteSourceSize.x;
-    maskOverlapTexture.y = spritesheet._frames['05-Back.png'].spriteSourceSize.y;
+    maskOverlapTexture.width = spritesheet._frames['02-Front.png'].frame.w;
+    maskOverlapTexture.height = spritesheet._frames['02-Front.png'].frame.h;
+    maskOverlapTexture.x =  -card.width/4;
+    maskOverlapTexture.y = 0;
     maskOverlapTexture.scale.set(scale)
 
     backgroundTexture = new PIXI.Sprite(spritesheet.textures['07-Background.png']);
-    backgroundTexture.width = spritesheet._frames['07-Background.png'].sourceSize.w;
-    backgroundTexture.height = spritesheet._frames['07-Background.png'].sourceSize.h;
+    backgroundTexture.width = spritesheet._frames['07-Background.png'].frame.w;
+    backgroundTexture.height = spritesheet._frames['07-Background.png'].frame.h;
+    backgroundTexture.x = 0;
+    backgroundTexture.y = 0;
     backgroundTexture.scale.set(scale)
 
     icons = new PIXI.Sprite(spritesheet.textures['01-Icons.png']);
-    icons.width = spritesheet._frames['01-Icons.png'].sourceSize.w;
-    icons.height = spritesheet._frames['01-Icons.png'].sourceSize.h;
+    icons.width = spritesheet._frames['01-Icons.png'].frame.w;
+    icons.height = spritesheet._frames['01-Icons.png'].frame.h;
+    icons.x = 0;
+    icons.y = 0;
     icons.scale.set(scale)
 
     frontTexture = new PIXI.Sprite(spritesheet.textures['04-Bar.png']);
-    frontTexture.width = spritesheet._frames['04-Bar.png'].sourceSize.w;
-    frontTexture.height = spritesheet._frames['04-Bar.png'].sourceSize.h;
+    frontTexture.width = spritesheet._frames['04-Bar.png'].frame.w;
+    frontTexture.height = spritesheet._frames['04-Bar.png'].frame.h;
+    frontTexture.x = 0;
+    frontTexture.y = 0;
     frontTexture.scale.set(scale)
 
-    card = new PIXI.Sprite(spritesheet.textures['03-Frame.png']);
-    card.width = spritesheet._frames['03-Frame.png'].sourceSize.w;
-    card.height = spritesheet._frames['03-Frame.png'].sourceSize.h;
-
     mask = new PIXI.Sprite(ploader.resources.mask.texture);
-
     
     let scaleFactor = (1 / spritesheet.data.meta.scale)
 
@@ -182,14 +188,14 @@ function MyComponent() {
     });
 
     displacement = new PIXI.Sprite(renderTexture);
-    displacement.x = 0;
+    displacement.x =  -card.width/4;
     displacement.y = 0;
     displacement.width = baseTex.orig.width;
     displacement.height = baseTex.orig.height;
     displacement.scale.set(scale)
 
     overlayDisplacement = new PIXI.Sprite(renderTexture);
-    overlayDisplacement.x = 0;
+    overlayDisplacement.x =  -card.width/4;
     overlayDisplacement.y = 0;
     overlayDisplacement.width = baseTex.orig.width;
     overlayDisplacement.height = baseTex.orig.height;
@@ -235,9 +241,10 @@ function MyComponent() {
     foreground2.addChild(backgroundDisplacement);
     foreground2.addChild(overlayDisplacement);
 
-
-    card.scale.set(scale)
-    mask.scale.set(scale)
+    frontTexture.scale.set(outerCardScale)
+    icons.scale.set(outerCardScale)
+    card.scale.set(outerCardScale)
+    mask.scale.set(outerCardScale)
 
     image.mask = mask;
   }
