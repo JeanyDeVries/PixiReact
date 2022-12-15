@@ -110,10 +110,7 @@ function MyComponent() {
   }
 
   function loadTextures(){
-    ploader.add('depth', '/assets/images/mickey_depth12.png');
-    ploader.add('bg_depth', '/assets/images/mickey_bg_depth.png');    
-
-    ploader.add('mask', '/assets/images/mask.png');
+    ploader.add('mask', '/assets/images/mask.png'); //Mask is not in the json yet, now locally adding it
     var sheet = ploader.add('mickey', '/assets/spritesheets/01-Mickey-2048x.json');    
     
     ploader.onComplete.add(() => {
@@ -168,7 +165,7 @@ function MyComponent() {
 
     mask = new PIXI.Sprite(ploader.resources.mask.texture);
     
-    let scaleFactor = (1 / spritesheet.data.meta.scale)
+    let scaleFactor = (1 / spritesheet.data.meta.scale) // The spritesheet has a different scale, thats why we need a scalefactor
 
     const baseTex = spritesheet.textures["05-Back-depth.png"];
     const renderSprite = new PIXI.Sprite(baseTex);
