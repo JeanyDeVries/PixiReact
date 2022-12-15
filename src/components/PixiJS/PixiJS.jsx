@@ -117,7 +117,7 @@ function MyComponent() {
     
     ploader.onComplete.add(() => {
       setTextures();
-      // setDisplacement();
+      setDisplacement();
     });
     ploader.load();
   }
@@ -164,59 +164,33 @@ function MyComponent() {
     
     let scaleFactor = (1 / spritesheet.data.meta.scale)
 
-    const baseTexture = spritesheet.baseTexture;
-    const texture = PIXI.Texture.from(baseTexture);
-    const testTexture = spritesheet.textures['05-Back-depth.png'];
-    let textureFromFrame;
-    // console.log('text', texture)
-    // console.log('text', texture)
-    console.log('testTexture', testTexture)
-    console.log('orig', testTexture.orig)
+    const baseTex = spritesheet.textures["05-Back-depth.png"];
+    const renderSprite = new PIXI.Sprite(baseTex);
 
-    // displacement = new PIXI.Sprite(texture);
-    try {
-      // get the frame data for the frame with the specified name
-      const frameName = '05-Back-depth.png';
-      const frame = spritesheet.data.frames[frameName];
+    renderSprite.position.x = 0;
+    renderSprite.position.y = 0;
+    renderSprite.anchor.x = 0;
+    renderSprite.anchor.y = 0;
 
-      console.log(spritesheet)
+    console.log(baseTex)
 
-      if (frame) {
-        // console.log('frame lol :)', frame)
-        // specify the frame of the texture that you want to use
+    const renderTexture = PIXI.RenderTexture.create({
+      width: baseTex.orig.width,
+      height: baseTex.orig.height,
+    });
 
-        // let testFrame = new PIXI.Rectangle(frame.frame.x, frame.frame.y, frame.frame.w, frame.frame.h);
-        let testFrame = testTexture.orig;
+    app.renderer.render(renderSprite, {
+      renderTexture,
+    });
 
-        texture.frame = testFrame; // store the frame in a seperate texture and use that in the sprite;
-        console.log("frame", testFrame)
-        let baseRenderTexture = new PIXI.BaseRenderTexture({ width: (testFrame.width + testFrame.x), height: (testFrame.height + testFrame.y) });
-        console.log("baseRenderTexture", baseRenderTexture)
-        textureFromFrame = new PIXI.RenderTexture(baseRenderTexture, testFrame)
-        console.log('textureFromFrame', textureFromFrame)
+    displacement = new PIXI.Sprite(renderTexture);
+    displacement.x = baseTex.orig.x;
+    displacement.y = 0;
+    displacement.width = baseTex.orig.width;
+    displacement.height = baseTex.orig.height;
+    displacement.scale.set(scale)
 
-        // texture.baseTexture = testTexture;
-        // texture.frame = frame.frame;
-        // console.log('texture : ', texture.frame);
-
-        // texture.updateUvs();
-        // app.renderer.plugins.prepare.upload(texture);
-
-        // console.log('sf', frame)
-        // console.log('texture', texture)
-      } else {
-        // handle the case where the frame does not exist
-        console.error(`Frame "${frameName}" does not exist in the JSON data.`);
-      }
-
-      // Create a new Sprite using the desired texture
-      displacement = new PIXI.Sprite(textureFromFrame);
-      displacement.scale.set(scale);
-      // displacement.filterArea = texture.frame;
-    } catch (error) {
-      // if the data is not a valid JSON object, handle the error
-      console.error(error);
-    }
+    foreground2.addChild(displacement);
 
     // try to parse the JSON data as a JavaScript object
     // try {
@@ -281,10 +255,6 @@ function MyComponent() {
     container.addChild(mask);
     container.addChild(foreground2);
     foreground2.addChild(maskOverlapTexture);
-    foreground2.addChild(displacement);
-    console.log(displacement)
-    //displacementContainer.addChild(displacement)
-    //foreground2.addChild(displacement);
     //foreground2.addChild(backgroundDisplacement);
 
     card.scale.set(scale)
