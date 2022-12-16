@@ -116,6 +116,7 @@ function MyComponent() {
     ploader.onComplete.add(() => {
       setTextures();
       setDisplacement();
+      addChildren();
     });
     ploader.load();
   }
@@ -123,109 +124,24 @@ function MyComponent() {
   function setTextures(){    
     spritesheet = ploader.resources.mickey.spritesheet;
 
-    card = new PIXI.Sprite(spritesheet.textures['03-Frame.png']);
-    card.width = spritesheet._frames['03-Frame.png'].frame.w;
-    card.height = spritesheet._frames['03-Frame.png'].frame.h;
-    
-    //Set this in a function and loop through this
-    foregroundTexure = new PIXI.Sprite(spritesheet.textures['05-Back.png']);
-    foregroundTexure.width = spritesheet._frames['05-Back.png'].frame.w;
-    foregroundTexure.height = spritesheet._frames['05-Back.png'].frame.h;
-    foregroundTexure.x = -50;
-    foregroundTexure.y = 0;
-    foregroundTexure.scale.set(scale)
+    card = setSprite('03-Frame.png', 0,0, outerCardScale);
+    foregroundTexure = setSprite('05-Back.png', -50, 0, scale);
+    maskOverlapTexture = setSprite('02-Front.png', -50, 0, scale);
+    backgroundTexture = setSprite('07-Background.png', 0, 0, scale)
+    icons = setSprite('01-Icons.png', 0, 0, outerCardScale);
+    frontTexture = setSprite('04-Bar.png', 0, 0, outerCardScale)
 
-    maskOverlapTexture = new PIXI.Sprite(spritesheet.textures['02-Front.png']);
-    maskOverlapTexture.width = spritesheet._frames['02-Front.png'].frame.w;
-    maskOverlapTexture.height = spritesheet._frames['02-Front.png'].frame.h;
-    maskOverlapTexture.x = -50;
-    maskOverlapTexture.y = 0;
-    maskOverlapTexture.scale.set(scale)
+    mask = new PIXI.Sprite(ploader.resources.mask.texture); //Add this sprite from loader, it is not in JSON yet
+    mask.scale.set(outerCardScale)
 
-    backgroundTexture = new PIXI.Sprite(spritesheet.textures['07-Background.png']);
-    backgroundTexture.width = spritesheet._frames['07-Background.png'].frame.w;
-    backgroundTexture.height = spritesheet._frames['07-Background.png'].frame.h;
-    backgroundTexture.x = 0;
-    backgroundTexture.y = 0;
-    backgroundTexture.scale.set(scale)
+    displacement = setDisplacementSprite('05-Back-depth.png', -50, 0);
+    overlayDisplacement = setDisplacementSprite('05-Back-depth.png', -50, 0);
+    backgroundDisplacement = setDisplacementSprite('07-Background-depth.png', 0, 0);
 
-    icons = new PIXI.Sprite(spritesheet.textures['01-Icons.png']);
-    icons.width = spritesheet._frames['01-Icons.png'].frame.w;
-    icons.height = spritesheet._frames['01-Icons.png'].frame.h;
-    icons.x = 0;
-    icons.y = 0;
-    icons.scale.set(scale)
+    image.mask = mask;
+  }
 
-    frontTexture = new PIXI.Sprite(spritesheet.textures['04-Bar.png']);
-    frontTexture.width = spritesheet._frames['04-Bar.png'].frame.w;
-    frontTexture.height = spritesheet._frames['04-Bar.png'].frame.h;
-    frontTexture.x = 0;
-    frontTexture.y = 0;
-    frontTexture.scale.set(scale)
-
-    mask = new PIXI.Sprite(ploader.resources.mask.texture);
-    
-    let scaleFactor = (1 / spritesheet.data.meta.scale) // The spritesheet has a different scale, thats why we need a scalefactor
-
-    const baseTex = spritesheet.textures["05-Back-depth.png"];
-    const renderSprite = new PIXI.Sprite(baseTex);
-
-    renderSprite.position.x = 0;
-    renderSprite.position.y = 0;
-    renderSprite.anchor.x = 0;
-    renderSprite.anchor.y = 0;
-
-    const renderTexture = PIXI.RenderTexture.create({
-      width: baseTex.orig.width,
-      height: baseTex.orig.height,
-    });
-
-    app.renderer.render(renderSprite, {
-      renderTexture: renderTexture,
-    });
-
-    displacement = new PIXI.Sprite(renderTexture);
-    displacement.x = -50;
-    displacement.y = 0;
-    displacement.width = baseTex.orig.width;
-    displacement.height = baseTex.orig.height;
-    displacement.scale.set(scale)
-
-    overlayDisplacement = new PIXI.Sprite(renderTexture);
-    overlayDisplacement.x = -50;
-    overlayDisplacement.y = 0;
-    overlayDisplacement.width = baseTex.orig.width;
-    overlayDisplacement.height = baseTex.orig.height;
-    overlayDisplacement.scale.set(scale)
-
-
-
-    const baseTexBackground = spritesheet.textures["07-Background-depth.png"];
-    const renderSpriteBackground = new PIXI.Sprite(baseTexBackground);
-
-    renderSpriteBackground.position.x = 0;
-    renderSpriteBackground.position.y = 0;
-    renderSpriteBackground.anchor.x = 0;
-    renderSpriteBackground.anchor.y = 0;
-
-    const renderTexture1 = PIXI.RenderTexture.create({
-      width: baseTexBackground.orig.width,
-      height: baseTexBackground.orig.height,
-    });
-    
-    app.renderer.render(renderSpriteBackground, {
-      renderTexture: renderTexture1,
-    });
-
-    backgroundDisplacement = new PIXI.Sprite(renderTexture1);
-    backgroundDisplacement.x = 0;
-    backgroundDisplacement.y = 0;
-    backgroundDisplacement.width = baseTexBackground.orig.width;
-    backgroundDisplacement.height = baseTexBackground.orig.height;
-    backgroundDisplacement.scale.set(scale)
-
-
-
+  function addChildren(){
     background.addChild(backgroundTexture);
     foreground.addChild(foregroundTexure);
     container.addChild(icons);
@@ -237,13 +153,44 @@ function MyComponent() {
     foreground2.addChild(displacement);
     foreground2.addChild(backgroundDisplacement);
     foreground2.addChild(overlayDisplacement);
+  }
 
-    frontTexture.scale.set(outerCardScale)
-    icons.scale.set(outerCardScale)
-    card.scale.set(outerCardScale)
-    mask.scale.set(outerCardScale)
+  function setSprite(spriteName, xPos, yPos, scale){
+    let sprite = new PIXI.Sprite(spritesheet.textures[spriteName]);
+    sprite.width = spritesheet._frames[spriteName].frame.w;
+    sprite.height = spritesheet._frames[spriteName].frame.h;
+    sprite.x = xPos;
+    sprite.y = yPos;
+    sprite.scale.set(scale)
+    return sprite;
+  }
+  
+  function setDisplacementSprite(spriteName, xPos, yPos){
+    const baseTex = spritesheet.textures[spriteName];
+    const renderSprite = new PIXI.Sprite(baseTex);
 
-    image.mask = mask;
+    renderSprite.position.x = 0;
+    renderSprite.position.y = 0;
+    renderSprite.anchor.x = 0;
+    renderSprite.anchor.y = 0;
+
+    const renderTexture = PIXI.RenderTexture.create({
+      width: baseTex.orig.width,
+      height: baseTex.orig.height,
+    });
+    
+    app.renderer.render(renderSprite, {
+      renderTexture: renderTexture,
+    });
+
+    let sprite = new PIXI.Sprite(renderTexture);
+    sprite.x = xPos;
+    sprite.y = yPos;
+    sprite.width = baseTex.orig.width;
+    sprite.height = baseTex.orig.height;
+    sprite.scale.set(scale)
+
+    return sprite;
   }
 
   function setDisplacement(){
