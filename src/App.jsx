@@ -4,7 +4,9 @@ import React from "react";
 function App() {
   return (<>
     <div className="App">
-      <PixiJS />
+      <PixiJS 
+        jsonName = "01-Mickey-1024x" 
+      />
     </div>
   </>);
 }

@@ -5,6 +5,7 @@ import gsap, {Quad} from 'gsap'
 let rotationSpeed = {rotationX:5,rotationY:0};
 let app = null;
 let spritesheet;
+let spritesheetName; 
 let scale = 0.8;
 let outerCardScale = 0.65;
 
@@ -25,7 +26,7 @@ let frontTexture;
 let mask;
 let ploader = new PIXI.Loader();
 
-function MyComponent() {
+function MyComponent(props) {
   let refApp = useRef(null);
   let wrap = useRef(null);
 
@@ -111,7 +112,7 @@ function MyComponent() {
 
   function loadTextures(){
     ploader.add('mask', '/assets/images/mask.png'); //Mask is not in the json yet, now locally adding it
-    var sheet = ploader.add('mickey', '/assets/spritesheets/01-Mickey-2048x.json');    
+    var sheet = ploader.add("contentsCard", '/assets/spritesheets/' + props.jsonName +'.json');    
     
     ploader.onComplete.add(() => {
       setTextures();
@@ -122,7 +123,7 @@ function MyComponent() {
   }
 
   function setTextures(){    
-    spritesheet = ploader.resources.mickey.spritesheet;
+    spritesheet = ploader.resources.contentsCard.spritesheet;
 
     card = setSprite('03-Frame.png', 0,0, outerCardScale);
     foregroundTexure = setSprite('05-Back.png', -50, 0, scale);
