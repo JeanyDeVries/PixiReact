@@ -115,8 +115,8 @@ function MyComponent() {
     
     ploader.onComplete.add(() => {
       setTextures();
-      setDisplacement();
       addChildren();
+      setDisplacement();
     });
     ploader.load();
   }
@@ -142,21 +142,24 @@ function MyComponent() {
   }
 
   function addChildren(){
-    background.addChild(backgroundTexture);
-    foreground.addChild(foregroundTexure);
-    container.addChild(icons);
-    container.addChild(frontTexture);
-    container.addChild(card);
-    container.addChild(mask);
-    container.addChild(foreground2);
-    foreground2.addChild(maskOverlapTexture);
-    foreground2.addChild(displacement);
-    foreground2.addChild(backgroundDisplacement);
-    foreground2.addChild(overlayDisplacement);
+    if(backgroundTexture)background.addChild(backgroundTexture);
+    if(foregroundTexure)foreground.addChild(foregroundTexure);
+    if(icons)container.addChild(icons);
+    if(frontTexture)container.addChild(frontTexture);
+    if(card)container.addChild(card);
+    if(mask)container.addChild(mask);
+    if(foreground2)container.addChild(foreground2);
+    if(maskOverlapTexture)foreground2.addChild(maskOverlapTexture);
+    if(displacement)foreground2.addChild(displacement);
+    if(backgroundDisplacement)foreground2.addChild(backgroundDisplacement);
+    if(overlayDisplacement)foreground2.addChild(overlayDisplacement);
   }
 
   function setSprite(spriteName, xPos, yPos, scale){
     let sprite = new PIXI.Sprite(spritesheet.textures[spriteName]);
+
+    if(!spritesheet._frames[spriteName]) return null; //Set null if the frame texture does net exist
+
     sprite.width = spritesheet._frames[spriteName].frame.w;
     sprite.height = spritesheet._frames[spriteName].frame.h;
     sprite.x = xPos;
@@ -167,6 +170,9 @@ function MyComponent() {
   
   function setDisplacementSprite(spriteName, xPos, yPos){
     const baseTex = spritesheet.textures[spriteName];
+
+    if(!baseTex) return null; //Set null if the frame texture does net exist
+
     const renderSprite = new PIXI.Sprite(baseTex);
 
     renderSprite.position.x = 0;
@@ -194,19 +200,23 @@ function MyComponent() {
   }
 
   function setDisplacement(){
-    foreground.addChild(displacement);
-    displacementFilter = new PIXI.filters.DisplacementFilter(displacement, 0);
-    foregroundTexure.filters = [displacementFilter];
-    displacement.texture.updateUvs();
-
-    backgroundDisplacementFilter = new PIXI.filters.DisplacementFilter(backgroundDisplacement, 0);
-    background.addChild(backgroundDisplacement);
-    backgroundTexture.filters = [backgroundDisplacementFilter];
-    foreground.x = foreground2.x =  -15;
-
-    foreground2.addChild(overlayDisplacement);
-    overlayDisplacementFilter = new PIXI.filters.DisplacementFilter(overlayDisplacement, 0);
-    maskOverlapTexture.filters = [overlayDisplacementFilter];
+    if(displacement){
+      foreground.addChild(displacement);
+      displacementFilter = new PIXI.filters.DisplacementFilter(displacement, 0);
+      foregroundTexure.filters = [displacementFilter];
+      displacement.texture.updateUvs();
+    }
+    if(backgroundDisplacement){
+      backgroundDisplacementFilter = new PIXI.filters.DisplacementFilter(backgroundDisplacement, 0);
+      background.addChild(backgroundDisplacement);
+      backgroundTexture.filters = [backgroundDisplacementFilter];
+      foreground.x = foreground2.x =  -15;
+    }
+    if(overlayDisplacement){
+      foreground2.addChild(overlayDisplacement);
+      overlayDisplacementFilter = new PIXI.filters.DisplacementFilter(overlayDisplacement, 0);
+      maskOverlapTexture.filters = [overlayDisplacementFilter];
+    }
   }
 
   function animate() {
