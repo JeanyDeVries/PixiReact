@@ -24,6 +24,7 @@ let card;
 let icons;
 let frontTexture;
 let mask;
+let avatarIcon;
 let ploader = new PIXI.Loader();
 
 function MyComponent(props) {
@@ -137,14 +138,15 @@ function MyComponent(props) {
     
     frontTexture.tint = props.colorCardBar;
 
-    icons = setSprite('01-Icons.png', 0, 0, outerCardScale, spritesheetContent);
-    foregroundTexure = setSprite('05-Back.png', -50, 0, scale, spritesheetContent);
-    maskOverlapTexture = setSprite('02-Front.png', -50, 0, scale, spritesheetContent);
-    backgroundTexture = setSprite('07-Background.png', 0, 0, scale, spritesheetContent)
+    //icons = setSprite('01-Icons.png', 0, 0, outerCardScale, spritesheetContent);
+    foregroundTexure = setSprite('06-Back.png', -50, 0, scale, spritesheetContent);
+    avatarIcon = setSprite('02-Avatar.png', 0, 0, outerCardScale, spritesheetContent);
+    maskOverlapTexture = setSprite('03-Front.png', -50, 0, scale, spritesheetContent);
+    backgroundTexture = setSprite('08-Background.png', 0, 0, scale, spritesheetContent)
 
-    displacement = setDisplacementSprite('05-Back-depth.png', -50, 0, spritesheetContent);
-    overlayDisplacement = setDisplacementSprite('05-Back-depth.png', -50, 0, spritesheetContent);
-    backgroundDisplacement = setDisplacementSprite('07-Background-depth.png', 0, 0, spritesheetContent);
+    displacement = setDisplacementSprite('06-Back-depth.png', -50, 0, spritesheetContent);
+    overlayDisplacement = setDisplacementSprite('06-Back-depth.png', -50, 0, spritesheetContent);
+    backgroundDisplacement = setDisplacementSprite('08-Background-depth.png', 0, 0, spritesheetContent);
 
     image.mask = mask;
   }
@@ -153,6 +155,7 @@ function MyComponent(props) {
     if(backgroundTexture)background.addChild(backgroundTexture);
     if(foregroundTexure)foreground.addChild(foregroundTexure);
     if(icons)container.addChild(icons);
+    if(avatarIcon)foreground2.addChild(avatarIcon);
     if(frontTexture)container.addChild(frontTexture);
     if(card)container.addChild(card);
     if(mask)container.addChild(mask);
@@ -247,7 +250,10 @@ function MyComponent(props) {
 }
 
   return <div ref={wrap} style={{perspective:'1000px',transformOrigin:'50% 50%',width:width,height:height}}>
-        <img ref={loader} src={loadingSprite} style={{position:'absolute', width: width, height: height}} ></img><div ref={refApp}/>
+        <img ref={loader} src={loadingSprite} style={{position:'absolute', width: width, height: height}}/>
+        <div ref={refApp}> 
+
+        </div>
     </div>;
 }
 
