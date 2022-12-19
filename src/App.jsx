@@ -9,8 +9,10 @@ function App() {
         colorCardBar = '0x5EA13A'
         title = "Mickey Mouse"
         subtitle = "#Aventureux"
-        fontTitle = "Arial"
-        fontSubtitle = "Arial"
+        cardNumber = "01A"
+        health = "08"
+        social = "10"
+        energy = "06"
       />
     </div>
   </>);

@@ -16,6 +16,7 @@ let foreground = new PIXI.Container();
 let foreground2 = new PIXI.Container();
 let background = new PIXI.Container();
 let displacementContainer = new PIXI.Container();
+let foregroundBar = new PIXI.Container();
 
 let displacementFilter, backgroundDisplacementFilter, overlayDisplacementFilter;
 let foregroundTexure, maskOverlapTexture , backgroundTexture;
@@ -25,6 +26,7 @@ let icons;
 let frontTexture;
 let mask;
 let avatarIcon;
+let shadow;
 let ploader = new PIXI.Loader();
 
 function MyComponent(props) {
@@ -113,6 +115,7 @@ function MyComponent(props) {
     image.addChild(foreground);
     container.addChild(foreground2);
     container.addChild(displacementContainer);
+    stage.addChild(foregroundBar);
   }
 
   function loadTextures(){
@@ -132,13 +135,14 @@ function MyComponent(props) {
     spritesheetContent = ploader.resources.contentsCard.spritesheet;
     spritesheetGeneric = ploader.resources.genericSheet.spritesheet;
 
-    card = setSprite('card-frame.png', 0,0, outerCardScale, spritesheetGeneric);
+    card = setSprite('04-Frame.png', 0,0, outerCardScale, spritesheetGeneric);
     mask = setSprite('BG.png', 0, 0, outerCardScale, spritesheetGeneric)
-    frontTexture = setSprite('witte-balk.png', 0, 0, outerCardScale, spritesheetGeneric)
+    frontTexture = setSprite('05-Bar.png', 0, 0, outerCardScale, spritesheetGeneric)    
+    shadow = setSprite('07-Shadow.png', 0, 0, outerCardScale, spritesheetGeneric)
+    icons = setSprite('01-Icons.png', 0, 0, outerCardScale, spritesheetGeneric)
     
     frontTexture.tint = props.colorCardBar;
 
-    //icons = setSprite('01-Icons.png', 0, 0, outerCardScale, spritesheetContent);
     foregroundTexure = setSprite('06-Back.png', -50, 0, scale, spritesheetContent);
     avatarIcon = setSprite('02-Avatar.png', 0, 0, outerCardScale, spritesheetContent);
     maskOverlapTexture = setSprite('03-Front.png', -50, 0, scale, spritesheetContent);
@@ -155,15 +159,16 @@ function MyComponent(props) {
     if(backgroundTexture)background.addChild(backgroundTexture);
     if(foregroundTexure)foreground.addChild(foregroundTexure);
     if(icons)container.addChild(icons);
-    if(avatarIcon)foreground2.addChild(avatarIcon);
     if(frontTexture)container.addChild(frontTexture);
     if(card)container.addChild(card);
+    if(shadow)container.addChild(shadow);
     if(mask)container.addChild(mask);
     if(foreground2)container.addChild(foreground2);
     if(maskOverlapTexture)foreground2.addChild(maskOverlapTexture);
     if(displacement)foreground2.addChild(displacement);
     if(backgroundDisplacement)foreground2.addChild(backgroundDisplacement);
     if(overlayDisplacement)foreground2.addChild(overlayDisplacement);
+    if(avatarIcon)foregroundBar.addChild(avatarIcon);
   }
 
   function setSprite(spriteName, xPos, yPos, scale, spritesheet){
