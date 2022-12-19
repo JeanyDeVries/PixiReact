@@ -6,6 +6,10 @@ body, canvas {
     perspective-origin: 50% 50%;
 }
 
+canvas{
+    background: rgba(255, 255, 255, 0);
+}
+
 #wrap {
     border: 0px;
     width:510px;

@@ -29,11 +29,15 @@ let ploader = new PIXI.Loader();
 function MyComponent(props) {
   let refApp = useRef(null);
   let wrap = useRef(null);
+  let loadingSprite = useRef(null);
+  let loader = useRef(null);
 
   const [rotationX, setRotationX] = useState(5);
   const [innited, setInnited] = useState(false);
   const [width, setWidth] = useState(640);
   const [height, setHeight] = useState(786);
+
+  loadingSprite = './assets/images/mask.png';
 
   useEffect(() => {
     let movementX = rotationX*6;
@@ -83,7 +87,7 @@ function MyComponent(props) {
     app = new PIXI.Application({
       width: width,
       height: height,
-      antialias: true, // default: false
+      antialias: false, // default: false
       backgroundAlpha: false, // default: false
       resolution: 1, // default: 1
       autoStart: false,
@@ -115,6 +119,7 @@ function MyComponent(props) {
     ploader.add("genericSheet", '/assets/spritesheets/genericCardAssets.json');    
 
     ploader.onComplete.add(() => {
+      fadeOutEffect(loader.current);
       setTextures();
       addChildren();
       setDisplacement();
@@ -226,7 +231,22 @@ function MyComponent(props) {
     app.renderer.render(stage); 
   }
 
-  return <div ref={wrap} style={{perspective:'1000px',transformOrigin:'50% 50%',width:width,height:height}}><div ref={refApp}/></div>;
+  function fadeOutEffect(fadeTarget) {
+    var fadeEffect = setInterval(function () {
+        if (!fadeTarget.style.opacity) {
+            fadeTarget.style.opacity = 1;
+        }
+        if (fadeTarget.style.opacity > 0) {
+            fadeTarget.style.opacity -= 0.01;
+        } else {
+            clearInterval(fadeEffect);
+        }
+    }, 10);
+}
+
+  return <div ref={wrap} style={{perspective:'1000px',transformOrigin:'50% 50%',width:width,height:height}}>
+        <img ref={loader} src={loadingSprite} style={{position:'absolute', width: width, height: height}} ></img><div ref={refApp}/>
+    </div>;
 }
 
 export default MyComponent;
