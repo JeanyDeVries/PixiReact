@@ -1,0 +1,36 @@
+{"frames": {
+
+"BG.png":
+{
+	"frame": {"x":799,"y":1,"w":759,"h":1180},
+	"rotated": true,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":759,"h":1180},
+	"sourceSize": {"w":759,"h":1180}
+},
+"card-frame.png":
+{
+	"frame": {"x":1,"y":1,"w":786,"h":1204},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":786,"h":1204},
+	"sourceSize": {"w":786,"h":1204}
+},
+"witte-balk.png":
+{
+	"frame": {"x":1,"y":1217,"w":767,"h":240},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":9,"y":955,"w":767,"h":240},
+	"sourceSize": {"w":786,"h":1204}
+}},
+"meta": {
+	"app": "https://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "genericCardAssets.png",
+	"format": "RGBA8888",
+	"size": {"w":2048,"h":2048},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:bfc28317b029d4ce4bdf3494d5a1bfb8:6f11f53a8943d736ff74a89fef8ff45a:9e994a5e6fec06e6873effff188aa5b3$"
+}
+}

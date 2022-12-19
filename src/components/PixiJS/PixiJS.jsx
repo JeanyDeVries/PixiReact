@@ -4,8 +4,8 @@ import gsap, {Quad} from 'gsap'
 
 let rotationSpeed = {rotationX:5,rotationY:0};
 let app = null;
-let spritesheet;
-let spritesheetName; 
+let spritesheetContent;
+let spritesheetGeneric;
 let scale = 0.8;
 let outerCardScale = 0.65;
 
@@ -111,9 +111,9 @@ function MyComponent(props) {
   }
 
   function loadTextures(){
-    ploader.add('mask', '/assets/images/mask.png'); //Mask is not in the json yet, now locally adding it
-    var sheet = ploader.add("contentsCard", '/assets/spritesheets/' + props.jsonName +'.json');    
-    
+    ploader.add("contentsCard", '/assets/spritesheets/' + props.jsonName +'.json');    
+    ploader.add("genericSheet", '/assets/spritesheets/genericCardAssets.json');    
+
     ploader.onComplete.add(() => {
       setTextures();
       addChildren();
@@ -123,21 +123,21 @@ function MyComponent(props) {
   }
 
   function setTextures(){    
-    spritesheet = ploader.resources.contentsCard.spritesheet;
+    spritesheetContent = ploader.resources.contentsCard.spritesheet;
+    spritesheetGeneric = ploader.resources.genericSheet.spritesheet;
 
-    card = setSprite('03-Frame.png', 0,0, outerCardScale);
-    foregroundTexure = setSprite('05-Back.png', -50, 0, scale);
-    maskOverlapTexture = setSprite('02-Front.png', -50, 0, scale);
-    backgroundTexture = setSprite('07-Background.png', 0, 0, scale)
-    icons = setSprite('01-Icons.png', 0, 0, outerCardScale);
-    frontTexture = setSprite('04-Bar.png', 0, 0, outerCardScale)
+    card = setSprite('card-frame.png', 0,0, outerCardScale, spritesheetGeneric);
+    mask = setSprite('BG.png', 0, 0, outerCardScale, spritesheetGeneric)
+    frontTexture = setSprite('witte-balk.png', 0, 0, outerCardScale, spritesheetGeneric)
 
-    mask = new PIXI.Sprite(ploader.resources.mask.texture); //Add this sprite from loader, it is not in JSON yet
-    mask.scale.set(outerCardScale)
+    icons = setSprite('01-Icons.png', 0, 0, outerCardScale, spritesheetContent);
+    foregroundTexure = setSprite('05-Back.png', -50, 0, scale, spritesheetContent);
+    maskOverlapTexture = setSprite('02-Front.png', -50, 0, scale, spritesheetContent);
+    backgroundTexture = setSprite('07-Background.png', 0, 0, scale, spritesheetContent)
 
-    displacement = setDisplacementSprite('05-Back-depth.png', -50, 0);
-    overlayDisplacement = setDisplacementSprite('05-Back-depth.png', -50, 0);
-    backgroundDisplacement = setDisplacementSprite('07-Background-depth.png', 0, 0);
+    displacement = setDisplacementSprite('05-Back-depth.png', -50, 0, spritesheetContent);
+    overlayDisplacement = setDisplacementSprite('05-Back-depth.png', -50, 0, spritesheetContent);
+    backgroundDisplacement = setDisplacementSprite('07-Background-depth.png', 0, 0, spritesheetContent);
 
     image.mask = mask;
   }
@@ -156,7 +156,7 @@ function MyComponent(props) {
     if(overlayDisplacement)foreground2.addChild(overlayDisplacement);
   }
 
-  function setSprite(spriteName, xPos, yPos, scale){
+  function setSprite(spriteName, xPos, yPos, scale, spritesheet){
     let sprite = new PIXI.Sprite(spritesheet.textures[spriteName]);
 
     if(!spritesheet._frames[spriteName]) return null; //Set null if the frame texture does net exist
@@ -169,7 +169,7 @@ function MyComponent(props) {
     return sprite;
   }
   
-  function setDisplacementSprite(spriteName, xPos, yPos){
+  function setDisplacementSprite(spriteName, xPos, yPos, spritesheet){
     const baseTex = spritesheet.textures[spriteName];
 
     if(!baseTex) return null; //Set null if the frame texture does net exist
