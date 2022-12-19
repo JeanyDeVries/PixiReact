@@ -1,25 +1,50 @@
-body, canvas {
-    background: black;
-    color: #ccee99;
-    text-align: left;
-    perspective: 800px;
-    perspective-origin: 50% 50%;
+@font-face {
+  font-family: "proxima_novaextrabold";
+  src: url("/assets/fonts/proxima_nova_extrabold-webfont.woff2") format("woff2"),
+    url("/assets/fonts/proxima_nova_extrabold-webfont.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
 }
 
-canvas{
-    background: rgba(255, 255, 255, 0);
+@font-face {
+  font-family: "proxima_novaregular";
+  src: url("/assets/fonts/proxima_nova_regular-webfont.woff2") format("woff2"),
+    url("/assets/fonts/proxima_nova_regular-webfont.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "proxima_novasemibold";
+  src: url("/assets/fonts/proxima_nova_semibold-webfont.woff2") format("woff2"),
+    url("/assets/fonts/proxima_nova_semibold-webfont.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+
+body,
+canvas {
+  background: black;
+  color: #ccee99;
+  text-align: left;
+  perspective: 800px;
+  perspective-origin: 50% 50%;
+}
+
+canvas {
+  background: rgba(255, 255, 255, 0);
 }
 
 #wrap {
-    border: 0px;
-    width:510px;
-    height:780px;
-  	margin: 0 auto;
-  	padding-top: 20px;
-  	transform: translate3d(0px, 0px, 0px) rotateY(45deg);
-}	
+  border: 0px;
+  width: 510px;
+  height: 780px;
+  margin: 0 auto;
+  padding-top: 20px;
+  transform: translate3d(0px, 0px, 0px) rotateY(45deg);
+}
 
 #images img {
-    width: 100px;
-    height: auto;
+  width: 100px;
+  height: auto;
 }

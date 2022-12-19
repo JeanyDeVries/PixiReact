@@ -1,6 +1,7 @@
 import React, { useRef, useEffect, useState } from "react";
 import * as PIXI from "pixi.js";
 import gsap, {Quad} from 'gsap'
+import FontFaceObserver from 'fontfaceobserver';
 
 let rotationSpeed = {rotationX:5,rotationY:0};
 let app = null;
@@ -127,8 +128,58 @@ function MyComponent(props) {
       setTextures();
       addChildren();
       setDisplacement();
+      setText();
     });
     ploader.load();
+  }
+
+  function setText(){
+    console.log(frontTexture)
+
+    var semiBold = new FontFaceObserver('proxima_novasemibold');
+    semiBold.load().then(function () {
+      console.log('Font is available');
+      let title = new PIXI.Text(
+        props.title,
+        {
+          fontFamily: 'proxima_novasemibold', 
+          fontSize: 32, 
+          fill: 'white'
+        }
+      );    
+      let health = new PIXI.Text(
+        props.health,
+        {
+          fontFamily: 'proxima_novasemibold', 
+          fontSize: 32, 
+          fill: 'black'
+        }
+      );
+      let social = new PIXI.Text(
+        props.social,
+        {
+          fontFamily: 'proxima_novasemibold', 
+          fontSize: 32, 
+          fill: 'black'
+        }
+      );      
+      let energy = new PIXI.Text(
+        props.energy,
+        {
+          fontFamily: 'proxima_novasemibold', 
+          fontSize: 32, 
+          fill: 'black'
+        }
+      );
+      container.addChild(title);
+      container.addChild(health);
+      container.addChild(social);
+      container.addChild(energy);
+      
+    }, function () {
+      console.log('Font is not available');
+    });
+
   }
 
   function setTextures(){    
