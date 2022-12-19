@@ -7,7 +7,7 @@ let rotationSpeed = {rotationX:5,rotationY:0};
 let app = null;
 let spritesheetContent;
 let spritesheetGeneric;
-let scale = 0.8;
+let scale = 0.65;
 let outerCardScale = 0.65;
 
 let stage = new PIXI.Container();
@@ -155,7 +155,7 @@ function MyComponent(props) {
         {
           fontFamily: 'proxima_novasemibold', 
           fontSize: 26, 
-          fill: 'black'
+          fill: 'white'
         }
       );
       health.x = 425;   
@@ -165,7 +165,7 @@ function MyComponent(props) {
         {
           fontFamily: 'proxima_novasemibold', 
           fontSize: 26, 
-          fill: 'black'
+          fill: 'white'
         }
       );   
       social.x = 428;   
@@ -175,7 +175,7 @@ function MyComponent(props) {
         {
           fontFamily: 'proxima_novasemibold', 
           fontSize: 26, 
-          fill: 'black',
+          fill: 'white',
           align: 'center',
         }
       );
@@ -261,13 +261,13 @@ function MyComponent(props) {
     
     frontTexture.tint = props.colorCardBar;
 
-    foregroundTexure = setSprite('06-Back.png', -50, 0, scale, spritesheetContent);
+    foregroundTexure = setSprite('06-Back.png', -20, 0, scale, spritesheetContent);
     avatarIcon = setSprite('02-Avatar.png', 0, 0, outerCardScale, spritesheetContent);
-    maskOverlapTexture = setSprite('03-Front.png', -50, 0, scale, spritesheetContent);
-    backgroundTexture = setSprite('08-Background.png', 0, 0, scale, spritesheetContent)
+    maskOverlapTexture = setSprite('03-Front.png', -20, 0, scale, spritesheetContent);
+    backgroundTexture = setSprite('08-Background.png', -35, 0, scale, spritesheetContent)
 
-    displacement = setDisplacementSprite('06-Back-depth.png', -50, 0, spritesheetContent);
-    overlayDisplacement = setDisplacementSprite('06-Back-depth.png', -50, 0, spritesheetContent);
+    displacement = setDisplacementSprite('06-Back-depth.png', -20, 0, spritesheetContent);
+    overlayDisplacement = setDisplacementSprite('06-Back-depth.png', -20, 0, spritesheetContent);
     backgroundDisplacement = setDisplacementSprite('08-Background-depth.png', 0, 0, spritesheetContent);
 
     image.mask = mask;
