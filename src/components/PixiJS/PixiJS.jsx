@@ -134,6 +134,8 @@ function MyComponent(props) {
     card = setSprite('card-frame.png', 0,0, outerCardScale, spritesheetGeneric);
     mask = setSprite('BG.png', 0, 0, outerCardScale, spritesheetGeneric)
     frontTexture = setSprite('witte-balk.png', 0, 0, outerCardScale, spritesheetGeneric)
+    
+    frontTexture.tint = props.colorCardBar;
 
     icons = setSprite('01-Icons.png', 0, 0, outerCardScale, spritesheetContent);
     foregroundTexure = setSprite('05-Back.png', -50, 0, scale, spritesheetContent);
