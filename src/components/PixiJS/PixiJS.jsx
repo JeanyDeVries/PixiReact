@@ -17,7 +17,7 @@ let foreground = new PIXI.Container();
 let foreground2 = new PIXI.Container();
 let background = new PIXI.Container();
 let displacementContainer = new PIXI.Container();
-let foregroundBar = new PIXI.Container();
+let uiElements = new PIXI.Container();
 
 let displacementFilter, backgroundDisplacementFilter, overlayDisplacementFilter;
 let foregroundTexure, maskOverlapTexture , backgroundTexture;
@@ -35,25 +35,27 @@ function MyComponent(props) {
   let wrap = useRef(null);
   let loadingSprite = useRef(null);
   let loader = useRef(null);
+  let bar = useRef(null);
+
 
   const [rotationX, setRotationX] = useState(5);
   const [innited, setInnited] = useState(false);
   const [width, setWidth] = useState(640);
   const [height, setHeight] = useState(786);
 
-  loadingSprite = './assets/images/mask.png';
+  loadingSprite = './assets/images/mickeyCard.png';
 
   useEffect(() => {
-    let movementX = rotationX*6;
+    // let movementX = rotationX*6;
 
-    if(displacementFilter != null){ //Check if null, because it needed to be loaded first
-      displacementFilter.scale.x = -movementX;
-      overlayDisplacementFilter.scale.x = -movementX;
-      backgroundDisplacementFilter.scale.x = -movementX;
-    }
-    background.x = -movementX/2 - 50;
-    foreground.x = -movementX/2;
-    foreground2.x = -movementX/2;
+    // if(displacementFilter != null){ //Check if null, because it needed to be loaded first
+    //   displacementFilter.scale.x = -movementX;
+    //   overlayDisplacementFilter.scale.x = -movementX;
+    //   backgroundDisplacementFilter.scale.x = -movementX;
+    // }
+    // background.x = -movementX/2 - 50;
+    // foreground.x = -movementX/2;
+    // foreground2.x = -movementX/2;
     return () => {
       
     };
@@ -79,10 +81,10 @@ function MyComponent(props) {
   }, []);
 
   function loadPixi(){
-    gsap.to(rotationSpeed,{rotationX:-rotationSpeed.rotationX,duration:3,repeat: -1,yoyo: true,ease:Quad.easeInOut,onUpdate:function(){
-      gsap.set(refApp.current,{rotationY:rotationSpeed.rotationX,rotationX:rotationSpeed.rotationY});
-      setRotationX(-rotationSpeed.rotationX);
-    }});
+    // gsap.to(rotationSpeed,{rotationX:-rotationSpeed.rotationX,duration:3,repeat: -1,yoyo: true,ease:Quad.easeInOut,onUpdate:function(){
+    //   gsap.set(refApp.current,{rotationY:rotationSpeed.rotationX,rotationX:rotationSpeed.rotationY});
+    //   setRotationX(-rotationSpeed.rotationX);
+    // }});
 
     setupApp();
   }
@@ -116,12 +118,13 @@ function MyComponent(props) {
     image.addChild(foreground);
     container.addChild(foreground2);
     container.addChild(displacementContainer);
-    stage.addChild(foregroundBar);
+    stage.addChild(uiElements);
   }
 
   function loadTextures(){
     ploader.add("contentsCard", '/assets/spritesheets/' + props.jsonName +'.json');    
     ploader.add("genericSheet", '/assets/spritesheets/genericCardAssets.json');    
+    ploader.add('card', '/assets/images/mickeyCard.png'); 
 
     ploader.onComplete.add(() => {
       fadeOutEffect(loader.current);
@@ -134,8 +137,6 @@ function MyComponent(props) {
   }
 
   function setText(){
-    console.log(frontTexture)
-
     var semiBold = new FontFaceObserver('proxima_novasemibold');
     semiBold.load().then(function () {
       console.log('Font is available');
@@ -147,35 +148,101 @@ function MyComponent(props) {
           fill: 'white'
         }
       );    
+      title.x = 184;
+      title.y = 670;
       let health = new PIXI.Text(
         props.health,
         {
           fontFamily: 'proxima_novasemibold', 
-          fontSize: 32, 
+          fontSize: 26, 
           fill: 'black'
         }
       );
+      health.x = 425;   
+      health.y = 300;   
       let social = new PIXI.Text(
         props.social,
         {
           fontFamily: 'proxima_novasemibold', 
-          fontSize: 32, 
+          fontSize: 26, 
           fill: 'black'
         }
-      );      
+      );   
+      social.x = 428;   
+      social.y = 412;   
       let energy = new PIXI.Text(
         props.energy,
         {
           fontFamily: 'proxima_novasemibold', 
-          fontSize: 32, 
+          fontSize: 26, 
+          fill: 'black',
+          align: 'center',
+        }
+      );
+      energy.x = 425;
+      energy.y = 508;
+
+
+      uiElements.addChild(title);
+      uiElements.addChild(health);
+      uiElements.addChild(social);
+      uiElements.addChild(energy);
+      
+    }, function () {
+      console.log('Font is not available');
+    });
+
+    var bold = new FontFaceObserver('proxima_novaextrabold');
+    bold.load().then(function () {
+      console.log('Font is available');  
+      let cardNumber = new PIXI.Text(
+        props.cardNumber,
+        {
+          fontFamily: 'proxima_novaextrabold', 
+          fontSize: 26, 
+          fill: 'white',
+          align: 'center',
           fill: 'black'
         }
       );
-      container.addChild(title);
-      container.addChild(health);
-      container.addChild(social);
-      container.addChild(energy);
-      
+      cardNumber.x = 422;
+      cardNumber.y = 57;
+
+      let cardLetter = new PIXI.Text(
+        props.cardLetter,
+        {
+          fontFamily: 'proxima_novaextrabold', 
+          fontSize: 18, 
+          fill: 'white',
+          align: 'center',
+          fill: 'black'
+        }
+      );
+      cardLetter.x = 449;
+      cardLetter.y = 65;
+
+      uiElements.addChild(cardNumber); 
+      uiElements.addChild(cardLetter); 
+    }, function () {
+      console.log('Font is not available');
+    });
+
+    var regular = new FontFaceObserver('proxima_novaregular');
+    regular.load().then(function () {
+      console.log('Font is available');  
+      let subtitle = new PIXI.Text(
+        props.subtitle,
+        {
+          fontFamily: 'proxima_novaregular', 
+          fontSize: 22.5, 
+          fill: 'white',
+          align: 'center',
+        }
+      );
+      subtitle.x = 184;
+      subtitle.y = 707;
+
+      uiElements.addChild(subtitle); 
     }, function () {
       console.log('Font is not available');
     });
@@ -212,14 +279,14 @@ function MyComponent(props) {
     if(icons)container.addChild(icons);
     if(frontTexture)container.addChild(frontTexture);
     if(card)container.addChild(card);
-    if(shadow)container.addChild(shadow);
+    if(shadow)background.addChild(shadow);
     if(mask)container.addChild(mask);
     if(foreground2)container.addChild(foreground2);
     if(maskOverlapTexture)foreground2.addChild(maskOverlapTexture);
     if(displacement)foreground2.addChild(displacement);
     if(backgroundDisplacement)foreground2.addChild(backgroundDisplacement);
     if(overlayDisplacement)foreground2.addChild(overlayDisplacement);
-    if(avatarIcon)foregroundBar.addChild(avatarIcon);
+    if(avatarIcon)uiElements.addChild(avatarIcon);
   }
 
   function setSprite(spriteName, xPos, yPos, scale, spritesheet){
@@ -306,10 +373,12 @@ function MyComponent(props) {
 }
 
   return <div ref={wrap} style={{perspective:'1000px',transformOrigin:'50% 50%',width:width,height:height}}>
-        <img ref={loader} src={loadingSprite} style={{position:'absolute', width: width, height: height}}/>
-        <div ref={refApp}> 
-
+        <div ref={refApp} style={{position:'absolute'}}> 
+            <div ref = {bar}/>
         </div>
+
+        <img ref={loader} src={loadingSprite} style={{position:'absolute', width: width * 0.8, height: height}}/>
+
     </div>;
 }
 

@@ -9,7 +9,8 @@ function App() {
         colorCardBar = '0x5EA13A'
         title = "Mickey Mouse"
         subtitle = "#Aventureux"
-        cardNumber = "01A"
+        cardNumber = "01"
+        cardLetter = "A"
         health = "08"
         social = "10"
         energy = "06"
