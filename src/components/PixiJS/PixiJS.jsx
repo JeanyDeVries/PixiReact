@@ -2,6 +2,10 @@ import React, { useRef, useEffect, useState } from "react";
 import * as PIXI from "pixi.js";
 import gsap, {Quad} from 'gsap'
 import FontFaceObserver from 'fontfaceobserver';
+import SetSprite from './setSprite.js';	
+import SetDisplacementSprite from './setDisplacementSprite.js';	
+import SetText from './setText.js';
+
 
 let rotationSpeed = {rotationX:5,rotationY:0};
 let app = null;
@@ -139,10 +143,10 @@ function MyComponent(props) {
   function setAllTexts(){
     var semiBold = new FontFaceObserver('proxima_novasemibold');
     semiBold.load().then(function () {
-      let title = setText(props.title, 'proxima_novasemibold', 32, 'white', 184, 670);
-      let health = setText(props.health, 'proxima_novasemibold', 26, 'white', 425, 300);
-      let social = setText(props.social, 'proxima_novasemibold', 26, 'white', 428, 412);
-      let energy = setText(props.energy, 'proxima_novasemibold', 26, 'white', 425, 508);
+      let title = SetText(props.title, 'proxima_novasemibold', 32, 'white', 184, 670);
+      let health = SetText(props.health, 'proxima_novasemibold', 26, 'white', 425, 300);
+      let social = SetText(props.social, 'proxima_novasemibold', 26, 'white', 428, 412);
+      let energy = SetText(props.energy, 'proxima_novasemibold', 26, 'white', 425, 508);
 
       uiElements.addChild(title);
       uiElements.addChild(health);
@@ -152,8 +156,8 @@ function MyComponent(props) {
 
     var bold = new FontFaceObserver('proxima_novaextrabold');
     bold.load().then(function () {
-      let cardNumber = setText(props.cardNumber, 'proxima_novaextrabold', 26, props.colorCardNumber, 422, 57);
-      let cardLetter = setText(props.cardLetter, 'proxima_novaextrabold', 18, props.colorCardNumber, 449, 65);
+      let cardNumber = SetText(props.cardNumber, 'proxima_novaextrabold', 26, props.colorCardNumber, 422, 57);
+      let cardLetter = SetText(props.cardLetter, 'proxima_novaextrabold', 18, props.colorCardNumber, 449, 65);
 
       uiElements.addChild(cardNumber); 
       uiElements.addChild(cardLetter); 
@@ -161,48 +165,32 @@ function MyComponent(props) {
 
     var regular = new FontFaceObserver('proxima_novaregular');
     regular.load().then(function () {
-      let subtitle = setText(props.subtitle, 'proxima_novaregular', 22.5, 'white', 184, 707);
+      let subtitle = SetText(props.subtitle, 'proxima_novaregular', 22.5, 'white', 184, 707);
 
       uiElements.addChild(subtitle); 
     });
-  }
-
-  function setText(textContent, family, fontSize, color, xPos, yPos){
-    let text = new PIXI.Text(
-      textContent,
-      {
-        fontFamily: family, 
-        fontSize: fontSize, 
-        fill: color,
-        align: 'center',
-      }
-    );
-    text.x = xPos;
-    text.y = yPos;
-
-    return text;
   }
 
   function setTextures(){    
     spritesheetContent = ploader.resources.contentsCard.spritesheet;
     spritesheetGeneric = ploader.resources.genericSheet.spritesheet;
 
-    card = setSprite('04-Frame.png', 0,0, outerCardScale, spritesheetGeneric);
-    mask = setSprite('BG.png', 0, 0, outerCardScale, spritesheetGeneric)
-    frontTexture = setSprite('05-Bar.png', 0, 0, outerCardScale, spritesheetGeneric)    
-    shadow = setSprite('07-Shadow.png', props.displacementBackgroundOffset, 0, outerCardScale, spritesheetGeneric)
-    icons = setSprite('01-Icons.png', 0, 0, outerCardScale, spritesheetGeneric)
+    card = SetSprite('04-Frame.png', 0,0, outerCardScale, spritesheetGeneric);
+    mask = SetSprite('BG.png', 0, 0, outerCardScale, spritesheetGeneric)
+    frontTexture = SetSprite('05-Bar.png', 0, 0, outerCardScale, spritesheetGeneric)    
+    shadow = SetSprite('07-Shadow.png', props.displacementBackgroundOffset, 0, outerCardScale, spritesheetGeneric)
+    icons = SetSprite('01-Icons.png', 0, 0, outerCardScale, spritesheetGeneric)
     
     frontTexture.tint = props.colorCardBar;
 
-    foregroundTexure = setSprite('06-Back.png', -20, 0, scale, spritesheetContent);
-    avatarIcon = setSprite('02-Avatar.png', 0, 0, outerCardScale, spritesheetContent);
-    maskOverlapTexture = setSprite('03-Front.png', -20, 0, scale, spritesheetContent);
-    backgroundTexture = setSprite('08-Background.png', 0, 0, scale, spritesheetContent)
+    foregroundTexure = SetSprite('06-Back.png', -20, 0, scale, spritesheetContent);
+    avatarIcon = SetSprite('02-Avatar.png', 0, 0, outerCardScale, spritesheetContent);
+    maskOverlapTexture = SetSprite('03-Front.png', -20, 0, scale, spritesheetContent);
+    backgroundTexture = SetSprite('08-Background.png', 0, 0, scale, spritesheetContent)
 
-    displacement = setDisplacementSprite('06-Back-depth.png', -20, 0, spritesheetContent);
-    overlayDisplacement = setDisplacementSprite('06-Back-depth.png', -20, 0, spritesheetContent);
-    backgroundDisplacement = setDisplacementSprite('08-Background-depth.png', 0, 0, spritesheetContent);
+    displacement = SetDisplacementSprite(app, scale, '06-Back-depth.png', -20, 0, spritesheetContent);
+    overlayDisplacement = SetDisplacementSprite(app, scale, '06-Back-depth.png', -20, 0, spritesheetContent);
+    backgroundDisplacement = SetDisplacementSprite(app, scale, '08-Background-depth.png', 0, 0, spritesheetContent);
 
     image.mask = mask;
   }
@@ -223,49 +211,6 @@ function MyComponent(props) {
     if(avatarIcon)uiElements.addChild(avatarIcon);
   }
 
-  function setSprite(spriteName, xPos, yPos, scale, spritesheet){
-    let sprite = new PIXI.Sprite(spritesheet.textures[spriteName]);
-
-    if(!spritesheet._frames[spriteName]) return null; //Set null if the frame texture does net exist
-
-    sprite.width = spritesheet._frames[spriteName].frame.w;
-    sprite.height = spritesheet._frames[spriteName].frame.h;
-    sprite.x = xPos;
-    sprite.y = yPos;
-    sprite.scale.set(scale)
-    return sprite;
-  }
-  
-  function setDisplacementSprite(spriteName, xPos, yPos, spritesheet){
-    const baseTex = spritesheet.textures[spriteName];
-
-    if(!baseTex) return null; //Set null if the frame texture does net exist
-
-    const renderSprite = new PIXI.Sprite(baseTex);
-
-    renderSprite.position.x = 0;
-    renderSprite.position.y = 0;
-    renderSprite.anchor.x = 0;
-    renderSprite.anchor.y = 0;
-
-    const renderTexture = PIXI.RenderTexture.create({
-      width: baseTex.orig.width,
-      height: baseTex.orig.height,
-    });
-    
-    app.renderer.render(renderSprite, {
-      renderTexture: renderTexture,
-    });
-
-    let sprite = new PIXI.Sprite(renderTexture);
-    sprite.x = xPos;
-    sprite.y = yPos;
-    sprite.width = baseTex.orig.width;
-    sprite.height = baseTex.orig.height;
-    sprite.scale.set(scale)
-
-    return sprite;
-  }
 
   function setDisplacement(){
     if(displacement){
