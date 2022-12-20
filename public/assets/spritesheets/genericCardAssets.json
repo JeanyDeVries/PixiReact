@@ -1,0 +1,52 @@
+{"frames": {
+
+"01-Icons.png":
+{
+	"frame": {"x":1,"y":1207,"w":105,"h":729},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":628,"y":54,"w":105,"h":729},
+	"sourceSize": {"w":786,"h":1204}
+},
+"04-Frame.png":
+{
+	"frame": {"x":1,"y":1,"w":786,"h":1204},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":786,"h":1204},
+	"sourceSize": {"w":786,"h":1204}
+},
+"05-Bar.png":
+{
+	"frame": {"x":1055,"y":1183,"w":729,"h":220},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":29,"y":955,"w":729,"h":220},
+	"sourceSize": {"w":786,"h":1204}
+},
+"07-Shadow.png":
+{
+	"frame": {"x":789,"y":1,"w":264,"h":1186},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":513,"y":9,"w":264,"h":1186},
+	"sourceSize": {"w":786,"h":1204}
+},
+"BG.png":
+{
+	"frame": {"x":1055,"y":1,"w":759,"h":1180},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":759,"h":1180},
+	"sourceSize": {"w":759,"h":1180}
+}},
+"meta": {
+	"app": "https://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "genericCardAssets.png",
+	"format": "RGBA8888",
+	"size": {"w":1815,"h":1404},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:2569dc42a183e8aebf8ad48f3b80b209:89ec1e1edfbefc79dc3d1a2b277e105b:9e994a5e6fec06e6873effff188aa5b3$"
+}
+}
