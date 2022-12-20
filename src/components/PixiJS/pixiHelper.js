@@ -27,11 +27,14 @@ export function setDisplacementSprite(
 
   const renderSprite = new PIXI.Sprite(baseTex);
 
+  // Set the position and anchor of the sprite to 0,0 so that it renders the entire image
   renderSprite.position.x = 0;
   renderSprite.position.y = 0;
   renderSprite.anchor.x = 0;
   renderSprite.anchor.y = 0;
 
+  // Create a render texture which causes the sprite to only render the image, 
+  // not the basetexture for the displacement
   const renderTexture = PIXI.RenderTexture.create({
     width: baseTex.orig.width,
     height: baseTex.orig.height,
@@ -65,6 +68,7 @@ export function setText(textContent, family, fontSize, color, xPos, yPos) {
 }
 
 export function fadeOutEffect(fadeTarget) {
+    // Fade the html element
     var fadeEffect = setInterval(function () {
         if (!fadeTarget.style.opacity) {
             fadeTarget.style.opacity = 1;

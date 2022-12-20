@@ -7,10 +7,8 @@ import * as PixiHelper from './pixiHelper.js';
 
 let rotationSpeed = {rotationX:5,rotationY:0};
 let app = null;
-let spritesheetContent;
-let spritesheetGeneric;
+let spritesheetContent, spritesheetGeneric;
 let scale = 0.65;
-let outerCardScale = 0.65;
 
 let stage = new PIXI.Container();
 let image = new PIXI.Container();
@@ -24,11 +22,8 @@ let uiElements = new PIXI.Container();
 let displacementFilter, backgroundDisplacementFilter, overlayDisplacementFilter;
 let foregroundTexure, maskOverlapTexture , backgroundTexture;
 let displacement, backgroundDisplacement, overlayDisplacement;
-let card;
-let icons;
-let frontTexture;
+let card, icons, avatarIcon, frontTexture;
 let mask;
-let avatarIcon;
 let shadow;
 let ploader = new PIXI.Loader();
 
@@ -50,12 +45,12 @@ function MyComponent(props) {
   const [width, setWidth] = useState(640);
   const [height, setHeight] = useState(786);
 
-  loadingSprite = './assets/images/mickeyCard.png';
+  loadingSprite = './assets/images/mickeyCard.png'; // Load the sprite that shows before pixi is loaded
 
   useEffect(() => {
     let movementX = rotationX*rotationDisplacement;
 
-    if(displacementFilter != null){ //Check if null, because it needed to be loaded first
+    if(displacementFilter != null){ //Check if null, because it needs to be loaded first
       displacementFilter.scale.x = -movementX;
       overlayDisplacementFilter.scale.x = -movementX;
       backgroundDisplacementFilter.scale.x = -movementX;
@@ -88,6 +83,7 @@ function MyComponent(props) {
   }, []);
 
   function loadPixi(){
+    // Set the animation for the card rotation
     gsap.to(rotationSpeed,{rotationX:-rotationSpeed.rotationX,duration:3,repeat: -1,yoyo: true,ease:Quad.easeInOut,onUpdate:function(){
       gsap.set(refApp.current,{rotationY:rotationSpeed.rotationX,rotationX:rotationSpeed.rotationY});
       setRotationX(-rotationSpeed.rotationX);
@@ -116,7 +112,7 @@ function MyComponent(props) {
       rotationDisplacement = maxRotationDisplacement;
     else rotationDisplacement = props.rotationDisplacement;
 
-    if(props.displacementBackgroundOffset > maxDisplacementBackgroundOffset) // Set maximumd isplacement background offset
+    if(props.displacementBackgroundOffset > maxDisplacementBackgroundOffset) // Set maximumd displacement background offset
       displacementBackgroundOffset = maxDisplacementBackgroundOffset;
     else displacementBackgroundOffset = props.displacementBackgroundOffset;
 
@@ -153,7 +149,7 @@ function MyComponent(props) {
 
   function setAllTexts(){
     var semiBold = new FontFaceObserver('proxima_novasemibold');
-    semiBold.load().then(function () {
+    semiBold.load().then(function () { // Only set the text when the font is loaded
       let title = PixiHelper.setText(props.title, 'proxima_novasemibold', 32, 'white', 184, 670);
       let health = PixiHelper.setText(props.health, 'proxima_novasemibold', 26, 'white', 425, 300);
       let social = PixiHelper.setText(props.social, 'proxima_novasemibold', 26, 'white', 428, 412);
@@ -166,7 +162,7 @@ function MyComponent(props) {
     });
 
     var bold = new FontFaceObserver('proxima_novaextrabold');
-    bold.load().then(function () {
+    bold.load().then(function () { // Only set the text when the font is loaded
       let cardNumber = PixiHelper.setText(props.cardNumber, 'proxima_novaextrabold', 26, props.colorCardNumber, 422, 57);
       let cardLetter = PixiHelper.setText(props.cardLetter, 'proxima_novaextrabold', 18, props.colorCardNumber, 449, 65);
 
@@ -175,7 +171,7 @@ function MyComponent(props) {
     });
 
     var regular = new FontFaceObserver('proxima_novaregular');
-    regular.load().then(function () {
+    regular.load().then(function () { // Only set the text when the font is loaded
       let subtitle = PixiHelper.setText(props.subtitle, 'proxima_novaregular', 22.5, 'white', 184, 707);
 
       uiElements.addChild(subtitle); 
@@ -186,16 +182,16 @@ function MyComponent(props) {
     spritesheetContent = ploader.resources.contentsCard.spritesheet;
     spritesheetGeneric = ploader.resources.genericSheet.spritesheet;
 
-    card = PixiHelper.setSprite('04-Frame.png', 0,0, outerCardScale, spritesheetGeneric);
-    mask = PixiHelper.setSprite('BG.png', 0, 0, outerCardScale, spritesheetGeneric)
-    frontTexture = PixiHelper.setSprite('05-Bar.png', 0, 0, outerCardScale, spritesheetGeneric)    
-    shadow = PixiHelper.setSprite('07-Shadow.png', props.displacementBackgroundOffset, 0, outerCardScale, spritesheetGeneric)
-    icons = PixiHelper.setSprite('01-Icons.png', 0, 0, outerCardScale, spritesheetGeneric)
+    card = PixiHelper.setSprite('04-Frame.png', 0,0, scale, spritesheetGeneric);
+    mask = PixiHelper.setSprite('BG.png', 0, 0, scale, spritesheetGeneric)
+    frontTexture = PixiHelper.setSprite('05-Bar.png', 0, 0, scale, spritesheetGeneric)    
+    shadow = PixiHelper.setSprite('07-Shadow.png', props.displacementBackgroundOffset, 0, scale, spritesheetGeneric)
+    icons = PixiHelper.setSprite('01-Icons.png', 0, 0, scale, spritesheetGeneric)
     
     frontTexture.tint = props.colorCardBar;
 
     foregroundTexure = PixiHelper.setSprite('06-Back.png', -20, 0, scale, spritesheetContent);
-    avatarIcon = PixiHelper.setSprite('02-Avatar.png', 0, 0, outerCardScale, spritesheetContent);
+    avatarIcon = PixiHelper.setSprite('02-Avatar.png', 0, 0, scale, spritesheetContent);
     maskOverlapTexture = PixiHelper.setSprite('03-Front.png', -20, 0, scale, spritesheetContent);
     backgroundTexture = PixiHelper.setSprite('08-Background.png', 0, 0, scale, spritesheetContent)
 
@@ -203,6 +199,7 @@ function MyComponent(props) {
     overlayDisplacement = PixiHelper.setDisplacementSprite(app, scale, '06-Back-depth.png', -20, 0, spritesheetContent);
     backgroundDisplacement = PixiHelper.setDisplacementSprite(app, scale, '08-Background-depth.png', 0, 0, spritesheetContent);
 
+    // Set a mask that will be used to hide elements outside the card
     image.mask = mask;
   }
 
@@ -246,6 +243,7 @@ function MyComponent(props) {
   function animate() {
     if(!app) return;   
 
+    // Render the app each frame for the animation and displacement
     app.renderer.render(stage); 
   }
 
