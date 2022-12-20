@@ -33,8 +33,8 @@ let maxRotationDisplacement = 8;
 let maxDisplacementBackgroundOffset = 70;
 let pixiHelper;
 
-function MyComponent({jsonName, colorCardBar, colorCardNumber, title,
-        subtitle, cardNumber, cardLetter, health, social, energy, rotationDisplacement, displacementBackgroundOffset}) // Set all the props in variables
+function MyComponent({jsonName, colorCardBar, colorCardNumber, titleTxt,
+        subtitleTxt, cardNumberTxt, cardLetterTxt, healthTxt, socialTxt, energyTxt, rotationDisplacement, displacementBackgroundOffset}) // Set all the props in variables
 {
   let refApp = useRef(null);
   let wrap = useRef(null);
@@ -153,10 +153,10 @@ function MyComponent({jsonName, colorCardBar, colorCardNumber, title,
   function setAllTexts(){
     var semiBold = new FontFaceObserver('proxima_novasemibold');
     semiBold.load().then(function () { // Only set the text when the font is loaded
-      let title = pixiHelper.setText(title, 'proxima_novasemibold', 32, 'white', 184, 670);
-      let health = pixiHelper.setText(health, 'proxima_novasemibold', 26, 'white', 425, 300);
-      let social = pixiHelper.setText(social, 'proxima_novasemibold', 26, 'white', 428, 412);
-      let energy = pixiHelper.setText(energy, 'proxima_novasemibold', 26, 'white', 425, 508);
+      let title = pixiHelper.setText(titleTxt, 'proxima_novasemibold', 32, 'white', 184, 670);
+      let health = pixiHelper.setText(healthTxt, 'proxima_novasemibold', 26, 'white', 425, 300);
+      let social = pixiHelper.setText(socialTxt, 'proxima_novasemibold', 26, 'white', 428, 412);
+      let energy = pixiHelper.setText(energyTxt, 'proxima_novasemibold', 26, 'white', 425, 508);
 
       uiElements.addChild(title);
       uiElements.addChild(health);
@@ -166,8 +166,8 @@ function MyComponent({jsonName, colorCardBar, colorCardNumber, title,
 
     var bold = new FontFaceObserver('proxima_novaextrabold');
     bold.load().then(function () { // Only set the text when the font is loaded
-      let cardNumber = pixiHelper.setText(cardNumber, 'proxima_novaextrabold', 26, colorCardNumber, 422, 57);
-      let cardLetter = pixiHelper.setText(cardLetter, 'proxima_novaextrabold', 18, colorCardNumber, 449, 65);
+      let cardNumber = pixiHelper.setText(cardNumberTxt, 'proxima_novaextrabold', 26, colorCardNumber, 422, 57);
+      let cardLetter = pixiHelper.setText(cardLetterTxt, 'proxima_novaextrabold', 18, colorCardNumber, 449, 65);
 
       uiElements.addChild(cardNumber); 
       uiElements.addChild(cardLetter); 
@@ -175,7 +175,7 @@ function MyComponent({jsonName, colorCardBar, colorCardNumber, title,
 
     var regular = new FontFaceObserver('proxima_novaregular');
     regular.load().then(function () { // Only set the text when the font is loaded
-      let subtitle = pixiHelper.setText(subtitle, 'proxima_novaregular', 22.5, 'white', 184, 707);
+      let subtitle = pixiHelper.setText(subtitleTxt, 'proxima_novaregular', 22.5, 'white', 184, 707);
 
       uiElements.addChild(subtitle); 
     });

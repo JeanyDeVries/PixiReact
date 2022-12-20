@@ -5,16 +5,16 @@ function App() {
   return (<>
     <div className="App">
       <PixiJS 
-        jsonName = {"02-Ior-2048x"}
+        jsonName = {"01-Mickey-2048x"}
         colorCardBar = {'0x5EA13A'}
         colorCardNumber = {'0x5EA13A'}
-        title = {"Mickey Mouse"}
-        subtitle = {"#Aventureux"}
-        cardNumber = {"01"}
-        cardLetter = {"A"}
-        health = {"08"}
-        social = {"10"}
-        energy = {"06"}
+        titleTxt = {"Mickey Mouse"}
+        subtitleTxt = {"#Aventureux"}
+        cardNumberTxt = {"01"}
+        cardLetterTxt = {"A"}
+        healthTxt = {"08"}
+        socialTxt = {"10"}
+        energyTxt = {"06"}
         rotationDisplacement = {'5'} //max 8 ish
         displacementBackgroundOffset = {'50'} //max 70 ish
       />
