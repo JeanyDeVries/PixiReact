@@ -5,7 +5,7 @@ function App() {
   return (<>
     <div className="App">
       <PixiJS 
-        jsonName = "01-Mickey-2048x"
+        jsonName = "02-Ior-2048x"
         colorCardBar = '0x5EA13A'
         colorCardNumber = '0x5EA13A'
         title = "Mickey Mouse"
@@ -16,7 +16,7 @@ function App() {
         social = "10"
         energy = "06"
         rotationDisplacement = '5' //max 8 ish
-        displacementBackgroundOffset = '50' //max 70 ish
+        displacementBackgroundOffset = '70' //max 70 ish
       />
     </div>
   </>);

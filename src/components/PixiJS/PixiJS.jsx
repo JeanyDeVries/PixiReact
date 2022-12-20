@@ -32,6 +32,9 @@ let avatarIcon;
 let shadow;
 let ploader = new PIXI.Loader();
 
+let rotationDisplacement;
+let displacementBackgroundOffset;
+
 function MyComponent(props) {
   let refApp = useRef(null);
   let wrap = useRef(null);
@@ -48,14 +51,14 @@ function MyComponent(props) {
   loadingSprite = './assets/images/mickeyCard.png';
 
   useEffect(() => {
-    let movementX = rotationX*props.rotationDisplacement;
+    let movementX = rotationX*rotationDisplacement;
 
     if(displacementFilter != null){ //Check if null, because it needed to be loaded first
       displacementFilter.scale.x = -movementX;
       overlayDisplacementFilter.scale.x = -movementX;
       backgroundDisplacementFilter.scale.x = -movementX;
     }
-    background.x = -movementX/2 - props.displacementBackgroundOffset;
+    background.x = -movementX/2 - displacementBackgroundOffset;
     foreground.x = -movementX/2;
     foreground2.x = -movementX/2;
     return () => {
@@ -107,6 +110,14 @@ function MyComponent(props) {
 
     setInnited(true);
 
+    if(props.rotationDisplacement > 8) // Set maximum rotation displacement
+      rotationDisplacement = 8;
+    else rotationDisplacement = props.rotationDisplacement;
+
+    if(props.displacementBackgroundOffset > 70) // Set maximumd isplacement background offset
+      displacementBackgroundOffset = 70;
+    else displacementBackgroundOffset = props.displacementBackgroundOffset;
+
     addContainers();
     loadTextures();
 
@@ -129,7 +140,7 @@ function MyComponent(props) {
     ploader.add('card', '/assets/images/mickeyCard.png'); 
 
     ploader.onComplete.add(() => {
-      fadeOutEffect(loader.current);
+      PixiHelper.fadeOutEffect(loader.current);
       setTextures();
       addChildren();
       setDisplacement();
@@ -193,23 +204,6 @@ function MyComponent(props) {
     image.mask = mask;
   }
 
-  function addChildren(){
-    if(backgroundTexture)background.addChild(backgroundTexture);
-    if(foregroundTexure)foreground.addChild(foregroundTexure);
-    if(icons)container.addChild(icons);
-    if(frontTexture)container.addChild(frontTexture);
-    if(card)container.addChild(card);
-    if(shadow)background.addChild(shadow);
-    if(mask)container.addChild(mask);
-    if(foreground2)container.addChild(foreground2);
-    if(maskOverlapTexture)foreground2.addChild(maskOverlapTexture);
-    if(displacement)foreground2.addChild(displacement);
-    if(backgroundDisplacement)foreground2.addChild(backgroundDisplacement);
-    if(overlayDisplacement)foreground2.addChild(overlayDisplacement);
-    if(avatarIcon)uiElements.addChild(avatarIcon);
-  }
-
-
   function setDisplacement(){
     if(displacement){
       foreground.addChild(displacement);
@@ -230,24 +224,28 @@ function MyComponent(props) {
     }
   }
 
+  function addChildren(){
+    if(backgroundTexture)background.addChild(backgroundTexture);
+    if(foregroundTexure)foreground.addChild(foregroundTexure);
+    if(icons)container.addChild(icons);
+    if(frontTexture)container.addChild(frontTexture);
+    if(card)container.addChild(card);
+    if(shadow)background.addChild(shadow);
+    if(mask)container.addChild(mask);
+    if(foreground2)container.addChild(foreground2);
+    if(maskOverlapTexture)foreground2.addChild(maskOverlapTexture);
+    if(displacement)foreground2.addChild(displacement);
+    if(backgroundDisplacement)foreground2.addChild(backgroundDisplacement);
+    if(overlayDisplacement)foreground2.addChild(overlayDisplacement);
+    if(avatarIcon)uiElements.addChild(avatarIcon);
+  }
+
+
   function animate() {
     if(!app) return;   
 
     app.renderer.render(stage); 
   }
-
-  function fadeOutEffect(fadeTarget) {
-    var fadeEffect = setInterval(function () {
-        if (!fadeTarget.style.opacity) {
-            fadeTarget.style.opacity = 1;
-        }
-        if (fadeTarget.style.opacity > 0) {
-            fadeTarget.style.opacity -= 0.01;
-        } else {
-            clearInterval(fadeEffect);
-        }
-    }, 10);
-}
 
   return <div ref={wrap} style={{perspective:'1000px',transformOrigin:'50% 50%',width:width,height:height}}>
         <div ref={refApp} style={{position:'absolute'}}> 
