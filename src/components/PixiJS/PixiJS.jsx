@@ -2,9 +2,7 @@ import React, { useRef, useEffect, useState } from "react";
 import * as PIXI from "pixi.js";
 import gsap, {Quad} from 'gsap'
 import FontFaceObserver from 'fontfaceobserver';
-import SetSprite from './setSprite.js';	
-import SetDisplacementSprite from './setDisplacementSprite.js';	
-import SetText from './setText.js';
+import * as PixiHelper from './pixiHelper.js';	
 
 
 let rotationSpeed = {rotationX:5,rotationY:0};
@@ -143,10 +141,10 @@ function MyComponent(props) {
   function setAllTexts(){
     var semiBold = new FontFaceObserver('proxima_novasemibold');
     semiBold.load().then(function () {
-      let title = SetText(props.title, 'proxima_novasemibold', 32, 'white', 184, 670);
-      let health = SetText(props.health, 'proxima_novasemibold', 26, 'white', 425, 300);
-      let social = SetText(props.social, 'proxima_novasemibold', 26, 'white', 428, 412);
-      let energy = SetText(props.energy, 'proxima_novasemibold', 26, 'white', 425, 508);
+      let title = PixiHelper.setText(props.title, 'proxima_novasemibold', 32, 'white', 184, 670);
+      let health = PixiHelper.setText(props.health, 'proxima_novasemibold', 26, 'white', 425, 300);
+      let social = PixiHelper.setText(props.social, 'proxima_novasemibold', 26, 'white', 428, 412);
+      let energy = PixiHelper.setText(props.energy, 'proxima_novasemibold', 26, 'white', 425, 508);
 
       uiElements.addChild(title);
       uiElements.addChild(health);
@@ -156,8 +154,8 @@ function MyComponent(props) {
 
     var bold = new FontFaceObserver('proxima_novaextrabold');
     bold.load().then(function () {
-      let cardNumber = SetText(props.cardNumber, 'proxima_novaextrabold', 26, props.colorCardNumber, 422, 57);
-      let cardLetter = SetText(props.cardLetter, 'proxima_novaextrabold', 18, props.colorCardNumber, 449, 65);
+      let cardNumber = PixiHelper.setText(props.cardNumber, 'proxima_novaextrabold', 26, props.colorCardNumber, 422, 57);
+      let cardLetter = PixiHelper.setText(props.cardLetter, 'proxima_novaextrabold', 18, props.colorCardNumber, 449, 65);
 
       uiElements.addChild(cardNumber); 
       uiElements.addChild(cardLetter); 
@@ -165,7 +163,7 @@ function MyComponent(props) {
 
     var regular = new FontFaceObserver('proxima_novaregular');
     regular.load().then(function () {
-      let subtitle = SetText(props.subtitle, 'proxima_novaregular', 22.5, 'white', 184, 707);
+      let subtitle = PixiHelper.setText(props.subtitle, 'proxima_novaregular', 22.5, 'white', 184, 707);
 
       uiElements.addChild(subtitle); 
     });
@@ -175,22 +173,22 @@ function MyComponent(props) {
     spritesheetContent = ploader.resources.contentsCard.spritesheet;
     spritesheetGeneric = ploader.resources.genericSheet.spritesheet;
 
-    card = SetSprite('04-Frame.png', 0,0, outerCardScale, spritesheetGeneric);
-    mask = SetSprite('BG.png', 0, 0, outerCardScale, spritesheetGeneric)
-    frontTexture = SetSprite('05-Bar.png', 0, 0, outerCardScale, spritesheetGeneric)    
-    shadow = SetSprite('07-Shadow.png', props.displacementBackgroundOffset, 0, outerCardScale, spritesheetGeneric)
-    icons = SetSprite('01-Icons.png', 0, 0, outerCardScale, spritesheetGeneric)
+    card = PixiHelper.setSprite('04-Frame.png', 0,0, outerCardScale, spritesheetGeneric);
+    mask = PixiHelper.setSprite('BG.png', 0, 0, outerCardScale, spritesheetGeneric)
+    frontTexture = PixiHelper.setSprite('05-Bar.png', 0, 0, outerCardScale, spritesheetGeneric)    
+    shadow = PixiHelper.setSprite('07-Shadow.png', props.displacementBackgroundOffset, 0, outerCardScale, spritesheetGeneric)
+    icons = PixiHelper.setSprite('01-Icons.png', 0, 0, outerCardScale, spritesheetGeneric)
     
     frontTexture.tint = props.colorCardBar;
 
-    foregroundTexure = SetSprite('06-Back.png', -20, 0, scale, spritesheetContent);
-    avatarIcon = SetSprite('02-Avatar.png', 0, 0, outerCardScale, spritesheetContent);
-    maskOverlapTexture = SetSprite('03-Front.png', -20, 0, scale, spritesheetContent);
-    backgroundTexture = SetSprite('08-Background.png', 0, 0, scale, spritesheetContent)
+    foregroundTexure = PixiHelper.setSprite('06-Back.png', -20, 0, scale, spritesheetContent);
+    avatarIcon = PixiHelper.setSprite('02-Avatar.png', 0, 0, outerCardScale, spritesheetContent);
+    maskOverlapTexture = PixiHelper.setSprite('03-Front.png', -20, 0, scale, spritesheetContent);
+    backgroundTexture = PixiHelper.setSprite('08-Background.png', 0, 0, scale, spritesheetContent)
 
-    displacement = SetDisplacementSprite(app, scale, '06-Back-depth.png', -20, 0, spritesheetContent);
-    overlayDisplacement = SetDisplacementSprite(app, scale, '06-Back-depth.png', -20, 0, spritesheetContent);
-    backgroundDisplacement = SetDisplacementSprite(app, scale, '08-Background-depth.png', 0, 0, spritesheetContent);
+    displacement = PixiHelper.setDisplacementSprite(app, scale, '06-Back-depth.png', -20, 0, spritesheetContent);
+    overlayDisplacement = PixiHelper.setDisplacementSprite(app, scale, '06-Back-depth.png', -20, 0, spritesheetContent);
+    backgroundDisplacement = PixiHelper.setDisplacementSprite(app, scale, '08-Background-depth.png', 0, 0, spritesheetContent);
 
     image.mask = mask;
   }
