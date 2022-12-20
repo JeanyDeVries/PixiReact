@@ -34,6 +34,8 @@ let ploader = new PIXI.Loader();
 
 let rotationDisplacement;
 let displacementBackgroundOffset;
+let maxRotationDisplacement = 8;
+let maxDisplacementBackgroundOffset = 70;
 
 function MyComponent(props) {
   let refApp = useRef(null);
@@ -110,12 +112,12 @@ function MyComponent(props) {
 
     setInnited(true);
 
-    if(props.rotationDisplacement > 8) // Set maximum rotation displacement
-      rotationDisplacement = 8;
+    if(props.rotationDisplacement > maxRotationDisplacement) // Set maximum rotation displacement
+      rotationDisplacement = maxRotationDisplacement;
     else rotationDisplacement = props.rotationDisplacement;
 
-    if(props.displacementBackgroundOffset > 70) // Set maximumd isplacement background offset
-      displacementBackgroundOffset = 70;
+    if(props.displacementBackgroundOffset > maxDisplacementBackgroundOffset) // Set maximumd isplacement background offset
+      displacementBackgroundOffset = maxDisplacementBackgroundOffset;
     else displacementBackgroundOffset = props.displacementBackgroundOffset;
 
     addContainers();

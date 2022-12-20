@@ -16,7 +16,7 @@ function App() {
         social = "10"
         energy = "06"
         rotationDisplacement = '5' //max 8 ish
-        displacementBackgroundOffset = '70' //max 70 ish
+        displacementBackgroundOffset = '50' //max 70 ish
       />
     </div>
   </>);
