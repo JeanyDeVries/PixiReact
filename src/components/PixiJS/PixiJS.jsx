@@ -33,13 +33,14 @@ let maxRotationDisplacement = 8;
 let maxDisplacementBackgroundOffset = 70;
 let pixiHelper;
 
-function MyComponent(props) {
+function MyComponent({jsonName, colorCardBar, colorCardNumber, title,
+        subtitle, cardNumber, cardLetter, health, social, energy, rotationDisplacement, displacementBackgroundOffset}) // Set all the props in variables
+{
   let refApp = useRef(null);
   let wrap = useRef(null);
   let loadingSprite = useRef(null);
   let loader = useRef(null);
   let bar = useRef(null);
-
 
   const [rotationX, setRotationX] = useState(5);
   const [innited, setInnited] = useState(false);
@@ -110,13 +111,13 @@ function MyComponent(props) {
     setInnited(true);
     pixiHelper = new PixiHelper(app);
 
-    if(props.rotationDisplacement > maxRotationDisplacement) // Set maximum rotation displacement
+    if(rotationDisplacement > maxRotationDisplacement) // Set maximum rotation displacement
       rotationDisplacement = maxRotationDisplacement;
-    else rotationDisplacement = props.rotationDisplacement;
+    else rotationDisplacement = rotationDisplacement;
 
-    if(props.displacementBackgroundOffset > maxDisplacementBackgroundOffset) // Set maximumd displacement background offset
+    if(displacementBackgroundOffset > maxDisplacementBackgroundOffset) // Set maximumd displacement background offset
       displacementBackgroundOffset = maxDisplacementBackgroundOffset;
-    else displacementBackgroundOffset = props.displacementBackgroundOffset;
+    else displacementBackgroundOffset = displacementBackgroundOffset;
 
     addContainers();
     loadTextures();
@@ -135,7 +136,7 @@ function MyComponent(props) {
   }
 
   function loadTextures(){
-    ploader.add("contentsCard", '/assets/spritesheets/' + props.jsonName +'.json');    
+    ploader.add("contentsCard", '/assets/spritesheets/' + jsonName +'.json');    
     ploader.add("genericSheet", '/assets/spritesheets/genericCardAssets.json');    
     ploader.add('card', '/assets/images/mickeyCard.png'); 
 
@@ -152,10 +153,10 @@ function MyComponent(props) {
   function setAllTexts(){
     var semiBold = new FontFaceObserver('proxima_novasemibold');
     semiBold.load().then(function () { // Only set the text when the font is loaded
-      let title = pixiHelper.setText(props.title, 'proxima_novasemibold', 32, 'white', 184, 670);
-      let health = pixiHelper.setText(props.health, 'proxima_novasemibold', 26, 'white', 425, 300);
-      let social = pixiHelper.setText(props.social, 'proxima_novasemibold', 26, 'white', 428, 412);
-      let energy = pixiHelper.setText(props.energy, 'proxima_novasemibold', 26, 'white', 425, 508);
+      let title = pixiHelper.setText(title, 'proxima_novasemibold', 32, 'white', 184, 670);
+      let health = pixiHelper.setText(health, 'proxima_novasemibold', 26, 'white', 425, 300);
+      let social = pixiHelper.setText(social, 'proxima_novasemibold', 26, 'white', 428, 412);
+      let energy = pixiHelper.setText(energy, 'proxima_novasemibold', 26, 'white', 425, 508);
 
       uiElements.addChild(title);
       uiElements.addChild(health);
@@ -165,8 +166,8 @@ function MyComponent(props) {
 
     var bold = new FontFaceObserver('proxima_novaextrabold');
     bold.load().then(function () { // Only set the text when the font is loaded
-      let cardNumber = pixiHelper.setText(props.cardNumber, 'proxima_novaextrabold', 26, props.colorCardNumber, 422, 57);
-      let cardLetter = pixiHelper.setText(props.cardLetter, 'proxima_novaextrabold', 18, props.colorCardNumber, 449, 65);
+      let cardNumber = pixiHelper.setText(cardNumber, 'proxima_novaextrabold', 26, colorCardNumber, 422, 57);
+      let cardLetter = pixiHelper.setText(cardLetter, 'proxima_novaextrabold', 18, colorCardNumber, 449, 65);
 
       uiElements.addChild(cardNumber); 
       uiElements.addChild(cardLetter); 
@@ -174,7 +175,7 @@ function MyComponent(props) {
 
     var regular = new FontFaceObserver('proxima_novaregular');
     regular.load().then(function () { // Only set the text when the font is loaded
-      let subtitle = pixiHelper.setText(props.subtitle, 'proxima_novaregular', 22.5, 'white', 184, 707);
+      let subtitle = pixiHelper.setText(subtitle, 'proxima_novaregular', 22.5, 'white', 184, 707);
 
       uiElements.addChild(subtitle); 
     });
@@ -187,10 +188,10 @@ function MyComponent(props) {
     card = pixiHelper.setSprite('04-Frame.png', 0,0, scale, spritesheetGeneric);
     mask = pixiHelper.setSprite('BG.png', 0, 0, scale, spritesheetGeneric)
     frontTexture = pixiHelper.setSprite('05-Bar.png', 0, 0, scale, spritesheetGeneric)    
-    shadow = pixiHelper.setSprite('07-Shadow.png', props.displacementBackgroundOffset, 0, scale, spritesheetGeneric)
+    shadow = pixiHelper.setSprite('07-Shadow.png', displacementBackgroundOffset, 0, scale, spritesheetGeneric)
     icons = pixiHelper.setSprite('01-Icons.png', 0, 0, scale, spritesheetGeneric)
     
-    frontTexture.tint = props.colorCardBar;
+    frontTexture.tint = colorCardBar;
 
     foregroundTexure = pixiHelper.setSprite('06-Back.png', -20, 0, scale, spritesheetContent);
     avatarIcon = pixiHelper.setSprite('02-Avatar.png', 0, 0, scale, spritesheetContent);
