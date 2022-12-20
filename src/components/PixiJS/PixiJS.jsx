@@ -131,122 +131,56 @@ function MyComponent(props) {
       setTextures();
       addChildren();
       setDisplacement();
-      setText();
+      setAllTexts();
     });
     ploader.load();
   }
 
-  function setText(){
+  function setAllTexts(){
     var semiBold = new FontFaceObserver('proxima_novasemibold');
     semiBold.load().then(function () {
-      console.log('Font is available');
-      let title = new PIXI.Text(
-        props.title,
-        {
-          fontFamily: 'proxima_novasemibold', 
-          fontSize: 32, 
-          fill: 'white'
-        }
-      );    
-      title.x = 184;
-      title.y = 670;
-      let health = new PIXI.Text(
-        props.health,
-        {
-          fontFamily: 'proxima_novasemibold', 
-          fontSize: 26, 
-          fill: 'white'
-        }
-      );
-      health.x = 425;   
-      health.y = 300;   
-      let social = new PIXI.Text(
-        props.social,
-        {
-          fontFamily: 'proxima_novasemibold', 
-          fontSize: 26, 
-          fill: 'white'
-        }
-      );   
-      social.x = 428;   
-      social.y = 412;   
-      let energy = new PIXI.Text(
-        props.energy,
-        {
-          fontFamily: 'proxima_novasemibold', 
-          fontSize: 26, 
-          fill: 'white',
-          align: 'center',
-        }
-      );
-      energy.x = 425;
-      energy.y = 508;
-
+      let title = setText(props.title, 'proxima_novasemibold', 32, 'white', 184, 670);
+      let health = setText(props.health, 'proxima_novasemibold', 26, 'white', 425, 300);
+      let social = setText(props.social, 'proxima_novasemibold', 26, 'white', 428, 412);
+      let energy = setText(props.energy, 'proxima_novasemibold', 26, 'white', 425, 508);
 
       uiElements.addChild(title);
       uiElements.addChild(health);
       uiElements.addChild(social);
       uiElements.addChild(energy);
-      
-    }, function () {
-      console.log('Font is not available');
     });
 
     var bold = new FontFaceObserver('proxima_novaextrabold');
     bold.load().then(function () {
-      console.log('Font is available');  
-      let cardNumber = new PIXI.Text(
-        props.cardNumber,
-        {
-          fontFamily: 'proxima_novaextrabold', 
-          fontSize: 26, 
-          fill: 'white',
-          align: 'center',
-          fill: props.colorCardNumber
-        }
-      );
-      cardNumber.x = 422;
-      cardNumber.y = 57;
-
-      let cardLetter = new PIXI.Text(
-        props.cardLetter,
-        {
-          fontFamily: 'proxima_novaextrabold', 
-          fontSize: 18, 
-          fill: 'white',
-          align: 'center',
-          fill: props.colorCardNumber
-        }
-      );
-      cardLetter.x = 449;
-      cardLetter.y = 65;
+      let cardNumber = setText(props.cardNumber, 'proxima_novaextrabold', 26, props.colorCardNumber, 422, 57);
+      let cardLetter = setText(props.cardLetter, 'proxima_novaextrabold', 18, props.colorCardNumber, 449, 65);
 
       uiElements.addChild(cardNumber); 
       uiElements.addChild(cardLetter); 
-    }, function () {
-      console.log('Font is not available');
     });
 
     var regular = new FontFaceObserver('proxima_novaregular');
     regular.load().then(function () {
-      console.log('Font is available');  
-      let subtitle = new PIXI.Text(
-        props.subtitle,
-        {
-          fontFamily: 'proxima_novaregular', 
-          fontSize: 22.5, 
-          fill: 'white',
-          align: 'center',
-        }
-      );
-      subtitle.x = 184;
-      subtitle.y = 707;
+      let subtitle = setText(props.subtitle, 'proxima_novaregular', 22.5, 'white', 184, 707);
 
       uiElements.addChild(subtitle); 
-    }, function () {
-      console.log('Font is not available');
     });
+  }
 
+  function setText(textContent, family, fontSize, color, xPos, yPos){
+    let text = new PIXI.Text(
+      textContent,
+      {
+        fontFamily: family, 
+        fontSize: fontSize, 
+        fill: color,
+        align: 'center',
+      }
+    );
+    text.x = xPos;
+    text.y = yPos;
+
+    return text;
   }
 
   function setTextures(){    
