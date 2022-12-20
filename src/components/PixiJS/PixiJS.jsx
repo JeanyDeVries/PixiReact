@@ -46,16 +46,16 @@ function MyComponent(props) {
   loadingSprite = './assets/images/mickeyCard.png';
 
   useEffect(() => {
-    // let movementX = rotationX*6;
+    let movementX = rotationX*props.rotationDisplacement;
 
-    // if(displacementFilter != null){ //Check if null, because it needed to be loaded first
-    //   displacementFilter.scale.x = -movementX;
-    //   overlayDisplacementFilter.scale.x = -movementX;
-    //   backgroundDisplacementFilter.scale.x = -movementX;
-    // }
-    // background.x = -movementX/2 - 50;
-    // foreground.x = -movementX/2;
-    // foreground2.x = -movementX/2;
+    if(displacementFilter != null){ //Check if null, because it needed to be loaded first
+      displacementFilter.scale.x = -movementX;
+      overlayDisplacementFilter.scale.x = -movementX;
+      backgroundDisplacementFilter.scale.x = -movementX;
+    }
+    background.x = -movementX/2 - props.displacementBackgroundOffset;
+    foreground.x = -movementX/2;
+    foreground2.x = -movementX/2;
     return () => {
       
     };
@@ -81,10 +81,10 @@ function MyComponent(props) {
   }, []);
 
   function loadPixi(){
-    // gsap.to(rotationSpeed,{rotationX:-rotationSpeed.rotationX,duration:3,repeat: -1,yoyo: true,ease:Quad.easeInOut,onUpdate:function(){
-    //   gsap.set(refApp.current,{rotationY:rotationSpeed.rotationX,rotationX:rotationSpeed.rotationY});
-    //   setRotationX(-rotationSpeed.rotationX);
-    // }});
+    gsap.to(rotationSpeed,{rotationX:-rotationSpeed.rotationX,duration:3,repeat: -1,yoyo: true,ease:Quad.easeInOut,onUpdate:function(){
+      gsap.set(refApp.current,{rotationY:rotationSpeed.rotationX,rotationX:rotationSpeed.rotationY});
+      setRotationX(-rotationSpeed.rotationX);
+    }});
 
     setupApp();
   }
@@ -202,7 +202,7 @@ function MyComponent(props) {
           fontSize: 26, 
           fill: 'white',
           align: 'center',
-          fill: 'black'
+          fill: props.colorCardNumber
         }
       );
       cardNumber.x = 422;
@@ -215,7 +215,7 @@ function MyComponent(props) {
           fontSize: 18, 
           fill: 'white',
           align: 'center',
-          fill: 'black'
+          fill: props.colorCardNumber
         }
       );
       cardLetter.x = 449;
@@ -256,7 +256,7 @@ function MyComponent(props) {
     card = setSprite('04-Frame.png', 0,0, outerCardScale, spritesheetGeneric);
     mask = setSprite('BG.png', 0, 0, outerCardScale, spritesheetGeneric)
     frontTexture = setSprite('05-Bar.png', 0, 0, outerCardScale, spritesheetGeneric)    
-    shadow = setSprite('07-Shadow.png', 0, 0, outerCardScale, spritesheetGeneric)
+    shadow = setSprite('07-Shadow.png', props.displacementBackgroundOffset, 0, outerCardScale, spritesheetGeneric)
     icons = setSprite('01-Icons.png', 0, 0, outerCardScale, spritesheetGeneric)
     
     frontTexture.tint = props.colorCardBar;
@@ -264,7 +264,7 @@ function MyComponent(props) {
     foregroundTexure = setSprite('06-Back.png', -20, 0, scale, spritesheetContent);
     avatarIcon = setSprite('02-Avatar.png', 0, 0, outerCardScale, spritesheetContent);
     maskOverlapTexture = setSprite('03-Front.png', -20, 0, scale, spritesheetContent);
-    backgroundTexture = setSprite('08-Background.png', -35, 0, scale, spritesheetContent)
+    backgroundTexture = setSprite('08-Background.png', 0, 0, scale, spritesheetContent)
 
     displacement = setDisplacementSprite('06-Back-depth.png', -20, 0, spritesheetContent);
     overlayDisplacement = setDisplacementSprite('06-Back-depth.png', -20, 0, spritesheetContent);
