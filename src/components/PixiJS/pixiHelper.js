@@ -1,73 +1,72 @@
 import * as PIXI from "pixi.js";
 
-export function setSprite(spriteName, xPos, yPos, scale, spritesheet) {
-  let sprite = new PIXI.Sprite(spritesheet.textures[spriteName]);
+export default class PixiHelper
+{
+    constructor(app){
+        this.app = app;
+    }
 
-  if (!spritesheet._frames[spriteName]) return null; //Set null if the frame texture does net exist
+    setSprite(spriteName, xPos, yPos, scale, spritesheet){
+        let sprite = new PIXI.Sprite(spritesheet.textures[spriteName]);
 
-  sprite.width = spritesheet._frames[spriteName].frame.w;
-  sprite.height = spritesheet._frames[spriteName].frame.h;
-  sprite.x = xPos;
-  sprite.y = yPos;
-  sprite.scale.set(scale);
-  return sprite;
-}
+        if(!spritesheet._frames[spriteName]) return null; //Set null if the frame texture does net exist
 
-export function setDisplacementSprite(
-  app,
-  scale,
-  spriteName,
-  xPos,
-  yPos,
-  spritesheet
-) {
-  const baseTex = spritesheet.textures[spriteName];
+        sprite.width = spritesheet._frames[spriteName].frame.w;
+        sprite.height = spritesheet._frames[spriteName].frame.h;
+        sprite.x = xPos;
+        sprite.y = yPos;
+        sprite.scale.set(scale);
+        return sprite;
+    }
 
-  if (!baseTex) return null; //Set null if the frame texture does net exist
+    setDisplacementSprite(scale, spriteName, xPos, yPos, spritesheet){
+        const baseTex = spritesheet.textures[spriteName];
 
-  const renderSprite = new PIXI.Sprite(baseTex);
+        if(!baseTex) return null; //Set null if the frame texture does net exist
 
-  // Set the position and anchor of the sprite to 0,0 so that it renders the entire image
-  renderSprite.position.x = 0;
-  renderSprite.position.y = 0;
-  renderSprite.anchor.x = 0;
-  renderSprite.anchor.y = 0;
+        const renderSprite = new PIXI.Sprite(baseTex);
 
-  // Create a render texture which causes the sprite to only render the image, 
-  // not the basetexture for the displacement
-  const renderTexture = PIXI.RenderTexture.create({
-    width: baseTex.orig.width,
-    height: baseTex.orig.height,
-  });
+        // Set the position and anchor of the sprite to 0,0 so that it renders the entire image
+        renderSprite.position.x = 0;
+        renderSprite.position.y = 0;
+        renderSprite.anchor.x = 0;
+        renderSprite.anchor.y = 0;
 
-  app.renderer.render(renderSprite, {
-    renderTexture: renderTexture,
-  });
+        // Create a render texture which causes the sprite to only render the image, 
+        // not the basetexture for the displacement
+        const renderTexture = PIXI.RenderTexture.create({
+            width: baseTex.orig.width,
+            height: baseTex.orig.height
+        });
 
-  let sprite = new PIXI.Sprite(renderTexture);
-  sprite.x = xPos;
-  sprite.y = yPos;
-  sprite.width = baseTex.orig.width;
-  sprite.height = baseTex.orig.height;
-  sprite.scale.set(scale);
+        this.app.renderer.render(renderSprite, {
+            renderTexture: renderTexture
+        });
 
-  return sprite;
-}
+        let sprite = new PIXI.Sprite(renderTexture);
+        sprite.x = xPos;
+        sprite.y = yPos;
+        sprite.width = baseTex.orig.width;
+        sprite.height = baseTex.orig.height;
+        sprite.scale.set(scale);
 
-export function setText(textContent, family, fontSize, color, xPos, yPos) {
-  let text = new PIXI.Text(textContent, {
-    fontFamily: family,
-    fontSize: fontSize,
-    fill: color,
-    align: "center",
-  });
-  text.x = xPos;
-  text.y = yPos;
+        return sprite;
+    }
 
-  return text;
-}
+    setText(textContent, family, fontSize, color, xPos, yPos){
+        let text = new PIXI.Text(textContent, {
+            fontFamily: family,
+            fontSize: fontSize,
+            fill: color,
+            align: "center"
+        });
+        text.x = xPos;
+        text.y = yPos;
 
-export function fadeOutEffect(fadeTarget) {
+        return text;
+    }
+
+    fadeOutEffect(fadeTarget){
     // Fade the html element
     var fadeEffect = setInterval(function () {
         if (!fadeTarget.style.opacity) {
@@ -79,4 +78,5 @@ export function fadeOutEffect(fadeTarget) {
             clearInterval(fadeEffect);
         }
     }, 10)
+}
 }
