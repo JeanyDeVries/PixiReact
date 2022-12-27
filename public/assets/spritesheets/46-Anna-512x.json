@@ -1,0 +1,60 @@
+{"frames": {
+
+"02-Avatar.png":
+{
+	"frame": {"x":447,"y":216,"w":57,"h":63},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":14,"y":232,"w":57,"h":63},
+	"sourceSize": {"w":200,"h":307}
+},
+"03-Front.png":
+{
+	"frame": {"x":262,"y":476,"w":90,"h":29},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":65,"y":1,"w":90,"h":29},
+	"sourceSize": {"w":228,"h":259}
+},
+"06-Back-depth.png":
+{
+	"frame": {"x":1,"y":1,"w":228,"h":259},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":228,"h":259},
+	"sourceSize": {"w":228,"h":259}
+},
+"06-Back.png":
+{
+	"frame": {"x":262,"y":216,"w":183,"h":258},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":1,"w":183,"h":258},
+	"sourceSize": {"w":228,"h":259}
+},
+"08-Background-depth.png":
+{
+	"frame": {"x":1,"y":262,"w":228,"h":259},
+	"rotated": true,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":228,"h":259},
+	"sourceSize": {"w":228,"h":259}
+},
+"08-Background.png":
+{
+	"frame": {"x":231,"y":1,"w":213,"h":257},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":15,"y":2,"w":213,"h":257},
+	"sourceSize": {"w":228,"h":259}
+}},
+"meta": {
+	"app": "https://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "46-Anna-512x.png",
+	"format": "RGBA8888",
+	"size": {"w":512,"h":512},
+	"scale": "0.255",
+	"smartupdate": "$TexturePacker:SmartUpdate:7d05ab243e38fad6b722d5b644c8cfb6:a912eded9e0c3a31f37f6e103504eb32:710314d6992865cc5258a02caadd1142$"
+}
+}

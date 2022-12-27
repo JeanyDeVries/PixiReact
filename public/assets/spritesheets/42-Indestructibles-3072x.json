@@ -1,0 +1,60 @@
+{"frames": {
+
+"02-Avatar.png":
+{
+	"frame": {"x":2687,"y":760,"w":329,"h":329},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":85,"y":1402,"w":329,"h":329},
+	"sourceSize": {"w":1179,"h":1806}
+},
+"03-Front.png":
+{
+	"frame": {"x":2687,"y":1,"w":106,"h":757},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":142,"y":618,"w":106,"h":757},
+	"sourceSize": {"w":1341,"h":1523}
+},
+"06-Back-depth.png":
+{
+	"frame": {"x":1,"y":1,"w":1341,"h":1523},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":1341,"h":1523},
+	"sourceSize": {"w":1341,"h":1523}
+},
+"06-Back.png":
+{
+	"frame": {"x":1344,"y":1526,"w":1341,"h":1462},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":0,"w":1341,"h":1462},
+	"sourceSize": {"w":1341,"h":1523}
+},
+"08-Background-depth.png":
+{
+	"frame": {"x":1,"y":1526,"w":1341,"h":1523},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":1341,"h":1523},
+	"sourceSize": {"w":1341,"h":1523}
+},
+"08-Background.png":
+{
+	"frame": {"x":1344,"y":1,"w":1341,"h":1523},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":1341,"h":1523},
+	"sourceSize": {"w":1341,"h":1523}
+}},
+"meta": {
+	"app": "https://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "42-Indestructibles-3072x.png",
+	"format": "RGBA8888",
+	"size": {"w":3072,"h":3072},
+	"scale": "1.5",
+	"smartupdate": "$TexturePacker:SmartUpdate:8931d21f4a9a0af15eb0b805747ca3ea:4679b714bbb18c35def09fa0c15d9878:b4a66f0ec116223ac1270839a21ef3b3$"
+}
+}

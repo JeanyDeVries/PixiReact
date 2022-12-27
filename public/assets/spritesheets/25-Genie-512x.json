@@ -1,0 +1,60 @@
+{"frames": {
+
+"02-Avatar.png":
+{
+	"frame": {"x":444,"y":1,"w":57,"h":58},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":13,"y":231,"w":57,"h":58},
+	"sourceSize": {"w":197,"h":301}
+},
+"03-Front.png":
+{
+	"frame": {"x":444,"y":61,"w":28,"h":36},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":181,"y":114,"w":28,"h":36},
+	"sourceSize": {"w":224,"h":254}
+},
+"06-Back-depth.png":
+{
+	"frame": {"x":1,"y":1,"w":224,"h":254},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":224,"h":254},
+	"sourceSize": {"w":224,"h":254}
+},
+"06-Back.png":
+{
+	"frame": {"x":227,"y":257,"w":209,"h":249},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":5,"w":209,"h":249},
+	"sourceSize": {"w":224,"h":254}
+},
+"08-Background-depth.png":
+{
+	"frame": {"x":1,"y":257,"w":224,"h":254},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":224,"h":254},
+	"sourceSize": {"w":224,"h":254}
+},
+"08-Background.png":
+{
+	"frame": {"x":227,"y":1,"w":215,"h":254},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":9,"y":0,"w":215,"h":254},
+	"sourceSize": {"w":224,"h":254}
+}},
+"meta": {
+	"app": "https://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "25-Genie-512x.png",
+	"format": "RGBA8888",
+	"size": {"w":512,"h":512},
+	"scale": "0.25",
+	"smartupdate": "$TexturePacker:SmartUpdate:4de280bac1574bff032c8a65a13ba081:a8d922340f770c37902cc3821d1b4191:db135f550b7778784784471e806063e7$"
+}
+}

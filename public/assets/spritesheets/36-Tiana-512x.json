@@ -1,0 +1,60 @@
+{"frames": {
+
+"02-Avatar.png":
+{
+	"frame": {"x":453,"y":220,"w":58,"h":75},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":14,"y":226,"w":58,"h":75},
+	"sourceSize": {"w":204,"h":313}
+},
+"03-Front.png":
+{
+	"frame": {"x":453,"y":297,"w":52,"h":29},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":65,"y":1,"w":52,"h":29},
+	"sourceSize": {"w":232,"h":264}
+},
+"06-Back-depth.png":
+{
+	"frame": {"x":1,"y":1,"w":232,"h":264},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":232,"h":264},
+	"sourceSize": {"w":232,"h":264}
+},
+"06-Back.png":
+{
+	"frame": {"x":267,"y":220,"w":184,"h":263},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":1,"w":184,"h":263},
+	"sourceSize": {"w":232,"h":264}
+},
+"08-Background-depth.png":
+{
+	"frame": {"x":1,"y":267,"w":232,"h":264},
+	"rotated": true,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":232,"h":264},
+	"sourceSize": {"w":232,"h":264}
+},
+"08-Background.png":
+{
+	"frame": {"x":235,"y":1,"w":217,"h":262},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":2,"w":217,"h":262},
+	"sourceSize": {"w":232,"h":264}
+}},
+"meta": {
+	"app": "https://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "36-Tiana-512x.png",
+	"format": "RGBA8888",
+	"size": {"w":512,"h":512},
+	"scale": "0.26",
+	"smartupdate": "$TexturePacker:SmartUpdate:639d1c642afed6c9c0915054d7d4ec41:aab1a5b51b3487fc077a5a44e21f36ee:dcd7fcb17d6f6d2ff8aa210ce62a4473$"
+}
+}

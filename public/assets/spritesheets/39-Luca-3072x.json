@@ -1,0 +1,60 @@
+{"frames": {
+
+"02-Avatar.png":
+{
+	"frame": {"x":2663,"y":1955,"w":342,"h":376},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":89,"y":1424,"w":342,"h":376},
+	"sourceSize": {"w":1226,"h":1878}
+},
+"03-Front.png":
+{
+	"frame": {"x":2663,"y":1398,"w":555,"h":159},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":384,"y":14,"w":555,"h":159},
+	"sourceSize": {"w":1395,"h":1583}
+},
+"06-Back-depth.png":
+{
+	"frame": {"x":1,"y":1,"w":1395,"h":1583},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":1395,"h":1583},
+	"sourceSize": {"w":1395,"h":1583}
+},
+"06-Back.png":
+{
+	"frame": {"x":1586,"y":1398,"w":1075,"h":1569},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":14,"w":1075,"h":1569},
+	"sourceSize": {"w":1395,"h":1583}
+},
+"08-Background-depth.png":
+{
+	"frame": {"x":1,"y":1586,"w":1395,"h":1583},
+	"rotated": true,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":1395,"h":1583},
+	"sourceSize": {"w":1395,"h":1583}
+},
+"08-Background.png":
+{
+	"frame": {"x":1398,"y":1,"w":1395,"h":1566},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":17,"w":1395,"h":1566},
+	"sourceSize": {"w":1395,"h":1583}
+}},
+"meta": {
+	"app": "https://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "39-Luca-3072x.png",
+	"format": "RGBA8888",
+	"size": {"w":3072,"h":3072},
+	"scale": "1.56",
+	"smartupdate": "$TexturePacker:SmartUpdate:a9053b735bce512002e2a7d45004ac52:adbf4860fc9a69ce200c3987eaf9821c:f0dd096f6f69a392b33a6e0d3cca8889$"
+}
+}

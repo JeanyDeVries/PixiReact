@@ -3,6 +3,7 @@ import * as PIXI from "pixi.js";
 import gsap, {Quad} from 'gsap'
 import FontFaceObserver from 'fontfaceobserver';
 import PixiHelper from './pixiHelper.js';	
+import dataImageExceptions from './data/imageDisplacementExceptions.json';
 
 
 let rotationSpeed = {rotationX:5,rotationY:0};
@@ -27,14 +28,14 @@ let mask;
 let shadow;
 let ploader = new PIXI.Loader();
 
-let rotationDisplacement;
-let displacementBackgroundOffset;
 let maxRotationDisplacement = 8;
 let maxDisplacementBackgroundOffset = 70;
+let rotationDisplacement = 3 //default 3
+let displacementBackgroundOffset = 50 
 let pixiHelper;
 
-function MyComponent({jsonName, colorCardBar, colorCardNumber, titleTxt,
-        subtitleTxt, cardNumberTxt, cardLetterTxt, healthTxt, socialTxt, energyTxt, rotationDisplacement, displacementBackgroundOffset}) // Set all the props in variables
+function MyComponent({spriteWhileLoading, jsonName, colorCardBar, colorCardNumber, titleTxt,
+        subtitleTxt, cardNumberTxt, cardLetterTxt, healthTxt, socialTxt, energyTxt}) // Set all the props in variables
 {
   let refApp = useRef(null);
   let wrap = useRef(null);
@@ -47,7 +48,7 @@ function MyComponent({jsonName, colorCardBar, colorCardNumber, titleTxt,
   const [width, setWidth] = useState(640);
   const [height, setHeight] = useState(786);
 
-  loadingSprite = './assets/images/mickeyCard.png'; // Load the sprite that shows before pixi is loaded
+  loadingSprite = './assets/images/' + spriteWhileLoading; // Load the sprite that shows before pixi is loaded
 
   useEffect(() => {
     let movementX = rotationX*rotationDisplacement;
@@ -121,8 +122,20 @@ function MyComponent({jsonName, colorCardBar, colorCardNumber, titleTxt,
 
     addContainers();
     loadTextures();
+    setRotationDisplacement();
 
     PIXI.Ticker.shared.add((time) =>  animate());
+  }
+
+  function setRotationDisplacement(){
+    const data = dataImageExceptions.map( (data)=>{
+      let nameSprite = jsonName.split('-')[1];
+      let cardName = data.name;
+
+      if(nameSprite == cardName){
+        rotationDisplacement = data.rotationDisplacement;
+      }
+    });
   }
 
   function addContainers(){
@@ -222,14 +235,15 @@ function MyComponent({jsonName, colorCardBar, colorCardNumber, titleTxt,
     if(overlayDisplacement){
       foreground2.addChild(overlayDisplacement);
       overlayDisplacementFilter = new PIXI.filters.DisplacementFilter(overlayDisplacement, 0);
-      maskOverlapTexture.filters = [overlayDisplacementFilter];
+      if(maskOverlapTexture)
+        maskOverlapTexture.filters = [overlayDisplacementFilter];
     }
   }
 
   function addChildren(){
     if(backgroundTexture)background.addChild(backgroundTexture);
     if(foregroundTexure)foreground.addChild(foregroundTexure);
-    if(icons)container.addChild(icons);
+    if(icons)uiElements.addChild(icons);
     if(frontTexture)container.addChild(frontTexture);
     if(card)container.addChild(card);
     if(shadow)background.addChild(shadow);

@@ -1,0 +1,50 @@
+[
+    {
+        "name": "Belle",
+        "rotationDisplacement": 2
+    },
+    {
+        "name": "Ariel",
+        "rotationDisplacement": 2
+    },
+    {
+        "name": "Blanche",
+        "rotationDisplacement": 2.5
+    },
+    {
+        "name": "Alien",
+        "rotationDisplacement": 2
+    },
+    {
+        "name": "Olaf",
+        "rotationDisplacement": 2
+    },
+    {
+        "name": "Cendrillon",
+        "rotationDisplacement": 2
+    },
+    {
+        "name": "Dumbo",
+        "rotationDisplacement": 1.5
+    },
+    {
+        "name": "Jafar",
+        "rotationDisplacement": 2
+    },
+    {
+        "name": "Dante",
+        "rotationDisplacement": 2
+    },
+    {
+        "name": "Pascal",
+        "rotationDisplacement": 2
+    },
+    {
+        "name": "Remy",
+        "rotationDisplacement": 2
+    },
+    {
+        "name": "Simba",
+        "rotationDisplacement": 2.5
+    }
+]

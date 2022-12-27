@@ -1,0 +1,60 @@
+{"frames": {
+
+"02-Avatar.png":
+{
+	"frame": {"x":2311,"y":2393,"w":328,"h":370},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":78,"y":1327,"w":328,"h":370},
+	"sourceSize": {"w":1155,"h":1770}
+},
+"03-Front.png":
+{
+	"frame": {"x":1317,"y":2393,"w":992,"h":612},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":89,"y":14,"w":992,"h":612},
+	"sourceSize": {"w":1314,"h":1492}
+},
+"06-Back-depth.png":
+{
+	"frame": {"x":1,"y":1,"w":1314,"h":1492},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":1314,"h":1492},
+	"sourceSize": {"w":1314,"h":1492}
+},
+"06-Back.png":
+{
+	"frame": {"x":1317,"y":1,"w":1074,"h":1478},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":89,"y":14,"w":1074,"h":1478},
+	"sourceSize": {"w":1314,"h":1492}
+},
+"08-Background-depth.png":
+{
+	"frame": {"x":1,"y":1495,"w":1314,"h":1492},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":1314,"h":1492},
+	"sourceSize": {"w":1314,"h":1492}
+},
+"08-Background.png":
+{
+	"frame": {"x":1317,"y":1077,"w":1314,"h":1476},
+	"rotated": true,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":16,"w":1314,"h":1476},
+	"sourceSize": {"w":1314,"h":1492}
+}},
+"meta": {
+	"app": "https://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "21-Jessie-3072x.png",
+	"format": "RGBA8888",
+	"size": {"w":3072,"h":3072},
+	"scale": "1.47",
+	"smartupdate": "$TexturePacker:SmartUpdate:f2afaf3fe973d2b531279168b25af496:af5df321ff785a8689eb9e52246ccaba:4b6b5fad6ebfd928546405e9618f3b1b$"
+}
+}
