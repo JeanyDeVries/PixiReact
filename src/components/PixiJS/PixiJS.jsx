@@ -6,7 +6,7 @@ import PixiHelper from './pixiHelper.js';
 import dataImageExceptions from './data/imageDisplacementExceptions.json';
 
 
-let rotationSpeed = {rotationX:5,rotationY:0};
+let rotationSpeed = {rotationX:0,rotationY:0};
 let app = null;
 let spritesheetContent, spritesheetGeneric;
 let scale = 0.65;
@@ -34,8 +34,10 @@ let rotationDisplacement = 3 //default 3
 let displacementBackgroundOffset = 50 
 let pixiHelper;
 
+let animationRotationCard; 
+
 function MyComponent({spriteWhileLoading, jsonName, colorCardBar, colorCardNumber, titleTxt,
-        subtitleTxt, cardNumberTxt, cardLetterTxt, healthTxt, socialTxt, energyTxt}) // Set all the props in variables
+        subtitleTxt, cardNumberTxt, cardLetterTxt, healthTxt, socialTxt, energyTxt, rotationSpeedX}) // Set all the props in variables
 {
   let refApp = useRef(null);
   let wrap = useRef(null);
@@ -87,10 +89,16 @@ function MyComponent({spriteWhileLoading, jsonName, colorCardBar, colorCardNumbe
 
   function loadPixi(){
     // Set the animation for the card rotation
-    gsap.to(rotationSpeed,{rotationX:-rotationSpeed.rotationX,duration:3,repeat: -1,yoyo: true,ease:Quad.easeInOut,onUpdate:function(){
-      gsap.set(refApp.current,{rotationY:rotationSpeed.rotationX,rotationX:rotationSpeed.rotationY});
-      setRotationX(-rotationSpeed.rotationX);
-    }});
+    rotationSpeed = {rotationX:rotationSpeedX,rotationY:0};
+    animationRotationCard = gsap.to(rotationSpeed,{rotationX:-rotationSpeed.rotationX,duration:3,repeat: -1,yoyo: true,ease:Quad.easeInOut,
+      onUpdate:function()
+      {
+        gsap.set(refApp.current,{rotationY:rotationSpeed.rotationX,rotationX:rotationSpeed.rotationY});
+        setRotationX(-rotationSpeed.rotationX);
+      }
+    });
+    animationRotationCard.pause();
+    animationRotationCard.progress(0.5);
 
     setupApp();
   }
@@ -129,7 +137,7 @@ function MyComponent({spriteWhileLoading, jsonName, colorCardBar, colorCardNumbe
 
   function setRotationDisplacement(){
     const data = dataImageExceptions.map( (data)=>{
-      let nameSprite = jsonName.split('-')[1];
+      let nameSprite = jsonName.split('-')[1]; //Get the name of the character of the card
       let cardName = data.name;
 
       if(nameSprite == cardName){
@@ -159,6 +167,7 @@ function MyComponent({spriteWhileLoading, jsonName, colorCardBar, colorCardNumbe
       addChildren();
       setDisplacement();
       setAllTexts();
+      animationRotationCard.play(); 
     });
     ploader.load();
   }

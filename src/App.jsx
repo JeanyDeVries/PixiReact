@@ -6,7 +6,7 @@ function App() {
     <div className="App">
       <PixiJS 
         spriteWhileLoading = {"mickeyCard.png"}
-        jsonName = {"20-Dumbo-512x"}
+        jsonName = {"38-Winnie-2048x"}
         colorCardBar = {'0x5EA13A'}
         colorCardNumber = {'0x5EA13A'}
         titleTxt = {"Mickey Mouse"}
@@ -16,6 +16,7 @@ function App() {
         healthTxt = {"08"}
         socialTxt = {"10"}
         energyTxt = {"06"}
+        rotationSpeedX = {5}
       />
     </div>
   </>);
