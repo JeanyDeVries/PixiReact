@@ -6,7 +6,8 @@ import PixiHelper from './pixiHelper.js';
 import dataImageExceptions from './data/imageDisplacementExceptions.json';
 
 
-let rotationSpeed = {rotationX:0,rotationY:0};
+let rotationDuration = 50;
+let rotationAmount = {rotationAmountX:5,rotationAmountY:0};
 let app = null;
 let spritesheetContent, spritesheetGeneric;
 let scale = 0.65;
@@ -35,9 +36,11 @@ let displacementBackgroundOffset = 50
 let pixiHelper;
 
 let animationRotationCard; 
+let maxAnimationRotationCard = 10;
+let maxRotationDuration= 5;
 
 function MyComponent({spriteWhileLoading, jsonName, colorCardBar, colorCardNumber, titleTxt,
-        subtitleTxt, cardNumberTxt, cardLetterTxt, healthTxt, socialTxt, energyTxt, rotationSpeedX}) // Set all the props in variables
+        subtitleTxt, cardNumberTxt, cardLetterTxt, healthTxt, socialTxt, energyTxt, rotationDuration, rotationAmountX}) // Set all the props in variables
 {
   let refApp = useRef(null);
   let wrap = useRef(null);
@@ -88,13 +91,19 @@ function MyComponent({spriteWhileLoading, jsonName, colorCardBar, colorCardNumbe
   }, []);
 
   function loadPixi(){
+    console.log(rotationDuration)
+    if(rotationDuration > maxRotationDuration) rotationDuration = maxRotationDuration;
+    if(rotationAmountX > maxAnimationRotationCard) rotationAmountX = maxAnimationRotationCard;
+
+    //rotationAmount = {rotationX:rotationAmount,rotationY:0};
+
     // Set the animation for the card rotation
-    rotationSpeed = {rotationX:rotationSpeedX,rotationY:0};
-    animationRotationCard = gsap.to(rotationSpeed,{rotationX:-rotationSpeed.rotationX,duration:3,repeat: -1,yoyo: true,ease:Quad.easeInOut,
+    rotationAmount = {rotationAmountX:rotationAmountX,rotationAmountY:0};
+    animationRotationCard = gsap.to(rotationAmount,{rotationAmountX:-rotationAmount.rotationAmountX,duration:rotationDuration,repeat: -1,yoyo: true,ease:Quad.easeInOut,
       onUpdate:function()
       {
-        gsap.set(refApp.current,{rotationY:rotationSpeed.rotationX,rotationX:rotationSpeed.rotationY});
-        setRotationX(-rotationSpeed.rotationX);
+        gsap.set(refApp.current,{rotationY:rotationAmount.rotationAmountX,rotationX:rotationAmount.rotationAmountY});
+        setRotationX(-rotationAmount.rotationAmountX);
       }
     });
     animationRotationCard.pause();

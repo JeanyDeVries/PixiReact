@@ -16,7 +16,8 @@ function App() {
         healthTxt = {"08"}
         socialTxt = {"10"}
         energyTxt = {"06"}
-        rotationSpeedX = {5}
+        rotationDuration = {0.5}
+        rotationAmountX = {8}
       />
     </div>
   </>);
