@@ -1,4 +1,5 @@
 import PixiJS from "./components/PixiJS";
+import AnimationCard from "./components/AnimationCard";
 import React from "react";
 
 function App() {
@@ -16,8 +17,12 @@ function App() {
         healthTxt = {"08"}
         socialTxt = {"10"}
         energyTxt = {"06"}
-        rotationDuration = {0.5}
-        rotationAmountX = {8}
+        rotationDuration = {0.8}
+        rotationAmountX = {6}
+      />
+      <AnimationCard 
+        rotationDuration = {0.8}
+        rotationAmountX = {6}
       />
     </div>
   </>);

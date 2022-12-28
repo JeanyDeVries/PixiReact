@@ -95,8 +95,6 @@ function MyComponent({spriteWhileLoading, jsonName, colorCardBar, colorCardNumbe
     if(rotationDuration > maxRotationDuration) rotationDuration = maxRotationDuration;
     if(rotationAmountX > maxAnimationRotationCard) rotationAmountX = maxAnimationRotationCard;
 
-    //rotationAmount = {rotationX:rotationAmount,rotationY:0};
-
     // Set the animation for the card rotation
     rotationAmount = {rotationAmountX:rotationAmountX,rotationAmountY:0};
     animationRotationCard = gsap.to(rotationAmount,{rotationAmountX:-rotationAmount.rotationAmountX,duration:rotationDuration,repeat: -1,yoyo: true,ease:Quad.easeInOut,
