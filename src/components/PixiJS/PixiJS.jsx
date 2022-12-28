@@ -4,6 +4,7 @@ import gsap, {Quad} from 'gsap'
 import FontFaceObserver from 'fontfaceobserver';
 import PixiHelper from './pixiHelper.js';	
 import dataImageExceptions from './data/imageDisplacementExceptions.json';
+import AnimationCard from "../AnimationCard";
 
 
 let rotationDuration = 50;
@@ -52,6 +53,7 @@ function MyComponent({spriteWhileLoading, jsonName, colorCardBar, colorCardNumbe
   const [innited, setInnited] = useState(false);
   const [width, setWidth] = useState(640);
   const [height, setHeight] = useState(786);
+  const [playAnim, setPlayAnim] = useState(false); 
 
   loadingSprite = './assets/images/' + spriteWhileLoading; // Load the sprite that shows before pixi is loaded
 
@@ -91,21 +93,21 @@ function MyComponent({spriteWhileLoading, jsonName, colorCardBar, colorCardNumbe
   }, []);
 
   function loadPixi(){
-    console.log(rotationDuration)
-    if(rotationDuration > maxRotationDuration) rotationDuration = maxRotationDuration;
-    if(rotationAmountX > maxAnimationRotationCard) rotationAmountX = maxAnimationRotationCard;
+    // console.log(rotationDuration)
+    // if(rotationDuration > maxRotationDuration) rotationDuration = maxRotationDuration;
+    // if(rotationAmountX > maxAnimationRotationCard) rotationAmountX = maxAnimationRotationCard;
 
-    // Set the animation for the card rotation
-    rotationAmount = {rotationAmountX:rotationAmountX,rotationAmountY:0};
-    animationRotationCard = gsap.to(rotationAmount,{rotationAmountX:-rotationAmount.rotationAmountX,duration:rotationDuration,repeat: -1,yoyo: true,ease:Quad.easeInOut,
-      onUpdate:function()
-      {
-        gsap.set(refApp.current,{rotationY:rotationAmount.rotationAmountX,rotationX:rotationAmount.rotationAmountY});
-        setRotationX(-rotationAmount.rotationAmountX);
-      }
-    });
-    animationRotationCard.pause();
-    animationRotationCard.progress(0.5);
+    // // Set the animation for the card rotation
+    // rotationAmount = {rotationAmountX:rotationAmountX,rotationAmountY:0};
+    // animationRotationCard = gsap.to(rotationAmount,{rotationAmountX:-rotationAmount.rotationAmountX,duration:rotationDuration,repeat: -1,yoyo: true,ease:Quad.easeInOut,
+    //   onUpdate:function()
+    //   {
+    //     gsap.set(refApp.current,{rotationY:rotationAmount.rotationAmountX,rotationX:rotationAmount.rotationAmountY});
+    //     setRotationX(-rotationAmount.rotationAmountX);
+    //   }
+    // });
+    // animationRotationCard.pause();
+    // animationRotationCard.progress(0.5);
 
     setupApp();
   }
@@ -174,7 +176,7 @@ function MyComponent({spriteWhileLoading, jsonName, colorCardBar, colorCardNumbe
       addChildren();
       setDisplacement();
       setAllTexts();
-      animationRotationCard.play(); 
+      setPlayAnim(true);
     });
     ploader.load();
   }
@@ -282,12 +284,19 @@ function MyComponent({spriteWhileLoading, jsonName, colorCardBar, colorCardNumbe
 
   return <div ref={wrap} style={{perspective:'1000px',transformOrigin:'50% 50%',width:width,height:height}}>
         <div ref={refApp} style={{position:'absolute'}}> 
+            <AnimationCard 
+              htmlElement={refApp}
+              setRotationX={setRotationX}
+              rotationDuration={rotationDuration}
+              rotationAmountX={rotationAmountX}
+              playAnim={playAnim}
+            />
             <div ref = {bar}/>
         </div>
 
         <img ref={loader} src={loadingSprite} style={{position:'absolute', width: width * 0.8, height: height}}/>
 
-    </div>;
+    </div>
 }
 
 export default MyComponent;

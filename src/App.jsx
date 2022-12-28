@@ -17,12 +17,8 @@ function App() {
         healthTxt = {"08"}
         socialTxt = {"10"}
         energyTxt = {"06"}
-        rotationDuration = {0.8}
-        rotationAmountX = {6}
-      />
-      <AnimationCard 
-        rotationDuration = {0.8}
-        rotationAmountX = {6}
+        rotationDuration = {0.5}
+        rotationAmountX = {5}
       />
     </div>
   </>);
