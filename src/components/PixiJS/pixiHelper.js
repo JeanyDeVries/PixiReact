@@ -73,10 +73,10 @@ export default class PixiHelper
             fadeTarget.style.opacity = 1;
         }
         if (fadeTarget.style.opacity > 0) {
-            fadeTarget.style.opacity -= 0.01;
+            fadeTarget.style.opacity -= 0.05;
         } else {
             clearInterval(fadeEffect);
         }
-    }, 10)
+    }, 1)
 }
 }

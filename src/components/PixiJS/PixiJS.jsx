@@ -30,7 +30,7 @@ let mask;
 let shadow;
 let ploader = new PIXI.Loader();
 
-let maxRotationDisplacement = 8;
+let maxRotationDisplacement = 5;
 let maxDisplacementBackgroundOffset = 70;
 let rotationDisplacement = 3 //default 3
 let displacementBackgroundOffset = 50 
@@ -40,23 +40,26 @@ let animationRotationCard;
 let maxAnimationRotationCard = 10;
 
 function MyComponent({spriteWhileLoading, jsonName, colorCardBar, colorCardNumber, titleTxt,
-        subtitleTxt, cardNumberTxt, cardLetterTxt, healthTxt, socialTxt, energyTxt, rotationAmount, animationRotationCard}) // Set all the props in variables
+        subtitleTxt, cardNumberTxt, cardLetterTxt, healthTxt, socialTxt, energyTxt, rotationAmountCard}) // Set all the props in variables
 {
-  let refApp = useRef(null);
   let wrap = useRef(null);
   let loadingSprite = useRef(null);
   let loader = useRef(null);
 
-  const [rotation, setRotation] = useState(5);
   const [innited, setInnited] = useState(false);
   const [width, setWidth] = useState(640);
   const [height, setHeight] = useState(786);
   const [playAnim, setPlayAnim] = useState(false); 
 
+  const [rotationCard, setRotationCard] = useState(5);
+  const [refApp, setRefApp] = useState(null);
+
   loadingSprite = './assets/images/' + spriteWhileLoading; // Load the sprite that shows before pixi is loaded
 
   useEffect(() => {
-    let rotationX = rotationAmount.rotationAmountX;
+    if(rotationDisplacement > maxRotationDisplacement) rotationDisplacement = maxRotationDisplacement;
+
+    let rotationX = rotationCard;
     let movementX = rotationX*rotationDisplacement;
 
     if(displacementFilter != null){ //Check if null, because it needs to be loaded first
@@ -70,10 +73,37 @@ function MyComponent({spriteWhileLoading, jsonName, colorCardBar, colorCardNumbe
     return () => {
       
     };
-  }, [rotation]);
+  }, [rotationCard]);
+
+  // Update the rotationCard state value when the value of rotationAmountCard changes
+  useEffect(() => {
+    setRotationCard(rotationAmountCard);
+  }, [rotationAmountCard]);
+
+  // Use the rotationCard state value to set the rotation of the refApp element
+  useEffect(() => {
+    if(refApp == null || refApp.current == null) return;
+    refApp.current.style.transform = `rotateY(${rotationCard}deg)`;
+  }, [rotationCard]);
+
+  // useEffect(() => {
+  //   if(refApp.current == null) return;
+
+  //   //setRotation(rotationAmountCard);
+
+  //   //gsap.set(refApp.current, {rotationY: rotationAmountCard});
+
+  //   referenceApp.current.style.transform = 'rotateY(' + rotationAmountCard + 'deg)';
+  //   console.log("rotationAmountCardEffect", referenceApp.current.style.transform)
+
+
+  //   return () => {
+      
+  //   };
+  // }, [rotationAmountCard]);
 
   useEffect(() => {
-    if(refApp.current == null || app == null) return;
+    if(refApp == null || refApp.current == null) return;
     refApp.current.appendChild(app.renderer.view);
 
     return () => {
@@ -93,8 +123,6 @@ function MyComponent({spriteWhileLoading, jsonName, colorCardBar, colorCardNumbe
   }, []);
 
   function loadPixi(){
-    console.log(animationRotationCard)
-
     setupApp();
   }
 
@@ -266,22 +294,11 @@ function MyComponent({spriteWhileLoading, jsonName, colorCardBar, colorCardNumbe
 
     // Render the app each frame for the animation and displacement
     app.renderer.render(stage); 
-    setRotation(rotationAmount.rotationAmountX);
   }
 
   return <div ref={wrap} style={{perspective:'1000px',transformOrigin:'50% 50%',width:width,height:height}}>
-        <div ref={refApp} style={{position:'absolute'}}> 
-            {/* <AnimationCard 
-              htmlElement={refApp}
-              setRotationX={setRotationX}
-              rotationAmountX={rotationAmountX}
-              playAnim={playAnim}
-            /> */}
-            {/* <div ref = {bar}/> */}
-
-          <img ref={loader} src={loadingSprite} style={{position:'absolute', width: width * 0.8, height: height}}/>
-        </div>
-
+        <div ref={setRefApp} style={{position:'absolute'}}></div>
+      <img ref={loader} src={loadingSprite} style={{position:'absolute', width: width * 0.8, height: height}}/>
     </div>
 }
 
