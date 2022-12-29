@@ -1,31 +1,22 @@
 import React, { useRef, useEffect, useState } from "react";
 import gsap, {Quad} from 'gsap'
 
-let rotationDuration = 50;
+let rotationDuration= 1;
 let rotationAmount = {rotationAmountX:5,rotationAmountY:0};
+let rotationDisplacement = {rotationDisplacementX:5,rotationDisplacementY:0};
 
 let animationRotationCard; 
-let maxAnimationRotationCard = 10;
-let maxRotationDuration= 5;
+let maxAnimationRotationCard = 1000;
 
-function MyComponent({htmlElement, setRotationX, rotationDuration, rotationAmountX, playAnim}){
+function MyComponent({htmlElement, rotationAmountX}){
     useEffect(() => {
         // On first render load our application
         if(htmlElement.current != null)
           setUpAnimation();
       }, []);
 
-      useEffect(() => {
-        if (playAnim) {
-          animationRotationCard.play();
-        } else {
-          animationRotationCard.pause();
-        }
-      }, [playAnim]);  
-
 
     function setUpAnimation(){
-        if(rotationDuration > maxRotationDuration) rotationDuration = maxRotationDuration;
         if(rotationAmountX > maxAnimationRotationCard) rotationAmountX = maxAnimationRotationCard;
     
         // Set the animation for the card rotation
@@ -34,7 +25,7 @@ function MyComponent({htmlElement, setRotationX, rotationDuration, rotationAmoun
           onUpdate:function()
           {
             gsap.set(htmlElement.current,{rotationY:rotationAmount.rotationAmountX,rotationX:rotationAmount.rotationAmountY});
-            setRotationX(-rotationAmount.rotationAmountX);
+            //setRotationX(-rotationAmount.rotationAmountX);
           }
         });
         animationRotationCard.play();

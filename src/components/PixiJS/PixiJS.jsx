@@ -7,7 +7,7 @@ import dataImageExceptions from './data/imageDisplacementExceptions.json';
 import AnimationCard from "../AnimationCard";
 
 
-let rotationDuration = 50;
+let rotationDuration = 1;
 let rotationAmount = {rotationAmountX:5,rotationAmountY:0};
 let app = null;
 let spritesheetContent, spritesheetGeneric;
@@ -38,18 +38,16 @@ let pixiHelper;
 
 let animationRotationCard; 
 let maxAnimationRotationCard = 10;
-let maxRotationDuration= 5;
 
 function MyComponent({spriteWhileLoading, jsonName, colorCardBar, colorCardNumber, titleTxt,
-        subtitleTxt, cardNumberTxt, cardLetterTxt, healthTxt, socialTxt, energyTxt, rotationDuration, rotationAmountX}) // Set all the props in variables
+        subtitleTxt, cardNumberTxt, cardLetterTxt, healthTxt, socialTxt, energyTxt, rotationAmount, animationRotationCard}) // Set all the props in variables
 {
   let refApp = useRef(null);
   let wrap = useRef(null);
   let loadingSprite = useRef(null);
   let loader = useRef(null);
-  let bar = useRef(null);
 
-  const [rotationX, setRotationX] = useState(5);
+  const [rotation, setRotation] = useState(5);
   const [innited, setInnited] = useState(false);
   const [width, setWidth] = useState(640);
   const [height, setHeight] = useState(786);
@@ -58,6 +56,7 @@ function MyComponent({spriteWhileLoading, jsonName, colorCardBar, colorCardNumbe
   loadingSprite = './assets/images/' + spriteWhileLoading; // Load the sprite that shows before pixi is loaded
 
   useEffect(() => {
+    let rotationX = rotationAmount.rotationAmountX;
     let movementX = rotationX*rotationDisplacement;
 
     if(displacementFilter != null){ //Check if null, because it needs to be loaded first
@@ -71,7 +70,7 @@ function MyComponent({spriteWhileLoading, jsonName, colorCardBar, colorCardNumbe
     return () => {
       
     };
-  }, [rotationX]);
+  }, [rotation]);
 
   useEffect(() => {
     if(refApp.current == null || app == null) return;
@@ -87,27 +86,14 @@ function MyComponent({spriteWhileLoading, jsonName, colorCardBar, colorCardNumbe
     loadPixi();
 
     return () => {
+      console.log("destroy app")
       // On unload completely destroy the application and all of it's children
       app.destroy(true, true);
     };
   }, []);
 
   function loadPixi(){
-    // console.log(rotationDuration)
-    // if(rotationDuration > maxRotationDuration) rotationDuration = maxRotationDuration;
-    // if(rotationAmountX > maxAnimationRotationCard) rotationAmountX = maxAnimationRotationCard;
-
-    // // Set the animation for the card rotation
-    // rotationAmount = {rotationAmountX:rotationAmountX,rotationAmountY:0};
-    // animationRotationCard = gsap.to(rotationAmount,{rotationAmountX:-rotationAmount.rotationAmountX,duration:rotationDuration,repeat: -1,yoyo: true,ease:Quad.easeInOut,
-    //   onUpdate:function()
-    //   {
-    //     gsap.set(refApp.current,{rotationY:rotationAmount.rotationAmountX,rotationX:rotationAmount.rotationAmountY});
-    //     setRotationX(-rotationAmount.rotationAmountX);
-    //   }
-    // });
-    // animationRotationCard.pause();
-    // animationRotationCard.progress(0.5);
+    console.log(animationRotationCard)
 
     setupApp();
   }
@@ -280,21 +266,21 @@ function MyComponent({spriteWhileLoading, jsonName, colorCardBar, colorCardNumbe
 
     // Render the app each frame for the animation and displacement
     app.renderer.render(stage); 
+    setRotation(rotationAmount.rotationAmountX);
   }
 
   return <div ref={wrap} style={{perspective:'1000px',transformOrigin:'50% 50%',width:width,height:height}}>
         <div ref={refApp} style={{position:'absolute'}}> 
-            <AnimationCard 
+            {/* <AnimationCard 
               htmlElement={refApp}
               setRotationX={setRotationX}
-              rotationDuration={rotationDuration}
               rotationAmountX={rotationAmountX}
               playAnim={playAnim}
-            />
-            <div ref = {bar}/>
-        </div>
+            /> */}
+            {/* <div ref = {bar}/> */}
 
-        <img ref={loader} src={loadingSprite} style={{position:'absolute', width: width * 0.8, height: height}}/>
+          <img ref={loader} src={loadingSprite} style={{position:'absolute', width: width * 0.8, height: height}}/>
+        </div>
 
     </div>
 }
