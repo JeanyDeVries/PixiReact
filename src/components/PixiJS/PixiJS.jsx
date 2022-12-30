@@ -77,34 +77,23 @@ function MyComponent({spriteWhileLoading, jsonName, colorCardBar, colorCardNumbe
 
   // Update the rotationCard state value when the value of rotationAmountCard changes
   useEffect(() => {
-    setRotationCard(rotationAmountCard);
+    if(refApp == null) return;
+    refApp.style.transform = `rotateY(${rotationAmountCard}deg)`;
+    //gsap.set(refApp, {rotationY: rotationAmountCard});
+    setRefApp(refApp)
   }, [rotationAmountCard]);
 
-  // Use the rotationCard state value to set the rotation of the refApp element
   useEffect(() => {
-    if(refApp == null || refApp.current == null) return;
-    refApp.current.style.transform = `rotateY(${rotationCard}deg)`;
-  }, [rotationCard]);
-
-  // useEffect(() => {
-  //   if(refApp.current == null) return;
-
-  //   //setRotation(rotationAmountCard);
-
-  //   //gsap.set(refApp.current, {rotationY: rotationAmountCard});
-
-  //   referenceApp.current.style.transform = 'rotateY(' + rotationAmountCard + 'deg)';
-  //   console.log("rotationAmountCardEffect", referenceApp.current.style.transform)
-
-
-  //   return () => {
+    if(refApp == null) return;
+    console.log('app')
+    return () => {
       
-  //   };
-  // }, [rotationAmountCard]);
+    };
+  }, [refApp]);
 
   useEffect(() => {
-    if(refApp == null || refApp.current == null) return;
-    refApp.current.appendChild(app.renderer.view);
+    if(refApp == null) return;
+    refApp.appendChild(app.renderer.view);
 
     return () => {
       
@@ -297,7 +286,7 @@ function MyComponent({spriteWhileLoading, jsonName, colorCardBar, colorCardNumbe
   }
 
   return <div ref={wrap} style={{perspective:'1000px',transformOrigin:'50% 50%',width:width,height:height}}>
-        <div ref={setRefApp} style={{position:'absolute'}}></div>
+        <div ref={ref => setRefApp(ref)} style={{position: 'absolute'}}></div>
       <img ref={loader} src={loadingSprite} style={{position:'absolute', width: width * 0.8, height: height}}/>
     </div>
 }
