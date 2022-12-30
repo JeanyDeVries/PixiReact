@@ -78,9 +78,7 @@ function MyComponent({spriteWhileLoading, jsonName, colorCardBar, colorCardNumbe
   // Update the rotationCard state value when the value of rotationAmountCard changes
   useEffect(() => {
     if(refApp == null) return;
-    refApp.style.transform = `rotateY(${rotationAmountCard}deg)`;
-    //gsap.set(refApp, {rotationY: rotationAmountCard});
-    setRefApp(refApp)
+    gsap.set(refApp, {rotationY: rotationAmountCard});
   }, [rotationAmountCard]);
 
   useEffect(() => {
