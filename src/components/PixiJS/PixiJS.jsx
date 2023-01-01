@@ -79,6 +79,7 @@ function MyComponent({spriteWhileLoading, jsonName, colorCardBar, colorCardNumbe
   useEffect(() => {
     if(refApp == null) return;
     gsap.set(refApp, {rotationY: rotationAmountCard});
+    setRotationCard(rotationAmountCard);
   }, [rotationAmountCard]);
 
   useEffect(() => {
