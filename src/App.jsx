@@ -1,4 +1,4 @@
-import PixiJS from "./components/PixiJS";
+import DisneyCard from "./components/PixiJS";
 import AnimationCard from "./components/AnimationCard";
 import React, { useRef, useEffect, useState } from "react";
 import gsap, {Quad} from 'gsap'
@@ -11,8 +11,8 @@ function App() {
 
   useEffect(() => {
     // Set the animation for the card rotation
-    let rotationAmount = {rotationAmountX: 10, rotationAmountY: 0};
-    gsap.to(rotationAmount, {
+    let rotationAmount = {rotationAmountX: 2, rotationAmountY: 0};
+    let anim = gsap.to(rotationAmount, {
       rotationAmountX: -rotationAmount.rotationAmountX,
       duration: 0.8,
       repeat: -1,
@@ -26,9 +26,9 @@ function App() {
 
   return (<>
     <div className="App" ref={refApp}>
-        <PixiJS 
+        <DisneyCard 
         spriteWhileLoading = {"mickeyCard.png"}
-        jsonName = {"38-Winnie-2048x"}
+        jsonName = {"43-Buzz-2048x"}
         colorCardBar = {'0x5EA13A'}
         colorCardNumber = {'0x5EA13A'}
         titleTxt = {"Mickey Mouse"}

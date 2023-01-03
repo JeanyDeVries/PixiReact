@@ -1,1 +1,1 @@
-export { default } from "./PixiJS";
+export { default } from "./DisneyCard";

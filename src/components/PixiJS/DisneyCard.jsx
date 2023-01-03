@@ -47,20 +47,21 @@ function MyComponent({spriteWhileLoading, jsonName, colorCardBar, colorCardNumbe
   let loader = useRef(null);
 
   const [innited, setInnited] = useState(false);
-  const [width, setWidth] = useState(640);
+  const [width, setWidth] = useState(640); //512
   const [height, setHeight] = useState(786);
   const [playAnim, setPlayAnim] = useState(false); 
 
   const [rotationCard, setRotationCard] = useState(5);
+  const [displacementCard, setDisplacementCard] = useState(1);
   const [refApp, setRefApp] = useState(null);
 
   loadingSprite = './assets/images/' + spriteWhileLoading; // Load the sprite that shows before pixi is loaded
-
+  
   useEffect(() => {
-    if(rotationDisplacement > maxRotationDisplacement) rotationDisplacement = maxRotationDisplacement;
+    if(displacementCard > maxRotationDisplacement) displacementCard = maxRotationDisplacement;
 
     let rotationX = rotationCard;
-    let movementX = rotationX*rotationDisplacement;
+    let movementX = rotationX*displacementCard;
 
     if(displacementFilter != null){ //Check if null, because it needs to be loaded first
       displacementFilter.scale.x = -movementX;
@@ -73,13 +74,15 @@ function MyComponent({spriteWhileLoading, jsonName, colorCardBar, colorCardNumbe
     return () => {
       
     };
-  }, [rotationCard]);
+  }, [displacementCard]);
 
   // Update the rotationCard state value when the value of rotationAmountCard changes
   useEffect(() => {
     if(refApp == null) return;
+    if(!playAnim) return;
+    
     gsap.set(refApp, {rotationY: rotationAmountCard});
-    setRotationCard(rotationAmountCard);
+    setDisplacementCard(rotationAmountCard);
   }, [rotationAmountCard]);
 
   useEffect(() => {
@@ -173,14 +176,30 @@ function MyComponent({spriteWhileLoading, jsonName, colorCardBar, colorCardNumbe
     ploader.add('card', '/assets/images/mickeyCard.png'); 
 
     ploader.onComplete.add(() => {
-      pixiHelper.fadeOutEffect(loader.current);
-      setTextures();
-      addChildren();
-      setDisplacement();
-      setAllTexts();
-      setPlayAnim(true);
+        fadeOutEffect(loader.current);
+        setTextures();
+        addChildren();
+        setDisplacement();
+        setAllTexts();
     });
     ploader.load();
+  }
+
+  function fadeOutEffect(fadeTarget)
+  {
+      // Fade the html element
+      var fadeEffect = setInterval(function () {
+          if (!fadeTarget.style.opacity) {
+              fadeTarget.style.opacity = 1;
+          }
+          if (fadeTarget.style.opacity > 0) {
+              fadeTarget.style.opacity -= 0.01;
+          } else {
+              console.log("opacity zero")
+              setPlayAnim(true);
+              clearInterval(fadeEffect);
+          }
+      }, 1)
   }
 
   function setAllTexts(){
@@ -286,7 +305,7 @@ function MyComponent({spriteWhileLoading, jsonName, colorCardBar, colorCardNumbe
 
   return <div ref={wrap} style={{perspective:'1000px',transformOrigin:'50% 50%',width:width,height:height}}>
         <div ref={ref => setRefApp(ref)} style={{position: 'absolute'}}></div>
-      <img ref={loader} src={loadingSprite} style={{position:'absolute', width: width * 0.8, height: height}}/>
+      <img ref={loader} src={loadingSprite} style={{position:'absolute', width: width, height: height}}/>
     </div>
 }
 
