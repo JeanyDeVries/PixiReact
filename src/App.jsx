@@ -8,10 +8,11 @@ function App() {
   let wrap = useRef(null);
 
   const [rotationAmountCard, setRotation] = useState(1);
+  
+  let rotationAmount = {rotationAmountX: 10, rotationAmountY: 0};
 
   useEffect(() => {
     // Set the animation for the card rotation
-    let rotationAmount = {rotationAmountX: 2, rotationAmountY: 0};
     let anim = gsap.to(rotationAmount, {
       rotationAmountX: -rotationAmount.rotationAmountX,
       duration: 0.8,
@@ -28,7 +29,7 @@ function App() {
     <div className="App" ref={refApp}>
         <DisneyCard 
         spriteWhileLoading = {"mickeyCard.png"}
-        jsonName = {"43-Buzz-2048x"}
+        jsonName = {"38-Winnie-2048x"}
         colorCardBar = {'0x5EA13A'}
         colorCardNumber = {'0x5EA13A'}
         titleTxt = {"Mickey Mouse"}
@@ -39,6 +40,7 @@ function App() {
         socialTxt = {"10"}
         energyTxt = {"06"}
         rotationAmountCard = {rotationAmountCard}
+        maxRotationX = {rotationAmount.rotationAmountX}
       />
     </div>
   </>);

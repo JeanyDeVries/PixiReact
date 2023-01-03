@@ -38,60 +38,66 @@ let pixiHelper;
 
 let animationRotationCard; 
 let maxAnimationRotationCard = 10;
+let maxDisplacementCard = 3;
 
 function MyComponent({spriteWhileLoading, jsonName, colorCardBar, colorCardNumber, titleTxt,
-        subtitleTxt, cardNumberTxt, cardLetterTxt, healthTxt, socialTxt, energyTxt, rotationAmountCard}) // Set all the props in variables
+        subtitleTxt, cardNumberTxt, cardLetterTxt, healthTxt, socialTxt, energyTxt, rotationAmountCard, maxRotationX}) // Set all the props in variables
 {
   let wrap = useRef(null);
   let loadingSprite = useRef(null);
   let loader = useRef(null);
 
   const [innited, setInnited] = useState(false);
-  const [width, setWidth] = useState(640); //512
+  const [width, setWidth] = useState(512); //make it fit with the card
   const [height, setHeight] = useState(786);
   const [playAnim, setPlayAnim] = useState(false); 
 
-  const [rotationCard, setRotationCard] = useState(5);
-  const [displacementCard, setDisplacementCard] = useState(1);
+  const [rotationCard, setRotationCard] = useState(1);
+  const [displacementCard, setDisplacementCard] = useState(3);
   const [refApp, setRefApp] = useState(null);
 
   loadingSprite = './assets/images/' + spriteWhileLoading; // Load the sprite that shows before pixi is loaded
   
   useEffect(() => {
-    if(displacementCard > maxRotationDisplacement) displacementCard = maxRotationDisplacement;
+    let displacement = convertRange(rotationAmountCard, {min:-maxRotationX, max:maxRotationX}, {min:-displacementCard, max:displacementCard});;
 
-    let rotationX = rotationCard;
-    let movementX = rotationX*displacementCard;
+    let rotationX = displacementCard //rotationAmountCard;
+    let movementX = rotationX*displacement;
 
     if(displacementFilter != null){ //Check if null, because it needs to be loaded first
       displacementFilter.scale.x = -movementX;
       overlayDisplacementFilter.scale.x = -movementX;
       backgroundDisplacementFilter.scale.x = -movementX;
     }
-    background.x = -movementX/2 - displacementBackgroundOffset;
+    background.x = -movementX/2;
     foreground.x = -movementX/2;
     foreground2.x = -movementX/2;
     return () => {
       
     };
-  }, [displacementCard]);
+  }, [rotationAmountCard]);
+
+     /**
+   * Convert value from one range to another
+   * @param {Number} value value to convert
+   * @param {Object} oldRange min, max of values range
+   * @param {Object} newRange min, max of desired range
+   * @return {Number} value converted to other range
+   */
+     function convertRange(value, oldRange, newRange) {
+      return ((value - oldRange.min) * (newRange.max - newRange.min)) / (oldRange.max - oldRange.min) + newRange.min;
+    }
+  
 
   // Update the rotationCard state value when the value of rotationAmountCard changes
   useEffect(() => {
     if(refApp == null) return;
     if(!playAnim) return;
-    
-    gsap.set(refApp, {rotationY: rotationAmountCard});
-    setDisplacementCard(rotationAmountCard);
-  }, [rotationAmountCard]);
 
-  useEffect(() => {
-    if(refApp == null) return;
-    console.log('app')
-    return () => {
-      
-    };
-  }, [refApp]);
+    let rotationAmount = rotationAmountCard;
+    
+    gsap.set(refApp, {rotationY: rotationAmount});
+  }, [rotationAmountCard]);
 
   useEffect(() => {
     if(refApp == null) return;
@@ -127,7 +133,7 @@ function MyComponent({spriteWhileLoading, jsonName, colorCardBar, colorCardNumbe
       autoStart: false,
     })
 
-    app.renderer.resize(width, height);
+    app.renderer.resize(width * 1.2, height); //Set width bigger than origin for when the foreground goes over the card
     app.renderer.view.style.position = 'relative';
     app.start();
 
@@ -156,6 +162,7 @@ function MyComponent({spriteWhileLoading, jsonName, colorCardBar, colorCardNumbe
 
       if(nameSprite == cardName){
         rotationDisplacement = data.rotationDisplacement;
+        setDisplacementCard(rotationDisplacement);
       }
     });
   }
@@ -248,7 +255,7 @@ function MyComponent({spriteWhileLoading, jsonName, colorCardBar, colorCardNumbe
     foregroundTexure = pixiHelper.setSprite('06-Back.png', -20, 0, scale, spritesheetContent);
     avatarIcon = pixiHelper.setSprite('02-Avatar.png', 0, 0, scale, spritesheetContent);
     maskOverlapTexture = pixiHelper.setSprite('03-Front.png', -20, 0, scale, spritesheetContent);
-    backgroundTexture = pixiHelper.setSprite('08-Background.png', 0, 0, scale, spritesheetContent)
+    backgroundTexture = pixiHelper.setSprite('08-Background.png', -displacementBackgroundOffset, 0, scale, spritesheetContent)
 
     displacement = pixiHelper.setDisplacementSprite(scale, '06-Back-depth.png', -20, 0, spritesheetContent);
     overlayDisplacement = pixiHelper.setDisplacementSprite(scale, '06-Back-depth.png', -20, 0, spritesheetContent);
@@ -303,10 +310,10 @@ function MyComponent({spriteWhileLoading, jsonName, colorCardBar, colorCardNumbe
     app.renderer.render(stage); 
   }
 
-  return <div ref={wrap} style={{perspective:'1000px',transformOrigin:'50% 50%',width:width,height:height}}>
-        <div ref={ref => setRefApp(ref)} style={{position: 'absolute'}}></div>
-      <img ref={loader} src={loadingSprite} style={{position:'absolute', width: width, height: height}}/>
-    </div>
+  return  <div ref={wrap} style={{perspective:'1000px',transformOrigin:'50% 50%',width:width,height:height}}>
+            <div ref={ref => setRefApp(ref)} style={{position: 'absolute'}}></div>
+            <img ref={loader} src={loadingSprite} style={{position:'absolute', width: width, height: height}}/>
+          </div>
 }
 
 export default MyComponent;
