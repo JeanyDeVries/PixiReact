@@ -7,7 +7,6 @@ import dataImageExceptions from './data/imageDisplacementExceptions.json';
 import AnimationCard from "../AnimationCard";
 
 
-let rotationDuration = 1;
 let rotationAmount = {rotationAmountX:5,rotationAmountY:0};
 let app = null;
 let spritesheetContent, spritesheetGeneric;
@@ -30,15 +29,12 @@ let mask;
 let shadow;
 let ploader = new PIXI.Loader();
 
-let maxRotationDisplacement = 5;
-let maxDisplacementBackgroundOffset = 70;
-let rotationDisplacement = 3 //default 3
-let displacementBackgroundOffset = 50 
+let displacementBackgroundOffset = 50;
 let pixiHelper;
 
 let animationRotationCard; 
 let maxAnimationRotationCard = 10;
-let maxDisplacementCard = 3;
+let rotationDisplacement = 3 //default 3
 
 function MyComponent({spriteWhileLoading, jsonName, colorCardBar, colorCardNumber, titleTxt,
         subtitleTxt, cardNumberTxt, cardLetterTxt, healthTxt, socialTxt, energyTxt, rotationAmountCard, maxRotationX}) // Set all the props in variables
@@ -48,7 +44,7 @@ function MyComponent({spriteWhileLoading, jsonName, colorCardBar, colorCardNumbe
   let loader = useRef(null);
 
   const [innited, setInnited] = useState(false);
-  const [width, setWidth] = useState(512); //make it fit with the card
+  const [width, setWidth] = useState(512); //make it fit with the card, otherwise width it not correct
   const [height, setHeight] = useState(786);
   const [playAnim, setPlayAnim] = useState(false); 
 
@@ -58,7 +54,8 @@ function MyComponent({spriteWhileLoading, jsonName, colorCardBar, colorCardNumbe
 
   loadingSprite = './assets/images/' + spriteWhileLoading; // Load the sprite that shows before pixi is loaded
   
-  useEffect(() => {
+  //Set the displacement for the card
+  useEffect(() => { 
     let displacement = convertRange(rotationAmountCard, {min:-maxRotationX, max:maxRotationX}, {min:-displacementCard, max:displacementCard});;
 
     let rotationX = displacementCard //rotationAmountCard;
@@ -77,26 +74,14 @@ function MyComponent({spriteWhileLoading, jsonName, colorCardBar, colorCardNumbe
     };
   }, [rotationAmountCard]);
 
-     /**
-   * Convert value from one range to another
-   * @param {Number} value value to convert
-   * @param {Object} oldRange min, max of values range
-   * @param {Object} newRange min, max of desired range
-   * @return {Number} value converted to other range
-   */
-     function convertRange(value, oldRange, newRange) {
-      return ((value - oldRange.min) * (newRange.max - newRange.min)) / (oldRange.max - oldRange.min) + newRange.min;
-    }
-  
-
-  // Update the rotationCard state value when the value of rotationAmountCard changes
+  //Rotate the card when the value of rotationAmountCard changes
   useEffect(() => {
     if(refApp == null) return;
     if(!playAnim) return;
 
     let rotationAmount = convertRange(rotationAmountCard, {min:-maxRotationX, max:maxRotationX}, {min:-maxAnimationRotationCard, max:maxAnimationRotationCard});;
 
-    gsap.set(refApp, {rotationY: rotationAmount});
+    gsap.set(refApp, {rotationY: rotationAmount}); //rotate the app dom element
   }, [rotationAmountCard]);
 
   useEffect(() => {
@@ -108,20 +93,15 @@ function MyComponent({spriteWhileLoading, jsonName, colorCardBar, colorCardNumbe
     };
   }, [refApp, innited]);
 
+  // On first render load our application
   useEffect(() => {
-    // On first render load our application
-    loadPixi();
+    setupApp();
 
     return () => {
-      console.log("destroy app")
       // On unload completely destroy the application and all of it's children
       app.destroy(true, true);
     };
   }, []);
-
-  function loadPixi(){
-    setupApp();
-  }
 
   function setupApp(){
     app = new PIXI.Application({
@@ -136,17 +116,8 @@ function MyComponent({spriteWhileLoading, jsonName, colorCardBar, colorCardNumbe
     app.renderer.resize(width * 1.2 , height); //Add extra width for when the foreground goes over the card
     app.renderer.view.style.position = 'relative';
     app.start();
-
-    setInnited(true);
     pixiHelper = new PixiHelper(app);
-
-    if(rotationDisplacement > maxRotationDisplacement) // Set maximum rotation displacement
-      rotationDisplacement = maxRotationDisplacement;
-    else rotationDisplacement = rotationDisplacement;
-
-    if(displacementBackgroundOffset > maxDisplacementBackgroundOffset) // Set maximumd displacement background offset
-      displacementBackgroundOffset = maxDisplacementBackgroundOffset;
-    else displacementBackgroundOffset = displacementBackgroundOffset;
+    setInnited(true);
 
     addContainers();
     loadTextures();
@@ -157,12 +128,12 @@ function MyComponent({spriteWhileLoading, jsonName, colorCardBar, colorCardNumbe
 
   function setRotationDisplacement(){
     const data = dataImageExceptions.map( (data)=>{
-      let numberSprite = jsonName.split('-')[0]; //Get the name of the character of the card
+      let numberSprite = jsonName.split('-')[0]; //Get the number of the character from the card
       let cardNumber = data.number;
 
       if(numberSprite == cardNumber){
         rotationDisplacement = data.rotationDisplacement;
-        setDisplacementCard(rotationDisplacement);
+        setDisplacementCard(rotationDisplacement); //set the exception displacement, otherwise you get the default value
       }
     });
   }
@@ -202,7 +173,7 @@ function MyComponent({spriteWhileLoading, jsonName, colorCardBar, colorCardNumbe
           if (fadeTarget.style.opacity > 0) {
               fadeTarget.style.opacity -= 0.01;
           } else {
-              //setPlayAnim(true);
+              setPlayAnim(true); //play animation when fade out is done
               clearInterval(fadeEffect);
           }
       }, 1)
@@ -264,6 +235,7 @@ function MyComponent({spriteWhileLoading, jsonName, colorCardBar, colorCardNumbe
     image.mask = mask;
   }
 
+  //Add the displacement filters to the textures
   function setDisplacement(){
     if(displacement){
       foreground.addChild(displacement);
@@ -301,6 +273,16 @@ function MyComponent({spriteWhileLoading, jsonName, colorCardBar, colorCardNumbe
     if(avatarIcon)uiElements.addChild(avatarIcon);
   }
 
+    /**
+ * Convert value from one range to another
+ * @param {Number} value value to convert
+ * @param {Object} oldRange min, max of values range
+ * @param {Object} newRange min, max of desired range
+ * @return {Number} value converted to other range
+ */
+  function convertRange(value, oldRange, newRange) {
+    return ((value - oldRange.min) * (newRange.max - newRange.min)) / (oldRange.max - oldRange.min) + newRange.min;
+  }
 
   function animate() {
     if(!app) return;   
