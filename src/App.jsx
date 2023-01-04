@@ -9,7 +9,7 @@ function App() {
 
   const [rotationAmountCard, setRotation] = useState(1);
   
-  let rotationAmount = {rotationAmountX: 1, rotationAmountY: 0};
+  let rotationAmount = {rotationAmountX: 10, rotationAmountY: 0};
 
   //use gsap to check container width
 

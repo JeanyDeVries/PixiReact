@@ -94,9 +94,7 @@ function MyComponent({spriteWhileLoading, jsonName, colorCardBar, colorCardNumbe
     if(refApp == null) return;
     if(!playAnim) return;
 
-    let rotationAmount = convertRange(rotationAmountCard, {min:-maxRotationX, max:maxRotationX}, {min:-displacementCard, max:displacementCard});;
-    let rotationX = rotationCard //rotationAmountCard;
-    rotationAmount = rotationX*rotationAmount;
+    let rotationAmount = convertRange(rotationAmountCard, {min:-maxRotationX, max:maxRotationX}, {min:-maxAnimationRotationCard, max:maxAnimationRotationCard});;
 
     gsap.set(refApp, {rotationY: rotationAmount});
   }, [rotationAmountCard]);
