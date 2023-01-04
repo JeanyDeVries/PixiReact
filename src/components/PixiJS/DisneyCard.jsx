@@ -158,10 +158,10 @@ function MyComponent({spriteWhileLoading, jsonName, colorCardBar, colorCardNumbe
 
   function setRotationDisplacement(){
     const data = dataImageExceptions.map( (data)=>{
-      let nameSprite = jsonName.split('-')[1]; //Get the name of the character of the card
-      let cardName = data.name;
+      let numberSprite = jsonName.split('-')[0]; //Get the name of the character of the card
+      let cardNumber = data.number;
 
-      if(nameSprite == cardName){
+      if(numberSprite == cardNumber){
         rotationDisplacement = data.rotationDisplacement;
         setDisplacementCard(rotationDisplacement);
       }

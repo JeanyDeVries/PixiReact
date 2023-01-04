@@ -1,50 +1,50 @@
 [
     {
-        "name": "Belle",
+        "number": "3A",
         "rotationDisplacement": 2
     },
     {
-        "name": "Ariel",
-        "rotationDisplacement": 2
-    },
-    {
-        "name": "Blanche",
+        "number": "4A",
         "rotationDisplacement": 2.5
     },
     {
-        "name": "Alien",
+        "number": "5A",
+        "rotationDisplacement": 2.5
+    },
+    {
+        "number": "6A",
+        "rotationDisplacement": 2.5
+    },
+    {
+        "number": "10A",
         "rotationDisplacement": 2
     },
     {
-        "name": "Olaf",
+        "number": "17A",
+        "rotationDisplacement": 2.5
+    },
+    {
+        "number": "20A",
         "rotationDisplacement": 2
     },
     {
-        "name": "Cendrillon",
+        "number": "29A",
+        "rotationDisplacement": 2.5
+    },
+    {
+        "number": "34A",
+        "rotationDisplacement": 2.5
+    },
+    {
+        "number": "35A",
+        "rotationDisplacement": 2.5
+    },
+    {
+        "number": "41A",
         "rotationDisplacement": 2
     },
     {
-        "name": "Dumbo",
-        "rotationDisplacement": 1.5
-    },
-    {
-        "name": "Jafar",
-        "rotationDisplacement": 2
-    },
-    {
-        "name": "Dante",
-        "rotationDisplacement": 2
-    },
-    {
-        "name": "Pascal",
-        "rotationDisplacement": 2
-    },
-    {
-        "name": "Remy",
-        "rotationDisplacement": 2
-    },
-    {
-        "name": "Simba",
+        "number": "48A",
         "rotationDisplacement": 2.5
     }
 ]
