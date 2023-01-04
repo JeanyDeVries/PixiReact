@@ -52,8 +52,8 @@ function MyComponent({spriteWhileLoading, jsonName, colorCardBar, colorCardNumbe
   const [height, setHeight] = useState(786);
   const [playAnim, setPlayAnim] = useState(false); 
 
-  const [rotationCard, setRotationCard] = useState(1);
-  const [displacementCard, setDisplacementCard] = useState(3);
+  const [rotationCard, setRotationCard] = useState(maxRotationX);
+  const [displacementCard, setDisplacementCard] = useState(3); //Default 3
   const [refApp, setRefApp] = useState(null);
 
   loadingSprite = './assets/images/' + spriteWhileLoading; // Load the sprite that shows before pixi is loaded
@@ -94,8 +94,10 @@ function MyComponent({spriteWhileLoading, jsonName, colorCardBar, colorCardNumbe
     if(refApp == null) return;
     if(!playAnim) return;
 
-    let rotationAmount = rotationAmountCard;
-    
+    let rotationAmount = convertRange(rotationAmountCard, {min:-maxRotationX, max:maxRotationX}, {min:-displacementCard, max:displacementCard});;
+    let rotationX = rotationCard //rotationAmountCard;
+    rotationAmount = rotationX*rotationAmount;
+
     gsap.set(refApp, {rotationY: rotationAmount});
   }, [rotationAmountCard]);
 
