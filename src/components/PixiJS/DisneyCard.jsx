@@ -222,13 +222,13 @@ function MyComponent({spriteWhileLoading, jsonName, colorCardBar, colorCardNumbe
     
     frontTexture.tint = colorCardBar;
 
-    foregroundTexure = pixiHelper.setSprite('06-Back.png', -20, 0, scale, spritesheetContent);
+    foregroundTexure = pixiHelper.setSprite('06-Back.png', -30, 0, scale, spritesheetContent);
     avatarIcon = pixiHelper.setSprite('02-Avatar.png', 0, 0, scale, spritesheetContent);
-    maskOverlapTexture = pixiHelper.setSprite('03-Front.png', -20, 0, scale, spritesheetContent);
+    maskOverlapTexture = pixiHelper.setSprite('03-Front.png', -30, 0, scale, spritesheetContent);
     backgroundTexture = pixiHelper.setSprite('08-Background.png', -displacementBackgroundOffset, 0, scale, spritesheetContent)
 
-    displacement = pixiHelper.setDisplacementSprite(scale, '06-Back-depth.png', -20, 0, spritesheetContent);
-    overlayDisplacement = pixiHelper.setDisplacementSprite(scale, '06-Back-depth.png', -20, 0, spritesheetContent);
+    displacement = pixiHelper.setDisplacementSprite(scale, '06-Back-depth.png', -30, 0, spritesheetContent);
+    overlayDisplacement = pixiHelper.setDisplacementSprite(scale, '06-Back-depth.png', -30, 0, spritesheetContent);
     backgroundDisplacement = pixiHelper.setDisplacementSprite(scale, '08-Background-depth.png', 0, 0, spritesheetContent);
 
     // Set a mask that will be used to hide elements outside the card

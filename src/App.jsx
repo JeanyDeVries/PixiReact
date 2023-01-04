@@ -29,7 +29,7 @@ function App() {
     <div className="App" ref={ref => setRefApp(ref)} style={{width: '500px', height: '800px'}}>
         <DisneyCard 
         spriteWhileLoading = {"mickeyCard.png"}
-        jsonName = {"4A-2048x"}
+        jsonName = {"1A-2048x"}
         colorCardBar = {'0x5EA13A'}
         colorCardNumber = {'0x5EA13A'}
         titleTxt = {"Mickey Mouse"}
