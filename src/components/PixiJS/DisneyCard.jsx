@@ -133,9 +133,8 @@ function MyComponent({spriteWhileLoading, jsonName, colorCardBar, colorCardNumbe
       autoStart: false,
     })
 
-    app.renderer.resize(width, height);
+    app.renderer.resize(width * 1.2 , height); //Add extra width for when the foreground goes over the card
     app.renderer.view.style.position = 'relative';
-    app.renderer.view.style.marginRight = width *0.2 + 'px'; //Add a margin for when the foreground goes over the card
     app.start();
 
     setInnited(true);
@@ -203,8 +202,7 @@ function MyComponent({spriteWhileLoading, jsonName, colorCardBar, colorCardNumbe
           if (fadeTarget.style.opacity > 0) {
               fadeTarget.style.opacity -= 0.01;
           } else {
-              console.log("opacity zero")
-              setPlayAnim(true);
+              //setPlayAnim(true);
               clearInterval(fadeEffect);
           }
       }, 1)
@@ -312,7 +310,7 @@ function MyComponent({spriteWhileLoading, jsonName, colorCardBar, colorCardNumbe
   }
 
   return  <div ref={wrap} style={{perspective:'1000px',transformOrigin:'50% 50%', width:'100%',height:'100%'}}>
-            <div ref={ref => setRefApp(ref)} style={{position: 'absolute', width:'100%'}}></div>
+            <div ref={ref => setRefApp(ref)} style={{position: 'absolute', width:'120%'}}></div>
             <img ref={loader} src={loadingSprite} style={{position:'absolute', width:'100%'}}/>
           </div>
 }
