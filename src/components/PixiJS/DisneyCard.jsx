@@ -133,8 +133,9 @@ function MyComponent({spriteWhileLoading, jsonName, colorCardBar, colorCardNumbe
       autoStart: false,
     })
 
-    app.renderer.resize(width, height); //Set width bigger than origin for when the foreground goes over the card
+    app.renderer.resize(width, height);
     app.renderer.view.style.position = 'relative';
+    app.renderer.view.style.marginRight = width *0.2 + 'px'; //Add a margin for when the foreground goes over the card
     app.start();
 
     setInnited(true);
