@@ -133,7 +133,7 @@ function MyComponent({spriteWhileLoading, jsonName, colorCardBar, colorCardNumbe
       autoStart: false,
     })
 
-    app.renderer.resize(width * 1.2, height); //Set width bigger than origin for when the foreground goes over the card
+    app.renderer.resize(width, height); //Set width bigger than origin for when the foreground goes over the card
     app.renderer.view.style.position = 'relative';
     app.start();
 
@@ -310,9 +310,9 @@ function MyComponent({spriteWhileLoading, jsonName, colorCardBar, colorCardNumbe
     app.renderer.render(stage); 
   }
 
-  return  <div ref={wrap} style={{perspective:'1000px',transformOrigin:'50% 50%',width:width,height:height}}>
-            <div ref={ref => setRefApp(ref)} style={{position: 'absolute'}}></div>
-            <img ref={loader} src={loadingSprite} style={{position:'absolute', width: width, height: height}}/>
+  return  <div ref={wrap} style={{perspective:'1000px',transformOrigin:'50% 50%', width:'100%',height:'100%'}}>
+            <div ref={ref => setRefApp(ref)} style={{position: 'absolute', width:'100%'}}></div>
+            <img ref={loader} src={loadingSprite} style={{position:'absolute', width:'100%'}}/>
           </div>
 }
 
